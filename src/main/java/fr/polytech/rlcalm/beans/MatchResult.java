@@ -2,21 +2,13 @@ package fr.polytech.rlcalm.beans;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.Embeddable;
 
 @Data
-@Entity
+@Embeddable
 public class MatchResult {
-    @Id
-    private Long id;
-
-    private Club winner;
-
-    private Club looser;
 
     private Integer score;
 
-    private Match match;
-
+    private Integer winner;
 }

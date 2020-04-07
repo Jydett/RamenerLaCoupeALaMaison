@@ -2,18 +2,14 @@ package fr.polytech.rlcalm.beans;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
-@Entity
+@Embeddable
 public class TournamentResult {
-    @Id
-    private Long id;
 
-    private Integer score;
+    private Integer score; //TODO score pour le tournois ?
 
-    private Tournament tournament;
-
-    private Club champions;
+    @ManyToOne
+    private Club winner;//TODO pas terrible comme resultat ?
 }

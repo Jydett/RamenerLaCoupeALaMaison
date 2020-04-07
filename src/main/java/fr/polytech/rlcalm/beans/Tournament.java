@@ -1,8 +1,8 @@
 package fr.polytech.rlcalm.beans;
 
-
 import lombok.Data;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -15,5 +15,8 @@ public class Tournament {
     private Integer year;
 
     private String host;
+
+    @Embedded
+    private TournamentResult result;
 }
 

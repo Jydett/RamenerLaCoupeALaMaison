@@ -7,7 +7,7 @@
 
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3308/hibernate?zeroDateTimeBehavior=CONVERT_TO_NULL&amp;serverTimezone=UTC</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3308/coupealamez?zeroDateTimeBehavior=CONVERT_TO_NULL&amp;serverTimezone=UTC</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password"></property>
         <property name="hibernate.show_sql">true</property>
@@ -17,13 +17,13 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
 
         <mapping class="fr.polytech.rlcalm.beans.Role"/>
-        <mapping class="fr.polytech.rlcalm.beans.Match"/>
-        <mapping class="fr.polytech.rlcalm.beans.MatchResult"/>
-        <mapping class="fr.polytech.rlcalm.beans.Participation"/>
-        <mapping class="fr.polytech.rlcalm.beans.Player"/>
-        <mapping class="fr.polytech.rlcalm.beans.Tournament"/>
         <mapping class="fr.polytech.rlcalm.beans.TournamentResult"/>
+        <mapping class="fr.polytech.rlcalm.beans.Tournament"/>
         <mapping class="fr.polytech.rlcalm.beans.Club"/>
+        <mapping class="fr.polytech.rlcalm.beans.MatchResult"/>
+        <mapping class="fr.polytech.rlcalm.beans.Match"/>
+        <mapping class="fr.polytech.rlcalm.beans.Player"/>
+        <mapping class="fr.polytech.rlcalm.beans.Participation"/>
     </session-factory>
 
 </hibernate-configuration>
