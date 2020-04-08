@@ -21,6 +21,7 @@ import org.hibernate.cfg.Configuration;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import java.time.Instant;
+import java.util.Optional;
 
 @WebListener
 public class ControllerInitializer implements ServletContextListener {
@@ -74,18 +75,27 @@ public class ControllerInitializer implements ServletContextListener {
     private static void fillTables(PlayerDao playerDao, MatchDao matchDao, ClubDao clubDao, CountryDao countryDao) {
         if (playerDao.isEmpty()) {
             playerDao.save(new Player(null, "Ronaldo", 0, null, Role.Central));
+            playerDao.save(new Player(null, "Zizou", 3, null, Role.AttackingMidfielder));
+            playerDao.save(new Player(null, "Messi", 2, null, Role.CenterBack));
+            playerDao.save(new Player(null, "Mbappé", 9, null, Role.Goalkeeper));
+            playerDao.save(new Player(null, "Zlatan", 6, null, Role.Striker));
+            playerDao.save(new Player(null, "Naymar", 5, null, Role.LeftMidfielder));
         }
-        Country fr = null;
-        Country all = null;
+        Country fr = null, all = null, it = null, es = null, ru = null;
         if (countryDao.isEmpty()) {
             countryDao.save(fr = new Country(null, "France", "fr"));
             countryDao.save(all = new Country(null, "Allemagne", "ge"));
+            countryDao.save(it = new Country(null, "Italie", "it"));
+
         }
         Club lldb = null;
         Club lfds = null;
         if (clubDao.isEmpty()) {
             clubDao.save(lldb = new Club(null, "Les lions de Berlin", all));
             clubDao.save(lfds = new Club(null, "Les fou du stade", fr));
+            clubDao.save(new Club(null, "Russie",  ru));
+            clubDao.save(new Club(null, "Espagne", es));
+            clubDao.save(new Club(null, "Italie", it));
         }
         if (matchDao.isEmpty()) {
             matchDao.save(new Match(null, "Paris", "Stade de France", Instant.now(), null, lldb, lfds, null));

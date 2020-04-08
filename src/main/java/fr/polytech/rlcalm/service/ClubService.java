@@ -10,6 +10,9 @@ import java.util.Collection;
 public class ClubService {
     private ClubDao clubDao;
 
+    public Club getClub(Long id) {
+        return clubDao.findById(id).orElse(null);
+    }
     public Collection<Club> getAll() {
         return clubDao.getAll();
     }
