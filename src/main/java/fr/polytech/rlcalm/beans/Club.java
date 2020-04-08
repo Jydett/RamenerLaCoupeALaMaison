@@ -1,5 +1,6 @@
 package fr.polytech.rlcalm.beans;
 
+import fr.polytech.rlcalm.dao.Identifiable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import javax.persistence.ManyToOne;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Club {
+public class Club implements Identifiable<Long> {
     @Id
     private Long id;
 

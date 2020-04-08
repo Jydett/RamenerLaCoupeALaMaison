@@ -1,5 +1,6 @@
 package fr.polytech.rlcalm.beans;
 
+import fr.polytech.rlcalm.dao.Identifiable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Player {
+public class Player implements Identifiable<Long> {
     @Id
     private Long id;
 

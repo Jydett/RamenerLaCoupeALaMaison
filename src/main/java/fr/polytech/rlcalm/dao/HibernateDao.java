@@ -36,4 +36,10 @@ public abstract class HibernateDao<T> {
         hibernateSession.save(toSave);
         transaction.commit();
     }
+
+    public void remove(T toRemove) {
+        Transaction transaction = hibernateSession.beginTransaction();
+        hibernateSession.delete(toRemove);
+        transaction.commit();
+    }
 }

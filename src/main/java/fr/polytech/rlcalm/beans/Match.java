@@ -1,5 +1,6 @@
 package fr.polytech.rlcalm.beans;
 
+import fr.polytech.rlcalm.dao.Identifiable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,17 +9,20 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Locale;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Match {
+public class Match implements Identifiable<Long> {
     @Id
     private Long id;
 
@@ -40,6 +44,10 @@ public class Match {
     @Embedded
     private MatchResult result;
 
+    public static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm", new Locale("fr", "FR"));
+    private static final DateTimeFormatter DATE_UNIQUE_FORMAT = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+    private static final DateTimeFormatter DATE_HOUR_FORMAT = DateTimeFormatter.ofPattern("hh:mm");
+
     public Club getWinner(int winnerNumber) {
         switch (winnerNumber) {
             case 1 : return player1;
@@ -52,7 +60,10 @@ public class Match {
         if (result == null) {
             return player1.getName() + player1.getCountry().getIcon() + " - " + player2.getCountry().getIcon() + player2.getName();
         } else {
-            if (result.getWinner() == 1) {
+            if (result.getScore1().equals(result.getScore2())) {
+                return "<span class='tie'>" + player1.getName() + " " + player1.getCountry().getIcon() + result.getScore1() + "</span> - <span class='tie'>" + result.getScore2() + player2.getCountry().getIcon() + " " + player2.getName() + "</span>";
+            } else
+            if (result.getScore1() > result.getScore2()) {
                 return "<span class='winner'>" + player1.getName() + " " + player1.getCountry().getIcon() + result.getScore1() + "</span> - <span class='looser'>" + result.getScore2() + player2.getCountry().getIcon() + " " + player2.getName() + "</span>";
             } else {
                 return "<span class='looser'>" + player1.getName() + " " + player1.getCountry().getIcon() + result.getScore1() + "</span> - <span class='winner'>" + result.getScore2() + player2.getCountry().getIcon() + " " + player2.getName() + "</span>";
@@ -61,6 +72,17 @@ public class Match {
     }
 
     public String getFormattedDate() {
-        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
+        if (instant == null) return "";
+        return LocalDateTime.ofInstant(instant, ZoneOffset.UTC).format(DATE_FORMAT);
+    }
+
+    public String getDate() {
+        if (instant == null) return "";
+        return LocalDateTime.ofInstant(instant, ZoneOffset.UTC).format(DATE_UNIQUE_FORMAT);
+    }
+
+    public String getDateh() {
+        if (instant == null) return "";
+        return LocalDateTime.ofInstant(instant, ZoneOffset.UTC).format(DATE_HOUR_FORMAT);
     }
 }

@@ -4,6 +4,8 @@ import fr.polytech.rlcalm.beans.Club;
 import fr.polytech.rlcalm.beans.Country;
 import fr.polytech.rlcalm.beans.Match;
 import fr.polytech.rlcalm.beans.MatchResult;
+import fr.polytech.rlcalm.initializer.ControllerInitializer;
+import fr.polytech.rlcalm.service.MatchService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 @WebServlet(
@@ -21,16 +24,16 @@ import java.util.Arrays;
 )
 public class TournamentController extends HttpServlet {
 
+    private MatchService matchService;
+
+    @Override
+    public void init() throws ServletException {
+        matchService = ControllerInitializer.getMatchService();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        Club FR = new Club(0L, "Equipe de France", new Country("France", "fr"));
-        Club ALL = new Club(0L, "Les lions de Berlins", new Country("Allemagne", "de"));
-        Match match1 = new Match(0L, "Paris", "Stade Lavillette", Instant.now(), null, FR, ALL, null);
-        Match match2 = new Match(0L, "Paris", "Stade Lavillette", Instant.now().minus(1, ChronoUnit.DAYS), null, FR, ALL, new MatchResult(3, 0, 1));
-
-        req.setAttribute("matchs", Arrays.asList(match1, match2));
+        req.setAttribute("matchs", new ArrayList<>(matchService.getAllMatches()));
         getServletContext().getRequestDispatcher("/matchs.jsp").forward(req, resp);
     }
 }
