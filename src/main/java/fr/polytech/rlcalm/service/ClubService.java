@@ -13,6 +13,7 @@ public class ClubService {
     public Club getClub(Long id) {
         return clubDao.findById(id).orElse(null);
     }
+
     public Collection<Club> getAll() {
         return clubDao.getAll();
     }

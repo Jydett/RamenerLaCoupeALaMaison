@@ -28,12 +28,22 @@ public class MatchService {
         dao.remove(match);
     }
 
-    public void update(Match match, MatchUpdateForm form) {
+    public void update(MatchUpdateForm form) {
+        Match match;
+        if (form.getId() == null) {
+            match = new Match();
+        } else {
+            match = dao.findById(form.getId()).orElseThrow(() -> new ServiceException("Impossible de trouver ce match !"));
+        }
+
         match.setCity(form.getCity());
         match.setStadium(form.getStadium());
 
-        match.setPlayer1(clubDao.findById(form.getPlayerId1()).orElseThrow(() -> new ServiceException()));
-        match.setPlayer2(clubDao.findById(form.getPlayerId2()).orElseThrow(() -> new ServiceException()));
+        if (form.getPlayerId1().equals(form.getPlayerId2())) {
+            throw new ServiceException("Une equipe ne peux pas jouer contre elle même !");
+        }
+        match.setPlayer1(clubDao.findById(form.getPlayerId1()).orElseThrow(() -> new ServiceException("Impossible de trouver la première équipe")));
+        match.setPlayer2(clubDao.findById(form.getPlayerId2()).orElseThrow(() -> new ServiceException("Impossible de trouver la deuxième équipe")));
 
         //TODO verif date
         match.setInstant(form.getInstant());
@@ -41,9 +51,10 @@ public class MatchService {
         Integer score2 = form.getScore2();
         if (score1 == null || score2 == null) {
             if (score1 != null || score2 != null) {
-                throw new ServiceException();
+                throw new ServiceException("Un des deux score est nul !");
             }
             //score1 == null && score2 == null
+            match.setResult(null);
         } else {
             //score1 != null && score2 != null
             MatchResult result = match.getResult();
@@ -55,7 +66,6 @@ public class MatchService {
                 result.setScore2(score2);
             }
         }
-
         dao.save(match);
     }
 }

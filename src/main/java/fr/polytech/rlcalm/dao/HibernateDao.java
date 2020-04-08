@@ -1,15 +1,11 @@
 package fr.polytech.rlcalm.dao;
 
-import fr.polytech.rlcalm.initializer.ControllerInitializer;
-import javafx.print.Collation;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 
 import javax.persistence.Table;
 import java.math.BigInteger;
 import java.util.Collection;
-import java.util.Collections;
 
 public abstract class HibernateDao<T> {
 
@@ -21,10 +17,6 @@ public abstract class HibernateDao<T> {
     public HibernateDao(Session hibernateSession, Class<T> clazz) {
         this.hibernateSession = hibernateSession;
         this.clazz = clazz;
-        Configuration config = ControllerInitializer.getConfig();
-        if (config == null) {
-            throw new RuntimeException("Creation of an hibernateDao without a MYSQL configuration");
-        }
         Table tableAnnotation = clazz.getAnnotation(Table.class);
         if (tableAnnotation == null || tableAnnotation.name().isEmpty()) {
             tableName = clazz.getSimpleName().toLowerCase();

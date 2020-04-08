@@ -13,13 +13,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 @WebServlet(
-        urlPatterns = "/home",
+        urlPatterns = "/matches",
         name = "TournamentController"
 )
 public class TournamentController extends HttpServlet {
@@ -27,7 +24,7 @@ public class TournamentController extends HttpServlet {
     private MatchService matchService;
 
     @Override
-    public void init() throws ServletException {
+    public void init() {
         matchService = ControllerInitializer.getMatchService();
     }
 

@@ -42,9 +42,9 @@ public class FormUtils {
         throw new IllegalArgumentException();
     }
 
-    public static String notNull(String city) {
-        if (city != null) {
-            return city;
+    public static String notNull(String parameter) {
+        if (parameter != null) {
+            return parameter;
         }
         throw new IllegalArgumentException();
     }

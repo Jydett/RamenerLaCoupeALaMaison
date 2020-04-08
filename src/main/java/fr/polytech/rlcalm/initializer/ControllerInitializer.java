@@ -21,7 +21,6 @@ import org.hibernate.cfg.Configuration;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import java.time.Instant;
-import java.util.Optional;
 
 @WebListener
 public class ControllerInitializer implements ServletContextListener {
@@ -30,13 +29,13 @@ public class ControllerInitializer implements ServletContextListener {
     @Getter private static MatchService matchService;
     @Getter private static ClubService clubService;
 
+    @Getter private static Configuration configuration;
+
     public enum DateBaseImpl {
-        HASHMAP, MYSQL
+        HASHMAP, MYSQL;
     }
 
     private static final DateBaseImpl INITIALIZER_TYPE = DateBaseImpl.HASHMAP;
-
-    private static Configuration configuration;
 
     static {
         PlayerDao playerDao = null;
@@ -68,10 +67,6 @@ public class ControllerInitializer implements ServletContextListener {
         fillTables(playerDao, matchDao, clubDao, countryDao);
     }
 
-    public static Configuration getConfig() {
-        return configuration;
-    }
-
     private static void fillTables(PlayerDao playerDao, MatchDao matchDao, ClubDao clubDao, CountryDao countryDao) {
         if (playerDao.isEmpty()) {
             playerDao.save(new Player(null, "Ronaldo", 0, null, Role.Central));
@@ -84,7 +79,7 @@ public class ControllerInitializer implements ServletContextListener {
         Country fr = null, all = null, it = null, es = null, ru = null;
         if (countryDao.isEmpty()) {
             countryDao.save(fr = new Country(null, "France", "fr"));
-            countryDao.save(all = new Country(null, "Allemagne", "ge"));
+            countryDao.save(all = new Country(null, "Allemagne", "de"));
             countryDao.save(it = new Country(null, "Italie", "it"));
 
         }
