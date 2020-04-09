@@ -13,15 +13,15 @@ public class UserService {
 
     public User authenticate(String login, String password) throws ServiceException {
         if (login == null || password == null) {
-            throw new ServiceException("Invalid form");
+            throw new ServiceException("Formulaire invlide");
         }
         Optional<User> optionalUser = userDao.getUserByName(login);
         if (! optionalUser.isPresent()) {
-            throw new ServiceException("Unknown user");
+            throw new ServiceException("Utilisateur inconu");
         }
         User u = optionalUser.get();
         if (! password.equals(u.getPassword())) {
-            throw new ServiceException("Incorrect password");
+            throw new ServiceException("Mot de passe incorrecte");
         }
         return u;
     }

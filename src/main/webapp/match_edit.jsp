@@ -12,6 +12,7 @@
         <jsp:useBean id="clubs" scope="request" type="java.util.List"/>
         <c:set var="edition" value="${not empty paramValues['id']}"/>
         <c:set var="hasError" value="${not empty requestScope.error}"/>
+        <c:set var="userConnect" value="${sessionScope.connected != null}"/>
 
         <c:if test="${not hasError && edition}">
             <jsp:useBean id="match" scope="request" type="fr.polytech.rlcalm.beans.Match"/>
@@ -52,13 +53,15 @@
                 </span>
                 <span id="score">
                     <c:choose>
+                        <c:if test="${userConnect}">
                         <c:when test="${(hasError && (empty param.score1 || empty param.score2)) || (! hasError && (not edition || match.result == null))}">
-                            <button type="button" onclick="addScore()" ${ sessionScope.connected != null ? '' : 'disabled="disabled"'}>Ajouter un résultat</button>
+                            <button type="button" onclick="addScore()">Ajouter un résultat</button>
                         </c:when>
                         <c:otherwise>
                             <input type="number" class="tiny" name="score1" value="<c:choose><c:when test="${hasError}">${param.score1}</c:when><c:otherwise>${match.result.score1}</c:otherwise></c:choose>" min="0"> VS <input class="tiny" type="number" name="score2" value="<c:choose><c:when test="${hasError}">${param.score2}</c:when><c:otherwise>${match.result.score2}</c:otherwise></c:choose>" min="0">
-                            <button type='button' onclick='removeScore()' ${ sessionScope.connected != null ? '' : 'disabled="disabled"'}>Enlever le résultat</button>
+                            <button type='button' onclick='removeScore()'>Enlever le résultat</button>
                         </c:otherwise>
+                        </c:if>
                     </c:choose>
                 </span>
                 <div class="custom-select-wrapper">
@@ -88,13 +91,15 @@
                     </c:otherwise>
                 </c:choose>
             </div>
-            <span>
-                <input type="submit" formaction="matchEdit?action=createOrUpdate" value="Enregistrer les changement" ${ sessionScope.connected != null ? '' : 'disabled="disabled"'}/>
+            <c:if test="${userConnect}">
+                <span>
+                <input type="submit" formaction="matchEdit?action=createOrUpdate" value="Enregistrer les changement"/>
                 <c:if test="${edition}">
                     <!-- TODO bonne facon de faire ? -->
-                    <input type="submit" formaction="matchEdit?action=delete" value="Supprimer" ${ sessionScope.connected != null ? '' : 'disabled="disabled"'}>
+                    <input type="submit" formaction="matchEdit?action=delete" value="Supprimer">
                 </c:if>
             </span>
+            </c:if>
         </form>
         <a href="matches">Retour</a>
         <br><br>

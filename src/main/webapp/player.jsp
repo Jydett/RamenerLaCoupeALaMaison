@@ -5,6 +5,7 @@
     <title>Player</title>
 </head>
 <body>
+<c:set var="userConnect" value="${sessionScope.connected != null}"/>
 <c:choose>
     <c:when test="${requestScope.player != null}">
         <jsp:useBean id="player" type="fr.polytech.rlcalm.beans.Player" scope="request"/>
@@ -14,8 +15,11 @@
         <div>Average score: ${player.mediaRating}</div>
         <div>Club: <a href="clubs?id=${player.club.id}">${player.club.name}</a></div>
         <div>Role: ${player.role}</div>
-        <button onclick="window.location='playerEdit?id=${player.id}';">Modifier ce joueur</button>
-        <button onclick="window.location='playerEdit';">Creer un Joueur</button>
+
+        <c:if test="${userConnect}">
+            <button onclick="window.location='playerEdit?id=${player.id}';">Modifier ce joueur</button>
+            <button onclick="window.location='playerEdit';">Creer un Joueur</button>
+        </c:if>
     </c:when>
     <c:otherwise>
         <!-- TODO retour -->

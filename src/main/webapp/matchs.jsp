@@ -8,6 +8,8 @@
     <body>
     <jsp:include page="login.jsp"/>
 
+    <c:set var="userConnect" value="${sessionScope.connected != null}"/>
+
     <h2>Liste des matchs :<br><a style="font-size: small;" href="index.jsp">Retour</a></h2>
     <c:choose>
         <c:when test="${requestScope.matchs != null && not empty requestScope.matchs}">
@@ -18,7 +20,9 @@
                 <div>&nbsp;&nbsp;&nbsp;&nbsp;${match.stringView}<br></div>
                 <div>&nbsp;&nbsp;&nbsp;&nbsp;<i>${match.stadium}, ${match.city}</i></div>
                 <!-- TODO perm -->
-                <button onclick="window.location='matchEdit?id=${match.id}'" ${ sessionScope.connected != null ? '' : 'disabled="disabled"'}>Editer</button>
+                <c:if test="${userConnect}">
+                    <button onclick="window.location='matchEdit?id=${match.id}'">Editer</button>
+                </c:if>
             </c:forEach>
         </c:when>
         <c:otherwise>
@@ -27,7 +31,9 @@
     </c:choose>
     <br><br>
     <!-- TODO perm -->
-    <button onclick="window.location='matchEdit';" ${ sessionScope.connected != null ? '' : 'disabled="disabled"'}>Creer un nouveau match</button>
+    <c:if test="${userConnect}">
+        <button onclick="window.location='matchEdit';">Creer un nouveau match</button>
+    </c:if>
 </body>
 <style>
     .winner {
