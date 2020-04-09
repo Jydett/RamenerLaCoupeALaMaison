@@ -24,10 +24,7 @@
                 <h2>Creation d'un nouveau match :</h2>
             </c:otherwise>
         </c:choose>
-        <c:if test="${hasError}">
-            <c:set scope="request" var="edition" value="${requestScope.match ne null}"/>
-            <div class="error">${requestScope.error}</div>
-        </c:if>
+
         <form action="matchEdit" method="post">
             <c:if test="${edition}">
                 <input type="hidden" name="id" value="<c:choose><c:when test="${hasError}">${param.id}</c:when><c:when test="${edition}">${match.id}</c:when></c:choose>">
@@ -56,11 +53,11 @@
                 <span id="score">
                     <c:choose>
                         <c:when test="${(hasError && (empty param.score1 || empty param.score2)) || (! hasError && (not edition || match.result == null))}">
-                            <button type="button" onclick="addScore()">Ajouter un résultat</button>
+                            <button type="button" onclick="addScore()" ${ sessionScope.connected != null ? '' : 'disabled="disabled"'}>Ajouter un résultat</button>
                         </c:when>
                         <c:otherwise>
                             <input type="number" class="tiny" name="score1" value="<c:choose><c:when test="${hasError}">${param.score1}</c:when><c:otherwise>${match.result.score1}</c:otherwise></c:choose>" min="0"> VS <input class="tiny" type="number" name="score2" value="<c:choose><c:when test="${hasError}">${param.score2}</c:when><c:otherwise>${match.result.score2}</c:otherwise></c:choose>" min="0">
-                            <button type='button' onclick='removeScore()'>Enlever le résultat</button>
+                            <button type='button' onclick='removeScore()' ${ sessionScope.connected != null ? '' : 'disabled="disabled"'}>Enlever le résultat</button>
                         </c:otherwise>
                     </c:choose>
                 </span>

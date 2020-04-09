@@ -109,7 +109,6 @@ public class ControllerInitializer implements ServletContextListener {
         }
         if (userDao.isEmpty()) {
             userDao.save(new User(null, "admin", "password"));
-            System.out.println("userDao : " + userDao.getUserByName("admin"));
         }
     }
 }
