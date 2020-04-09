@@ -1,9 +1,5 @@
 package fr.polytech.rlcalm.controllers;
 
-import fr.polytech.rlcalm.beans.Club;
-import fr.polytech.rlcalm.beans.Country;
-import fr.polytech.rlcalm.beans.Match;
-import fr.polytech.rlcalm.beans.MatchResult;
 import fr.polytech.rlcalm.initializer.ControllerInitializer;
 import fr.polytech.rlcalm.service.MatchService;
 

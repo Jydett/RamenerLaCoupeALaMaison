@@ -17,7 +17,7 @@ public class Player implements Identifiable<Long> {
 
     private String name;
 
-    private Integer averageScore;
+    private Integer mediaRating;
 
     @ManyToOne
     private Club club;

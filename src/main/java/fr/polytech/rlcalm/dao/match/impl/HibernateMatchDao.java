@@ -1,13 +1,10 @@
 package fr.polytech.rlcalm.dao.match.impl;
 
 import fr.polytech.rlcalm.beans.Match;
-import fr.polytech.rlcalm.beans.Player;
 import fr.polytech.rlcalm.dao.HibernateDao;
 import fr.polytech.rlcalm.dao.match.MatchDao;
-import fr.polytech.rlcalm.dao.player.PlayerDao;
 import org.hibernate.Session;
 
-import java.awt.print.Book;
 import java.util.Collection;
 import java.util.Optional;
 

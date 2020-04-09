@@ -10,4 +10,6 @@ public interface PlayerDao {
     boolean isEmpty();
 
     void save(Player p);
+
+    void remove(Player p);
 }

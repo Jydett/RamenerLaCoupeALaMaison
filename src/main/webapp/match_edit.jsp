@@ -29,10 +29,10 @@
             <c:if test="${edition}">
                 <input type="hidden" name="id" value="<c:choose><c:when test="${hasError}">${param.id}</c:when><c:when test="${edition}">${match.id}</c:when></c:choose>">
             </c:if>
-            <div><label for="stadium">Stade: </label><input type="text" name="stadium" id="stadium" value="<c:choose><c:when test="${hasError}">${param.stadium}</c:when><c:when test="${edition}">${match.stadium}</c:when></c:choose>" required/></div>
-            <div><label for="city">Ville: </label><input type="text" name="city" id="city" value="<c:choose><c:when test="${hasError}">${param.city}</c:when><c:when test="${edition}">${match.city}</c:when></c:choose>" required/></div><!-- TODO ajouter les not empty -->
+            <div><label for="stadium">Stade : </label><input type="text" name="stadium" id="stadium" value="<c:choose><c:when test="${hasError}">${param.stadium}</c:when><c:when test="${edition}">${match.stadium}</c:when></c:choose>" required/></div>
+            <div><label for="city">Ville : </label><input type="text" name="city" id="city" value="<c:choose><c:when test="${hasError}">${param.city}</c:when><c:when test="${edition}">${match.city}</c:when></c:choose>" required/></div><!-- TODO ajouter les not empty -->
             <div>
-                <label for="date">Date: </label><input type="date" id="date" name="date" value="<c:choose><c:when test="${hasError}">${param.date}</c:when><c:when test="${edition}">${match.date}</c:when></c:choose>">
+                <label for="date">Date : </label><input type="date" id="date" name="date" value="<c:choose><c:when test="${hasError}">${param.date}</c:when><c:when test="${edition}">${match.date}</c:when></c:choose>">
                 à
                 <input type="time" name="date-h" value="<c:choose><c:when test="${hasError}">${param['date-h']}</c:when><c:when test="${edition}">${match.dateh}</c:when></c:choose>">
             </div>
@@ -75,6 +75,7 @@
                     </div>
                 </div>
             </div>
+            <!-- TODO faire un score par butteur -->
             <div>
                 <label for="tournament">Tournois: </label>
                 <!-- TODO comment on fait pour le tournois ?-->
@@ -97,8 +98,6 @@
         </form>
         <a href="matches">Retour</a>
         <br><br>
-
-<%--                <jsp:include page="debug/debugger.jsp"/>--%>
         <script>
             function addScore() {
                 const node = document.getElementById("score");

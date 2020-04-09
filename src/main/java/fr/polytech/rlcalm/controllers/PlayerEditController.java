@@ -1,12 +1,12 @@
 package fr.polytech.rlcalm.controllers;
 
-import fr.polytech.rlcalm.beans.Match;
+import fr.polytech.rlcalm.beans.Player;
 import fr.polytech.rlcalm.exception.InvalidFormException;
 import fr.polytech.rlcalm.exception.ServiceException;
-import fr.polytech.rlcalm.form.MatchUpdateForm;
+import fr.polytech.rlcalm.form.PlayerUpdateForm;
 import fr.polytech.rlcalm.initializer.ControllerInitializer;
 import fr.polytech.rlcalm.service.ClubService;
-import fr.polytech.rlcalm.service.MatchService;
+import fr.polytech.rlcalm.service.PlayerService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,17 +17,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @WebServlet(
-        name = "MatchEditController",
-        urlPatterns = "/matchEdit"
+        urlPatterns = "/playerEdit",
+        name = "PlayerEditController"
 )
-public class MatchEditController extends HttpServlet {//TODO auth filter
+public class PlayerEditController extends HttpServlet {
 
-    private MatchService matchService;
+    private PlayerService playerService;
     private ClubService clubService;
 
     @Override
     public void init() {
-        matchService = ControllerInitializer.getMatchService();
+        playerService = ControllerInitializer.getPlayerService();
         clubService = ControllerInitializer.getClubService();
     }
 
@@ -38,30 +38,30 @@ public class MatchEditController extends HttpServlet {//TODO auth filter
             //edition
             try {
                 long id = Long.parseLong(parameter);
-                Match match = matchService.getMatch(id);
-                if (match == null) {
+                Player player = playerService.getPlayer(id);
+                if (player == null) {
                     //TODO redirect
                 } else {
-                    req.setAttribute("match", match);
-                    forwardToMatchEdit(req, resp);
+                    req.setAttribute("player", player);
+                    forwardToPlayerEdit(req, resp);
                 }
             } catch (NumberFormatException e) {
                 //TODO
             }
         } else {
             //creation
-            forwardToMatchEdit(req, resp);
+            forwardToPlayerEdit(req, resp);
         }
     }
 
-    private void forwardToMatchEdit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        forwardToMatchEdit(req, resp, null);
+    private void forwardToPlayerEdit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        forwardToPlayerEdit(req, resp, null);
     }
 
-    private void forwardToMatchEdit(HttpServletRequest req, HttpServletResponse resp, String requestParams) throws ServletException, IOException {
+    private void forwardToPlayerEdit(HttpServletRequest req, HttpServletResponse resp, String requestParams) throws ServletException, IOException {
         //TODO besoin de l'arrayList ?
         req.setAttribute("clubs", new ArrayList<>(clubService.getAll()));
-        getServletContext().getRequestDispatcher("/match_edit.jsp" + (requestParams == null ? "" : requestParams)).forward(req, resp);
+        getServletContext().getRequestDispatcher("/player_edit.jsp" + (requestParams == null ? "" : requestParams)).forward(req, resp);
     }
 
     @Override
@@ -73,17 +73,17 @@ public class MatchEditController extends HttpServlet {//TODO auth filter
                 switch (action) {
                     case "delete": {
                         long id = Long.parseLong(idParameter);//TODO formUtils ?
-                        matchService.delete(matchService.getMatch(id));
-                        resp.sendRedirect("matches");
+                        playerService.delete(playerService.getPlayer(id));
+                        resp.sendRedirect("players");
                         break;
                     }
                     case "createOrUpdate": {
                         try {
-                            matchService.update(MatchUpdateForm.fromRequest(req));
-                            resp.sendRedirect("matches");
+                            playerService.update(PlayerUpdateForm.fromRequest(req));
+                            resp.sendRedirect("players");
                         } catch (InvalidFormException | ServiceException e) {
                             req.setAttribute("error", e.getMessage());
-                            forwardToMatchEdit(req, resp);
+                            forwardToPlayerEdit(req, resp);
                         }
                         break;
                     }
@@ -92,7 +92,5 @@ public class MatchEditController extends HttpServlet {//TODO auth filter
                 //TODO error
             }
         }
-        //TODO redirect ?
     }
-
 }

@@ -12,12 +12,14 @@
     <c:when test="${requestScope.club != null}">
         <h2>Détail du club '${club.name}':<br><a style="font-size: small;" href="clubs">Retour</a></h2>
         <jsp:useBean id="club" type="fr.polytech.rlcalm.beans.Club" scope="request"/>
-        <div>Id: ${club.id}</div>
-        <div>Name: ${club.name}</div>
-        <div>Country: ${club.country} ${club.country.icon}</div>
-        <c:forEach items="${club.players}" var="player">
-            <div>${player.name} ${player.role}</div>
-        </c:forEach>
+        <div>Nom: ${club.name}</div>
+        <div>Pays: ${club.country.name} ${club.country.icon}</div>
+        <div>Joueurs: </div>
+        <ul>
+            <c:forEach items="${club.players}" var="player">
+                <li><a title="Détail de ce joueur" href="players?id=${player.id}">${player.name}</a> ${player.role}</li>
+            </c:forEach>
+        </ul>
     </c:when>
     <c:otherwise>
         <h2>Détail du club</h2>

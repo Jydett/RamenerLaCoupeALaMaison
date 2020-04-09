@@ -25,7 +25,7 @@ import org.hibernate.cfg.Configuration;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import java.time.Instant;
-import java.util.Optional;
+import java.util.Collections;
 
 @WebListener
 public class ControllerInitializer implements ServletContextListener {
@@ -38,7 +38,7 @@ public class ControllerInitializer implements ServletContextListener {
     @Getter private static Configuration configuration;
 
     public enum DateBaseImpl {
-        HASHMAP, MYSQL;
+        HASHMAP, MYSQL
     }
 
     private static final DateBaseImpl INITIALIZER_TYPE = DateBaseImpl.HASHMAP;
@@ -70,7 +70,7 @@ public class ControllerInitializer implements ServletContextListener {
             default:
                 throw new IllegalStateException("Unexpected value: " + INITIALIZER_TYPE);
         }
-        playerService = new PlayerService(playerDao);
+        playerService = new PlayerService(playerDao, clubDao);
         matchService = new MatchService(matchDao, clubDao);
         clubService = new ClubService(clubDao);
         userService = new UserService(userDao);
@@ -104,6 +104,8 @@ public class ControllerInitializer implements ServletContextListener {
             playerDao.save(new Player(null, "Zlatan", 6, lfds, Role.Striker));
             playerDao.save(new Player(null, "Naymar", 5, lfds, Role.LeftMidfielder));
         }
+        clubDao.save(lldb);
+        clubDao.save(lfds);
         if (matchDao.isEmpty()) {
             matchDao.save(new Match(null, "Paris", "Stade de France", Instant.now(), null, lldb, lfds, null));
         }

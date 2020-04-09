@@ -2,7 +2,6 @@ package fr.polytech.rlcalm.controllers;
 
 
 import fr.polytech.rlcalm.beans.Club;
-import fr.polytech.rlcalm.beans.Player;
 import fr.polytech.rlcalm.initializer.ControllerInitializer;
 import fr.polytech.rlcalm.service.ClubService;
 

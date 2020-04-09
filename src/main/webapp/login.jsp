@@ -1,11 +1,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
+
 <div>
+    <style><%@include file="error.css"%></style>
     <c:choose>
         <c:when test="${empty sessionScope.connected}">
             <c:if test="${requestScope.loginError != null}">
-                <div style="color: red;">${requestScope.loginError}</div>
+                <div class="error">${requestScope.loginError}</div>
             </c:if>
             <form method="post" action="${pageContext.request.contextPath}/libraryLogin">
                 <label for="username">Nom d'utilisateur: </label><input type="text" name="username" id="username"/>
@@ -24,10 +26,3 @@
         </c:otherwise>
     </c:choose>
 </div>
-
-<c:set var="hasError" value="${not empty requestScope.error}"/>
-
-<c:if test="${hasError}">
-    <c:set scope="request" var="edition" value="${requestScope.match ne null}"/>
-    <div class="error">${requestScope.error}</div>
-</c:if>
