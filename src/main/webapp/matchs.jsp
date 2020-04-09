@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="flags.css">
     </head>
     <body>
+    <h2>Liste des matchs :<br><a style="font-size: small;" href="index.jsp">Retour</a></h2>
     <c:choose>
         <c:when test="${requestScope.matchs != null && not empty requestScope.matchs}">
             <jsp:useBean id="matchs" scope="request" type="java.util.List"/>

@@ -8,6 +8,7 @@
 <body>
 <c:choose>
     <c:when test="${requestScope.club != null}">
+        <h2>Détail du club '${club.name}':<br><a style="font-size: small;" href="clubs">Retour</a></h2>
         <jsp:useBean id="club" type="fr.polytech.rlcalm.beans.Club" scope="request"/>
         <div>Id: ${club.id}</div>
         <div>Name: ${club.name}</div>
@@ -17,7 +18,8 @@
         </c:forEach>
     </c:when>
     <c:otherwise>
-        Ce joueur n'existe pas !
+        <h2>Détail du club</h2>
+        Ce club n'existe pas !
     </c:otherwise>
 </c:choose>
 </body>

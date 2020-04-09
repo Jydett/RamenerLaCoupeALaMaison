@@ -6,8 +6,9 @@
     <link rel="stylesheet" href="flags.css">
 </head>
 <body>
+    <h2>Liste des clubs: <br><span style="font-size: small; text-decoration: none">(Cliquer pour en savoir plus)</span><br><a style="font-size: small;" href="index.jsp">Retour</a></h2>
     <c:forEach items="${requestScope.clubs}" var="club">
-        <div>${club.country.icon}${club.name}</div>
+        <div>${club.country.icon}<a href="clubs?id=${club.id}" title="${club.name}">${club.name}</a></div>
     </c:forEach>
 </body>
 </html>

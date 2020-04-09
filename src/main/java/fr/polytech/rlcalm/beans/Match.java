@@ -71,7 +71,7 @@ public class Match implements Identifiable<Long> {
         }
     }
 
-    public String getFormattedDate() {
+    public String getFormattedDate() {//TODO retourner null et tester dans le jsp
         if (instant == null) return "Pas encore plannifié";
         return LocalDateTime.ofInstant(instant, ZoneOffset.UTC).format(DATE_FORMAT);
     }

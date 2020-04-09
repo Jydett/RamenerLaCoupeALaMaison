@@ -14,7 +14,6 @@
         <c:if test="${not hasError && edition}">
             <jsp:useBean id="match" scope="request" type="fr.polytech.rlcalm.beans.Match"/>
         </c:if>
-
         <c:choose>
             <c:when test="${edition}">
                 <h2>Edition d'un match :</h2>
