@@ -100,7 +100,7 @@
         <a href="matches">Retour</a>
         <br><br>
 
-                <jsp:include page="debug/debugger.jsp"/>
+<%--                <jsp:include page="debug/debugger.jsp"/>--%>
         <script>
             function addScore() {
                 const node = document.getElementById("score");
