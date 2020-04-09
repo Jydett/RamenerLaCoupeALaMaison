@@ -5,6 +5,8 @@
     <title>Title</title>
 </head>
 <body>
+<jsp:include page="login.jsp"/>
+
 <table style="margin:1em 0;border-collapse:separate;background:transparent;font-size:95%;line-height:0.9"
        cellspacing="0" cellpadding="0" border="0">
 

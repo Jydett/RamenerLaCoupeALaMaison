@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="flags.css">
 </head>
 <body>
+<jsp:include page="login.jsp"/>
+
 <c:choose>
     <c:when test="${requestScope.club != null}">
         <h2>Détail du club '${club.name}':<br><a style="font-size: small;" href="clubs">Retour</a></h2>

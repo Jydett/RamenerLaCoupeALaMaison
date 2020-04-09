@@ -5,6 +5,8 @@
     <title>Player</title>
 </head>
 <body>
+<jsp:include page="login.jsp"/>
+
     <c:choose>
         <c:when test="${requestScope.player != null}">
             <jsp:useBean id="player" type="fr.polytech.rlcalm.beans.Player" scope="request"/>

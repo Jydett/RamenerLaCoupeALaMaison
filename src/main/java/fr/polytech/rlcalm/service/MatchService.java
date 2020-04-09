@@ -66,6 +66,7 @@ public class MatchService {
                 result.setScore2(score2);
             }
         }
+
         dao.save(match);
     }
 }

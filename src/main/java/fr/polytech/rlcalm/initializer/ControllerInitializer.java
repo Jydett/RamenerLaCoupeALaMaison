@@ -11,9 +11,13 @@ import fr.polytech.rlcalm.dao.match.impl.HibernateMatchDao;
 import fr.polytech.rlcalm.dao.player.PlayerDao;
 import fr.polytech.rlcalm.dao.player.impl.HashMapPlayerDao;
 import fr.polytech.rlcalm.dao.player.impl.HibernatePlayerDao;
+import fr.polytech.rlcalm.dao.user.UserDao;
+import fr.polytech.rlcalm.dao.user.impl.HashMapUserDao;
+import fr.polytech.rlcalm.dao.user.impl.HibernateUserDao;
 import fr.polytech.rlcalm.service.ClubService;
 import fr.polytech.rlcalm.service.MatchService;
 import fr.polytech.rlcalm.service.PlayerService;
+import fr.polytech.rlcalm.service.UserService;
 import lombok.Getter;
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
@@ -21,7 +25,7 @@ import org.hibernate.cfg.Configuration;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import java.time.Instant;
-import java.util.Collections;
+import java.util.Optional;
 
 @WebListener
 public class ControllerInitializer implements ServletContextListener {
@@ -29,6 +33,7 @@ public class ControllerInitializer implements ServletContextListener {
     @Getter private static PlayerService playerService;
     @Getter private static MatchService matchService;
     @Getter private static ClubService clubService;
+    @Getter private static UserService userService;
 
     @Getter private static Configuration configuration;
 
@@ -43,6 +48,7 @@ public class ControllerInitializer implements ServletContextListener {
         MatchDao matchDao = null;
         ClubDao clubDao = null;
         CountryDao countryDao = null;
+        UserDao userDao = null;
         switch (INITIALIZER_TYPE) {
             case MYSQL: {
                 configuration = new Configuration().configure();
@@ -50,6 +56,7 @@ public class ControllerInitializer implements ServletContextListener {
 
                 playerDao = new HibernatePlayerDao(hibernateSession);
                 matchDao = new HibernateMatchDao(hibernateSession);
+                userDao = new HibernateUserDao(hibernateSession);
                 break;
             }
             case HASHMAP: {
@@ -57,6 +64,7 @@ public class ControllerInitializer implements ServletContextListener {
                 playerDao = new HashMapPlayerDao();
                 clubDao = new HashMapClubDao();
                 countryDao = new HashMapCountryDao();
+                userDao = new HashMapUserDao();
                 break;
             }
             default:
@@ -65,10 +73,12 @@ public class ControllerInitializer implements ServletContextListener {
         playerService = new PlayerService(playerDao);
         matchService = new MatchService(matchDao, clubDao);
         clubService = new ClubService(clubDao);
-        fillTables(playerDao, matchDao, clubDao, countryDao);
+        userService = new UserService(userDao);
+        fillTables(playerDao, matchDao, clubDao, countryDao, userDao);
     }
 
-    private static void fillTables(PlayerDao playerDao, MatchDao matchDao, ClubDao clubDao, CountryDao countryDao) {
+
+    private static void fillTables(PlayerDao playerDao, MatchDao matchDao, ClubDao clubDao, CountryDao countryDao, UserDao userDao) {
         Country fr = null, all = null, it = null, es = null, ru = null;
         if (countryDao.isEmpty()) {
             countryDao.save(fr = new Country(null, "France", "fr"));
@@ -96,6 +106,10 @@ public class ControllerInitializer implements ServletContextListener {
         }
         if (matchDao.isEmpty()) {
             matchDao.save(new Match(null, "Paris", "Stade de France", Instant.now(), null, lldb, lfds, null));
+        }
+        if (userDao.isEmpty()) {
+            userDao.save(new User(null, "admin", "password"));
+            System.out.println("userDao : " + userDao.getUserByName("admin"));
         }
     }
 }

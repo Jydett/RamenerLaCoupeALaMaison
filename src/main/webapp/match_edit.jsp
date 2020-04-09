@@ -7,6 +7,8 @@
         <link rel="stylesheet" href="customCombo.css">
     </head>
     <body>
+    <jsp:include page="login.jsp"/>
+
         <jsp:useBean id="clubs" scope="request" type="java.util.List"/>
         <c:set var="edition" value="${not empty paramValues['id']}"/>
         <c:set var="hasError" value="${not empty requestScope.error}"/>
@@ -89,10 +91,10 @@
                 </c:choose>
             </div>
             <span>
-                <input type="submit" formaction="matchEdit?action=createOrUpdate" value="Enregistrer les changement"/>
+                <input type="submit" formaction="matchEdit?action=createOrUpdate" value="Enregistrer les changement" ${ sessionScope.connected != null ? '' : 'disabled="disabled"'}/>
                 <c:if test="${edition}">
                     <!-- TODO bonne facon de faire ? -->
-                    <input type="submit" formaction="matchEdit?action=delete" value="Supprimer">
+                    <input type="submit" formaction="matchEdit?action=delete" value="Supprimer" ${ sessionScope.connected != null ? '' : 'disabled="disabled"'}>
                 </c:if>
             </span>
         </form>

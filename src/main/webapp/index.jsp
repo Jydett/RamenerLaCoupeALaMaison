@@ -4,6 +4,7 @@
         <title>Ramener la coupe à la maison</title>
     </head>
     <body>
+        <jsp:include page="login.jsp"/>
         <h1>Ramener la coupe à la maison</h1>
         <div><a href="matches">Voir les matchs</a></div>
         <div><a href="clubs">Voir les clubs</a></div>
