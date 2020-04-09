@@ -10,6 +10,7 @@
     <body>
     <c:set var="hasError" value="${not empty requestScope.error}"/>
     <c:set var="edition" value="${not empty paramValues['id']}"/>
+    <c:set var="userConnect" value="${sessionScope.connected != null}"/>
     <c:if test="${not hasError && edition}">
         <jsp:useBean id="player" type="fr.polytech.rlcalm.beans.Player" scope="request"/>
     </c:if>
@@ -50,14 +51,16 @@
                 <option name="${value}">${value}</option>
             </c:forEach>
         </select></div>
-        <span>
-            <input type="submit" formaction="playerEdit?action=createOrUpdate" value="Enregistrer les changement"/>
-            <c:if test="${edition}">
-                <!-- TODO bonne facon de faire ? -->
-                <input type="submit" formaction="playerEdit?action=delete" value="Supprimer">
-            </c:if>
-        </span>
-        <!-- TODO BUTS -->
+        <c:if test="${userConnect}">
+            <span>
+                <input type="submit" formaction="playerEdit?action=createOrUpdate" value="Enregistrer les changement"/>
+                <c:if test="${edition}">
+                    <!-- TODO bonne facon de faire ? -->
+                    <input type="submit" formaction="playerEdit?action=delete" value="Supprimer">
+                </c:if>
+            </span>
+        </c:if>
+    <!-- TODO BUTS -->
     </form>
     <script type="text/javascript" src="customCombo.js"></script>
     </body>
