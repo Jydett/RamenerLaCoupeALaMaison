@@ -2,7 +2,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title>Clubs</title>
+    <title>Club</title>
+    <link rel="stylesheet" href="flags.css">
 </head>
 <body>
 <c:choose>
@@ -10,7 +11,10 @@
         <jsp:useBean id="club" type="fr.polytech.rlcalm.beans.Club" scope="request"/>
         <div>Id: ${club.id}</div>
         <div>Name: ${club.name}</div>
-        <div>Country: ${club.country}</div>
+        <div>Country: ${club.country} ${club.country.icon}</div>
+        <c:forEach items="${club.players}" var="player">
+            <div>${player.name} ${player.role}</div>
+        </c:forEach>
     </c:when>
     <c:otherwise>
         Ce joueur n'existe pas !

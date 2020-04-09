@@ -1,0 +1,77 @@
+/* Code for custom select adapted from https://andrejgajdos.com/custom-select-dropdown/ */
+.custom-select-wrapper {
+    position: relative;
+    user-select: none;
+    display: inline-block;
+}
+.custom-select {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-width: 1px 1px 1px 1px;
+    border-style: solid;
+    border-color: #3b3b3b;
+    width: max-content;
+}
+.custom-select__trigger {
+    width: max-content;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px 0 3px;
+    height: 18px;
+    background: #ffffff;
+}
+.custom-options {
+    width: max-content;
+    position: absolute;
+    display: block;
+    top: 100%;
+    left: 0;
+    right: 0;
+    border: 1px solid #3b3b3b;
+    background: #fff;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 2;
+}
+.custom-select.open .custom-options {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
+.custom-option {
+    position: relative;
+    display: block;
+    padding: 0 3px 0 3px;
+    color: #3b3b3b;
+}
+.custom-option:hover {
+    background-color: #3399FF;
+    color: white;
+}
+.arrow {
+    position: relative;
+    float: right;
+    height: 5px;
+    width: 5px;
+}
+.arrow::before, .arrow::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 1px;
+    height: 100%;
+}
+.arrow::before {
+    left: 7px;
+    transform: rotate(-45deg);
+    background-color: #394a6d;
+}
+.arrow::after {
+    left: 10px;
+    transform: rotate(45deg);
+    background-color: #394a6d;
+}

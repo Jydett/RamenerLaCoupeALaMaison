@@ -72,7 +72,7 @@ public class Match implements Identifiable<Long> {
     }
 
     public String getFormattedDate() {
-        if (instant == null) return "";
+        if (instant == null) return "Pas encore plannifié";
         return LocalDateTime.ofInstant(instant, ZoneOffset.UTC).format(DATE_FORMAT);
     }
 

@@ -5,8 +5,7 @@
     </head>
     <body>
         <h1>Ramener la coupe à la maison</h1>
-
-        <a href="matchEdit?id=1">Edit match 1</a>
-        <a href="matches">Tous les marches</a>
+        <div><a href="matches">Tous les machs</a></div>
+        <div><a href="clubs">Tous les clubs</a></div>
     </body>
 </html>

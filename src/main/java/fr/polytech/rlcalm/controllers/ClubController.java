@@ -37,6 +37,7 @@ public class ClubController extends HttpServlet {
                 getServletContext().getRequestDispatcher("/club.jsp").forward(req, resp);
             } catch (NumberFormatException ignored) { }
         }
-        getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
+        req.setAttribute("clubs", clubService.getAll());
+        getServletContext().getRequestDispatcher("/clubs.jsp").forward(req, resp);
     }
 }

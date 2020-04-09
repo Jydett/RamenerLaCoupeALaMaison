@@ -1,6 +1,6 @@
 package fr.polytech.rlcalm.form;
 
-import fr.polytech.rlcalm.beans.Match;
+import fr.polytech.rlcalm.exception.InvalidFormException;
 import fr.polytech.rlcalm.utils.FormUtils;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -36,23 +36,30 @@ public class MatchUpdateForm {
 
     private Integer score2;
 
-    public static MatchUpdateForm fromRequest(HttpServletRequest req) throws IllegalArgumentException {
-        Long idParam = FormUtils.getLong(req.getParameter("id"));
-        String cityParam = FormUtils.notNull(req.getParameter("city"));
-        String stadiumParam = FormUtils.notNull(req.getParameter("stadium"));
+    public static MatchUpdateForm fromRequest(HttpServletRequest req) {
+        Long idParam = FormUtils.getLong(req.getParameter("id"), "Ce match n'est pas valide");
+        String cityParam = FormUtils.notNull(req.getParameter("city"), "Il faut saisir la ville où se déroulera le match");
+        String stadiumParam = FormUtils.notNull(req.getParameter("stadium"), "Il faut saisir le stade où se déroulera le match");
 
         String dateParam = req.getParameter("date");
         String datehParam = req.getParameter("date-h");
         Instant instant = null;
-        if (dateParam != null && datehParam != null) {
-            instant = LocalDateTime.parse(dateParam + " " + datehParam, DATE_FORMAT).toInstant(ZoneOffset.UTC);
+        if (FormUtils.isNullOrEmpty(dateParam) ^ FormUtils.isNullOrEmpty(datehParam)) {
+            throw new InvalidFormException("La date du match n'est pas complète !");
+        }
+        if (! FormUtils.isNullOrEmpty(datehParam)) {
+            try {
+                instant = LocalDateTime.parse(dateParam + " " + datehParam, DATE_FORMAT).toInstant(ZoneOffset.UTC);
+            } catch (Exception ignored) {
+                throw new InvalidFormException("Date invalide !");
+            }
         }
 
-        Long tournamentId = FormUtils.getLong(req.getParameter("tournamentId"));
-        Long playerId1 = FormUtils.getRequiredLong(req.getParameter("player1"));
-        Long playerId2 = FormUtils.getRequiredLong(req.getParameter("player2"));
-        Integer score1 = FormUtils.getInt(req.getParameter("score1"));
-        Integer score2 = FormUtils.getInt(req.getParameter("score2"));
+        Long tournamentId = FormUtils.getLong(req.getParameter("tournamentId"), "Le tournois séléctionné n'est pas valide");
+        Long playerId1 = FormUtils.getRequiredLong(req.getParameter("player1"), "Il faut séléctionner une première équipe");
+        Long playerId2 = FormUtils.getRequiredLong(req.getParameter("player2"), "Il faut séléctionner une seconde équipe");
+        Integer score1 = FormUtils.getInt(req.getParameter("score1"), "Le score de la première équipe n'est pas valide");
+        Integer score2 = FormUtils.getInt(req.getParameter("score2"), "Le score de la première équipe n'est pas valide");
 
         return new MatchUpdateForm(
             idParam,

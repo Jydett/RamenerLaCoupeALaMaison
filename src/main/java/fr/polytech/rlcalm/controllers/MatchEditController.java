@@ -1,6 +1,7 @@
 package fr.polytech.rlcalm.controllers;
 
 import fr.polytech.rlcalm.beans.Match;
+import fr.polytech.rlcalm.exception.InvalidFormException;
 import fr.polytech.rlcalm.exception.ServiceException;
 import fr.polytech.rlcalm.form.MatchUpdateForm;
 import fr.polytech.rlcalm.initializer.ControllerInitializer;
@@ -52,15 +53,18 @@ public class MatchEditController extends HttpServlet {//TODO auth filter
             forwardToMatchEdit(req, resp);
         }
     }
-
     private void forwardToMatchEdit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        forwardToMatchEdit(req, resp, null);
+    }
+
+    private void forwardToMatchEdit(HttpServletRequest req, HttpServletResponse resp, String requestParams) throws ServletException, IOException {
         //TODO besoin de l'arrayList ?
         req.setAttribute("clubs", new ArrayList<>(clubService.getAll()));
-        getServletContext().getRequestDispatcher("/match_edit.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/match_edit.jsp" + (requestParams == null ? "" : requestParams)).forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String idParameter = req.getParameter("id");
         String action = req.getParameter("action");
         if (action != null) {
@@ -76,12 +80,9 @@ public class MatchEditController extends HttpServlet {//TODO auth filter
                         try {
                             matchService.update(MatchUpdateForm.fromRequest(req));
                             resp.sendRedirect("matches");
-                        } catch (IllegalArgumentException | ServiceException e) {
-                            if (idParameter == null) {
-                                resp.sendRedirect("matchEdit?id=" + idParameter);
-                            } else {
-                                resp.sendRedirect("matchEdit");
-                            }
+                        } catch (InvalidFormException | ServiceException e) {
+                            req.setAttribute("error", e.getMessage());
+                            forwardToMatchEdit(req, resp);
                         }
                         break;
                     }
