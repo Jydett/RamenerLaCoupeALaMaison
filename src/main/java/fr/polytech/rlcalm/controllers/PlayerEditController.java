@@ -80,10 +80,11 @@ public class PlayerEditController extends HttpServlet {
                     case "createOrUpdate": {
                         try {
                             playerService.update(PlayerUpdateForm.fromRequest(req));
-                            resp.sendRedirect("players");
+                            resp.sendRedirect("players" + (idParameter == null ? "" : "?id=" + idParameter));
                         } catch (InvalidFormException | ServiceException e) {
                             req.setAttribute("error", e.getMessage());
                             forwardToPlayerEdit(req, resp);
+                            return;
                         }
                         break;
                     }

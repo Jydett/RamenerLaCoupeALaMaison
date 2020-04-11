@@ -1,11 +1,14 @@
 package fr.polytech.rlcalm.dao.match.impl;
 
+import fr.polytech.rlcalm.beans.Club;
 import fr.polytech.rlcalm.beans.Match;
+import fr.polytech.rlcalm.beans.Participation;
 import fr.polytech.rlcalm.dao.HibernateDao;
 import fr.polytech.rlcalm.dao.match.MatchDao;
 import org.hibernate.Session;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public class HibernateMatchDao extends HibernateDao<Match> implements MatchDao {

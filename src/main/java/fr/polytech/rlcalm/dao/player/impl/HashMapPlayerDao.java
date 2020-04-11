@@ -20,6 +20,7 @@ public class HashMapPlayerDao extends HashMapDao<Long, Player> implements Player
     //Simulate hibernate link annotation
     @Override
     public void save(Player p) {
+        super.save(p);
         Club club = p.getClub();
         if (club != null) {
             List<Player> players = club.getPlayers();
@@ -27,8 +28,9 @@ public class HashMapPlayerDao extends HashMapDao<Long, Player> implements Player
                 players = new ArrayList<>();
                 club.setPlayers(players);
             }
-            players.add(p);
+            if (club.getPlayers().stream().noneMatch(pp -> p.getId().equals(pp.getId()))) {
+                players.add(p);
+            }
         }
-        super.save(p);
     }
 }

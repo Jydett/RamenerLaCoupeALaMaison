@@ -1,9 +1,12 @@
 package fr.polytech.rlcalm.dao.match.impl;
 
+import fr.polytech.rlcalm.beans.Club;
 import fr.polytech.rlcalm.beans.Match;
+import fr.polytech.rlcalm.beans.Participation;
 import fr.polytech.rlcalm.dao.HashMapDao;
 import fr.polytech.rlcalm.dao.match.MatchDao;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class HashMapMatchDao extends HashMapDao<Long, Match> implements MatchDao {

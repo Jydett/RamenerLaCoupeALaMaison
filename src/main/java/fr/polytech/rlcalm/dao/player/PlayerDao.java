@@ -2,6 +2,7 @@ package fr.polytech.rlcalm.dao.player;
 
 import fr.polytech.rlcalm.beans.Player;
 
+import java.util.Collection;
 import java.util.Optional;
 
 public interface PlayerDao {
@@ -12,4 +13,6 @@ public interface PlayerDao {
     void save(Player p);
 
     void remove(Player p);
+
+    Collection<Player> getAll();
 }

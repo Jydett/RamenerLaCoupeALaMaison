@@ -22,6 +22,7 @@
                 <!-- TODO perm -->
                 <c:if test="${userConnect}">
                     <button onclick="window.location='matchEdit?id=${match.id}'">Editer</button>
+                    <button onclick="window.location='matchScoreEdit?id=${match.id}'">Modifier le score</button>
                 </c:if>
             </c:forEach>
         </c:when>

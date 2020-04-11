@@ -5,9 +5,10 @@
         <title>Matches</title>
         <link rel="stylesheet" href="flags.css">
         <link rel="stylesheet" href="customCombo.css">
+        <link rel="stylesheet" href="error.css">
     </head>
     <body>
-    <jsp:include page="login.jsp"/>
+        <jsp:include page="login.jsp"/>
 
         <jsp:useBean id="clubs" scope="request" type="java.util.List"/>
         <c:set var="edition" value="${not empty paramValues['id']}"/>
@@ -19,13 +20,16 @@
         </c:if>
         <c:choose>
             <c:when test="${edition}">
-                <h2>Edition d'un match :</h2>
+                <h2>Edition d'un match :<br><a style="font-size: small;" href="matches">Retour</a></h2>
             </c:when>
             <c:otherwise>
-                <h2>Creation d'un nouveau match :</h2>
+                <h2>Creation d'un nouveau match :<br><a style="font-size: small;" href="matches">Retour</a></h2>
             </c:otherwise>
         </c:choose>
-
+        <c:if test="${hasError}">
+            <c:set scope="request" var="edition" value="${requestScope.match ne null}"/>
+            <div class="error">${requestScope.error}</div>
+        </c:if>
         <form action="matchEdit" method="post">
             <c:if test="${edition}">
                 <input type="hidden" name="id" value="<c:choose><c:when test="${hasError}">${param.id}</c:when><c:when test="${edition}">${match.id}</c:when></c:choose>">
@@ -53,15 +57,12 @@
                 </span>
                 <span id="score">
                     <c:choose>
-                        <c:if test="${userConnect}">
-                        <c:when test="${(hasError && (empty param.score1 || empty param.score2)) || (! hasError && (not edition || match.result == null))}">
-                            <button type="button" onclick="addScore()">Ajouter un résultat</button>
+                        <c:when test="${match.result eq null}">
+                            -
                         </c:when>
                         <c:otherwise>
-                            <input type="number" class="tiny" name="score1" value="<c:choose><c:when test="${hasError}">${param.score1}</c:when><c:otherwise>${match.result.score1}</c:otherwise></c:choose>" min="0"> VS <input class="tiny" type="number" name="score2" value="<c:choose><c:when test="${hasError}">${param.score2}</c:when><c:otherwise>${match.result.score2}</c:otherwise></c:choose>" min="0">
-                            <button type='button' onclick='removeScore()'>Enlever le résultat</button>
+                            ${match.result.score1} - ${match.result.score2}
                         </c:otherwise>
-                        </c:if>
                     </c:choose>
                 </span>
                 <div class="custom-select-wrapper">
@@ -77,8 +78,12 @@
                         </div>
                     </div>
                 </div>
+                <c:if test="${match.result ne null && !(match.result.score1 == 0 && match.result.score2 == 0)}">
+                    <a title="Modifier une équipe enlevera les participations aux buts des joueurs et mettre le score de l'équipe pour ce match à zero">
+                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve" width="16" height="16"><path style="fill:#3B4145;" d="M322.939,62.642l178.737,309.583C508.231,383.578,512,396.74,512,410.791 c0,42.67-34.592,77.264-77.264,77.264H256L194.189,256L256,23.946C284.62,23.946,309.587,39.519,322.939,62.642z"/><path style="fill:#525A61;" d="M189.061,62.642L10.323,372.225C3.769,383.578,0,396.74,0,410.791 c0,42.67,34.592,77.264,77.264,77.264H256V23.946C227.38,23.946,202.413,39.519,189.061,62.642z"/><path style="fill:#FFB751;" d="M474.913,387.678L296.177,78.098c-8.056-13.959-22.849-22.767-38.848-23.22l152.869,402.275h24.539 c25.559,0,46.358-20.798,46.358-46.358C481.095,402.677,478.952,394.683,474.913,387.678z"/><path style="fill:#FFD764;" d="M444.853,387.678c3.492,7.005,5.336,14.999,5.336,23.117c0,25.559-17.935,46.358-39.992,46.358 H77.264c-25.559,0-46.358-20.799-46.358-46.358c0-8.118,2.143-16.112,6.181-23.117l178.736-309.58 c8.283-14.34,23.674-23.251,40.177-23.251c0.443,0,0.886,0.01,1.329,0.031c13.732,0.536,26.414,9.323,33.326,23.22L444.853,387.678z "/><path style="fill:#3B4145;" d="M256,354.131v51.509c14.227,0,25.755-11.528,25.755-25.755 C281.755,365.659,270.227,354.131,256,354.131z"/><path style="fill:#525A61;" d="M256,354.131c2.843,0,5.151,11.528,5.151,25.755c0,14.227-2.308,25.755-5.151,25.755 c-14.227,0-25.755-11.528-25.755-25.755C230.245,365.659,241.773,354.131,256,354.131z"/><path style="fill:#3B4145;" d="M256,132.646V323.23c14.227,0,25.755-11.538,25.755-25.755V158.401 C281.755,144.174,270.227,132.646,256,132.646z"/><path style="fill:#525A61;" d="M256,132.646c2.843,0,5.151,11.528,5.151,25.755v139.074c0,14.216-2.308,25.755-5.151,25.755 c-14.227,0-25.755-11.538-25.755-25.755V158.401C230.245,144.174,241.773,132.646,256,132.646z"/><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+                    </a>
+                </c:if>
             </div>
-            <!-- TODO faire un score par butteur -->
             <div>
                 <label for="tournament">Tournois: </label>
                 <!-- TODO comment on fait pour le tournois ?-->
@@ -101,59 +106,15 @@
             </span>
             </c:if>
         </form>
-        <a href="matches">Retour</a>
-        <br><br>
-        <script>
-            function addScore() {
-                const node = document.getElementById("score");
-                while (node.firstChild) node.removeChild(node.firstChild);
-                node.innerHTML = "<input type=\"number\" class=\"tiny\" name=\"score1\" value=\"0\" min=\"0\"> VS <input class=\"tiny\" type=\"number\" name=\"score2\" value=\"0\" min=\"0\"> <button type='button' onclick='removeScore()'>Enlever le résultat</button>";
-            }
-            function removeScore() {
-                const node = document.getElementById("score");
-                while (node.firstChild) node.removeChild(node.firstChild);
-                node.innerHTML = "<button type=\"button\" onclick=\"addScore()\">Ajouter un résultat</button>";
-            }
-        </script>
         <script type="text/javascript" src="customCombo.js"></script>
 
     </body>
     <style>
-        .winner {
-            background-color: rgba(106, 135, 89, 0.5);
-        }
-        .looser {
-            background-color: rgba(255, 0, 0, 0.5);
-        }
         .tiny {
             width: 50px;
         }
         form {
             margin-bottom: 0;
-        }
-        .error {
-            color: #a94442;
-            background-color: #f2dede;
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid #ebccd1;
-            padding-left: 25px;
-        }
-        .error::before, .error::after {
-            content: "";
-            position: absolute;
-            height: 15px;
-            width: 3px;
-        }
-        .error::before {
-            left: 20px;
-            transform: rotate(-45deg);
-            background-color: #a94442;
-        }
-        .error::after {
-            left: 20px;
-            transform: rotate(45deg);
-            background-color: #a94442;
         }
     </style>
 </html>

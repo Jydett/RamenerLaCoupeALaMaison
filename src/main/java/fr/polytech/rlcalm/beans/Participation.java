@@ -1,6 +1,9 @@
 package fr.polytech.rlcalm.beans;
 
+import fr.polytech.rlcalm.dao.Identifiable;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -8,7 +11,9 @@ import javax.persistence.ManyToOne;
 
 @Data
 @Entity
-public class Participation {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Participation implements Identifiable<Long> {
     @Id
     private Long id;
 

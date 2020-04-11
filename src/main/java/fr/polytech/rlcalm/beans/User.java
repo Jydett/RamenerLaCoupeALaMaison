@@ -20,6 +20,4 @@ public class User implements Identifiable<Long>  {
     private String username;
 
     private String password;
-
-
 }

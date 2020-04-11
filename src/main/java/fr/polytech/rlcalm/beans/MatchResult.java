@@ -15,5 +15,4 @@ public class MatchResult {
     private Integer score1;
 
     private Integer score2;
-
 }

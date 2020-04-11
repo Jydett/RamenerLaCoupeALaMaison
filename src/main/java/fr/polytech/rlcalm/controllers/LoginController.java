@@ -38,13 +38,10 @@ public class LoginController extends HttpServlet {
             String password = req.getParameter("password");
             try {
                 req.getSession().setAttribute("connected", userService.authenticate(username, password));
-                resp.sendRedirect("index.jsp");
-                return;
             } catch (ServiceException e) {
                 req.setAttribute("loginError", e.getMessage());
             }
         }
-        req.getRequestDispatcher("/index.jsp").forward(req, resp);
+        resp.sendRedirect("index.jsp");
     }
-
 }

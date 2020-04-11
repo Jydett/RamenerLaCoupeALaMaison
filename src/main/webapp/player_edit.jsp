@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="customCombo.css">
     </head>
     <body>
+    <jsp:include page="login.jsp"/>
     <c:set var="hasError" value="${not empty requestScope.error}"/>
     <c:set var="edition" value="${not empty paramValues['id']}"/>
     <c:set var="userConnect" value="${sessionScope.connected != null}"/>
@@ -19,7 +20,7 @@
             <h2>Edition d'un joueur :<br><a style="font-size: small;" href="players?id=${player.club.id}">Retour</a></h2>
         </c:when>
         <c:otherwise>
-            <h2>Creation d'un joueur :<a style="font-size: small;" href="players">Retour</a></h2>
+            <h2>Creation d'un joueur :<br><a style="font-size: small;" href="players">Retour</a></h2>
         </c:otherwise>
     </c:choose>
     <c:if test="${hasError}">
@@ -27,12 +28,11 @@
         <div class="error">${requestScope.error}</div>
     </c:if>
     <form action="matchEdit" method="post">
-<%--        <div><label></label><input/></div>--%>
         <input type="hidden" name="id" value="${player.id}"/>
-        <div><label for="name">Nom :</label><input id="name" name="name" value="${player.name}"/></div>
-        <div><label for="media-rating">Score des média :</label><input min="0" max="20" id="media-rating" name="mediaRating" value="${player.mediaRating}"/></div>
+        <div><label for="name">Nom : </label><input id="name" name="name" value="${player.name}"/></div>
+        <div><label for="media-rating">Score des média :</label><input type="number" min="0" max="20" id="media-rating" name="mediaRating" value="${player.mediaRating}"/></div>
         <jsp:useBean id="clubs" scope="request" type="java.util.List"/>
-        <div>Club: <span class="custom-select-wrapper">
+        <div>Club : <span class="custom-select-wrapper">
             <div class="custom-select">
                 <input type="hidden" name="clubId" class="form-input" value="">
                 <div class="custom-select__trigger"><span>Select a team</span>
@@ -45,7 +45,7 @@
                 </div>
             </div>
         </span></div>
-        <div><label for="role">Role :</label><select id="role" name="role">
+        <div><label for="role">Role : </label><select id="role" name="role">
             <c:set var="allRoles" value="<%= Role.values() %>"/>
             <c:forEach items="${allRoles}" var="value">
                 <option name="${value}">${value}</option>

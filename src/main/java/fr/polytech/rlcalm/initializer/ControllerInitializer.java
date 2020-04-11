@@ -8,6 +8,9 @@ import fr.polytech.rlcalm.dao.country.impl.HashMapCountryDao;
 import fr.polytech.rlcalm.dao.match.MatchDao;
 import fr.polytech.rlcalm.dao.match.impl.HashMapMatchDao;
 import fr.polytech.rlcalm.dao.match.impl.HibernateMatchDao;
+import fr.polytech.rlcalm.dao.participation.ParticipationDao;
+import fr.polytech.rlcalm.dao.participation.impl.HashMapParticipationDao;
+import fr.polytech.rlcalm.dao.participation.impl.HibernateParticipationDao;
 import fr.polytech.rlcalm.dao.player.PlayerDao;
 import fr.polytech.rlcalm.dao.player.impl.HashMapPlayerDao;
 import fr.polytech.rlcalm.dao.player.impl.HibernatePlayerDao;
@@ -49,6 +52,7 @@ public class ControllerInitializer implements ServletContextListener {
         ClubDao clubDao = null;
         CountryDao countryDao = null;
         UserDao userDao = null;
+        ParticipationDao participationDao = null;
         switch (INITIALIZER_TYPE) {
             case MYSQL: {
                 configuration = new Configuration().configure();
@@ -57,6 +61,7 @@ public class ControllerInitializer implements ServletContextListener {
                 playerDao = new HibernatePlayerDao(hibernateSession);
                 matchDao = new HibernateMatchDao(hibernateSession);
                 userDao = new HibernateUserDao(hibernateSession);
+                participationDao = new HibernateParticipationDao(hibernateSession);
                 break;
             }
             case HASHMAP: {
@@ -65,20 +70,21 @@ public class ControllerInitializer implements ServletContextListener {
                 clubDao = new HashMapClubDao();
                 countryDao = new HashMapCountryDao();
                 userDao = new HashMapUserDao();
+                participationDao = new HashMapParticipationDao();
                 break;
             }
             default:
                 throw new IllegalStateException("Unexpected value: " + INITIALIZER_TYPE);
         }
-        playerService = new PlayerService(playerDao, clubDao);
-        matchService = new MatchService(matchDao, clubDao);
+        playerService = new PlayerService(playerDao, clubDao, participationDao);
+        matchService = new MatchService(matchDao, clubDao, participationDao, playerDao);
         clubService = new ClubService(clubDao);
         userService = new UserService(userDao);
-        fillTables(playerDao, matchDao, clubDao, countryDao, userDao);
+        fillTables(playerDao, matchDao, clubDao, countryDao, userDao, participationDao);
     }
 
 
-    private static void fillTables(PlayerDao playerDao, MatchDao matchDao, ClubDao clubDao, CountryDao countryDao, UserDao userDao) {
+    private static void fillTables(PlayerDao playerDao, MatchDao matchDao, ClubDao clubDao, CountryDao countryDao, UserDao userDao, ParticipationDao participationDao) {
         Country fr = null, all = null, it = null, es = null, ru = null;
         if (countryDao.isEmpty()) {
             countryDao.save(fr = new Country(null, "France", "fr"));
@@ -87,27 +93,35 @@ public class ControllerInitializer implements ServletContextListener {
             countryDao.save(ru = new Country(null, "Russie", "ru"));
             countryDao.save(es = new Country(null, "Espagne", "es"));
         }
-        Club lldb = null;
-        Club lfds = null;
+        Club lldb = null, lfds = null, lodr = null;
         if (clubDao.isEmpty()) {
             clubDao.save(lldb = new Club(null, "Les lions de Berlin", all, null));
             clubDao.save(lfds = new Club(null, "Les fou du stade", fr, null));
-            clubDao.save(new Club(null, "Russie",  ru, null));
+            clubDao.save(lodr = new Club(null, "Les ours de Russie",  ru, null));
             clubDao.save(new Club(null, "Espagne", es, null));
             clubDao.save(new Club(null, "Italie", it, null));
         }
+        Player zizou = null, messi = null, bonk = null;
         if (playerDao.isEmpty()) {
             playerDao.save(new Player(null, "Ronaldo", 0, lldb, Role.Central));
-            playerDao.save(new Player(null, "Zizou", 3, lldb, Role.AttackingMidfielder));
-            playerDao.save(new Player(null, "Messi", 2, lldb, Role.CenterBack));
+            playerDao.save(zizou = new Player(null, "Zizou", 3, lldb, Role.AttackingMidfielder));
+            playerDao.save(messi = new Player(null, "Messi", 2, lldb, Role.CenterBack));
             playerDao.save(new Player(null, "Mbappé", 9, lfds, Role.Goalkeeper));
             playerDao.save(new Player(null, "Zlatan", 6, lfds, Role.Striker));
             playerDao.save(new Player(null, "Naymar", 5, lfds, Role.LeftMidfielder));
+            playerDao.save(bonk = new Player(null, "Bолк", 5, lodr, Role.LeftMidfielder));
         }
         clubDao.save(lldb);
         clubDao.save(lfds);
+        Match france_allemagne = null, france_russie = null;
         if (matchDao.isEmpty()) {
-            matchDao.save(new Match(null, "Paris", "Stade de France", Instant.now(), null, lldb, lfds, null));
+            matchDao.save(france_allemagne = new Match(null, "Paris", "Stade de France", Instant.now(), null, lldb, lfds, null));
+            matchDao.save(france_russie = new Match(null, "Berlin", "Wurst Stadion", Instant.now(), null, lfds, lodr, null));
+        }
+        if (participationDao.isEmpty()) {
+            participationDao.save(new Participation(null, zizou, 3, france_allemagne));
+            france_allemagne.setResult(new MatchResult(3, 0));
+            matchDao.save(france_allemagne);
         }
         if (userDao.isEmpty()) {
             userDao.save(new User(null, "admin", "password"));

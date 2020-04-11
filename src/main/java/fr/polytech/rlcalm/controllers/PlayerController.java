@@ -31,10 +31,12 @@ public class PlayerController extends HttpServlet {
             try {
                 Long id = Long.parseLong(parameter);
                 Player player = playerService.getPlayer(id);
+                req.setAttribute("participations", playerService.getParticipationOfPlayer(player));
                 req.setAttribute("player", player);
                 getServletContext().getRequestDispatcher("/player.jsp").forward(req, resp);
             } catch (NumberFormatException ignored) { }
         }
-        getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
+        req.setAttribute("players", playerService.getAll());
+        getServletContext().getRequestDispatcher("/players.jsp").forward(req, resp);
     }
 }

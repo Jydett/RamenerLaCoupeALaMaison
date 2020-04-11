@@ -31,11 +31,6 @@ public class MatchUpdateForm {
 
     private Long playerId2;
 
-    //Match result
-    private Integer score1;
-
-    private Integer score2;
-
     public static MatchUpdateForm fromRequest(HttpServletRequest req) {
         Long idParam = FormUtils.getLong(req.getParameter("id"), "Ce match n'est pas valide");
         String cityParam = FormUtils.notNull(req.getParameter("city"), "Il faut saisir la ville où se déroulera le match");
@@ -58,8 +53,6 @@ public class MatchUpdateForm {
         Long tournamentId = FormUtils.getLong(req.getParameter("tournamentId"), "Le tournois séléctionné n'est pas valide");
         Long playerId1 = FormUtils.getRequiredLong(req.getParameter("player1"), "Il faut séléctionner une première équipe");
         Long playerId2 = FormUtils.getRequiredLong(req.getParameter("player2"), "Il faut séléctionner une seconde équipe");
-        Integer score1 = FormUtils.getInt(req.getParameter("score1"), "Le score de la première équipe n'est pas valide");
-        Integer score2 = FormUtils.getInt(req.getParameter("score2"), "Le score de la première équipe n'est pas valide");
 
         return new MatchUpdateForm(
             idParam,
@@ -68,9 +61,7 @@ public class MatchUpdateForm {
             instant,
             tournamentId,
             playerId1,
-            playerId2,
-            score1,
-            score2
+            playerId2
         );
     }
 }
