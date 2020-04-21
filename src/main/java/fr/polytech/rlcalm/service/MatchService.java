@@ -5,7 +5,6 @@ import fr.polytech.rlcalm.dao.club.ClubDao;
 import fr.polytech.rlcalm.dao.match.MatchDao;
 import fr.polytech.rlcalm.dao.participation.ParticipationDao;
 import fr.polytech.rlcalm.dao.player.PlayerDao;
-import fr.polytech.rlcalm.exception.InvalidFormException;
 import fr.polytech.rlcalm.exception.ServiceException;
 import fr.polytech.rlcalm.form.MatchUpdateForm;
 import fr.polytech.rlcalm.form.ParticipationUpdateForm;
@@ -51,22 +50,25 @@ public class MatchService {
         }
         Club player1 = clubDao.findById(form.getPlayerId1()).orElseThrow(() -> new ServiceException("Impossible de trouver la première équipe"));
         Club player2 = clubDao.findById(form.getPlayerId2()).orElseThrow(() -> new ServiceException("Impossible de trouver la première équipe"));
-        if (! match.getPlayer1().getId().equals(form.getPlayerId1())) {
-            if (match.getResult() != null && ! match.getResult().getScore1().equals(0)) {
-                participationDao.removeParticipationsOfClubOnMatch(player1, match);
-                match.getResult().setScore1(0);
-            }
-            match.setPlayer1(player1);
-        }
-        if (! match.getPlayer2().getId().equals(form.getPlayerId2())) {
-            if (match.getResult() != null && ! match.getResult().getScore2().equals(0)) {
-                participationDao.removeParticipationsOfClubOnMatch(player2, match);
-                match.getResult().setScore2(0);
-            }
+        if (form.getId() == null) {
             match.setPlayer2(player2);
+            match.setPlayer1(player1);
+        } else {
+            if (! match.getPlayer1().getId().equals(form.getPlayerId1())) {
+                if (match.getResult() != null && ! match.getResult().getScore1().equals(0)) {
+                    participationDao.removeParticipationsOfClubOnMatch(player1, match);
+                    match.getResult().setScore1(0);
+                }
+                match.setPlayer1(player1);
+            }
+            if (! match.getPlayer2().getId().equals(form.getPlayerId2())) {
+                if (match.getResult() != null && ! match.getResult().getScore2().equals(0)) {
+                    participationDao.removeParticipationsOfClubOnMatch(player2, match);
+                    match.getResult().setScore2(0);
+                }
+                match.setPlayer2(player2);
+            }
         }
-
-        //TODO verif date
         match.setInstant(form.getInstant());
         dao.save(match);
     }
