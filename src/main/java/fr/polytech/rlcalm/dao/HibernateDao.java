@@ -27,6 +27,7 @@ public abstract class HibernateDao<T> {
     }
 
     public boolean isEmpty() {
+        System.out.println("[DEBUG] isEmpty " + tableName);
         return ((BigInteger) hibernateSession.createSQLQuery("SELECT EXISTS (SELECT NULL FROM " + tableName + ")").uniqueResult()).intValue() == 0;
     }
 

@@ -5,10 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -19,8 +16,10 @@ import java.util.Locale;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "matchfoot")
 public class Match implements Identifiable<Long> {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String city;
@@ -68,8 +67,8 @@ public class Match implements Identifiable<Long> {
         }
     }
 
-    public String getFormattedDate() {//TODO retourner null et tester dans le jsp
-        if (instant == null) return "Pas encore plannifié";
+    public String getFormattedDate() {
+        if (instant == null) return null;
         return LocalDateTime.ofInstant(instant, ZoneOffset.UTC).format(DATE_FORMAT);
     }
 

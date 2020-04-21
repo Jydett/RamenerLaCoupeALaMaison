@@ -3,8 +3,10 @@ package fr.polytech.rlcalm.initializer;
 import fr.polytech.rlcalm.beans.*;
 import fr.polytech.rlcalm.dao.club.ClubDao;
 import fr.polytech.rlcalm.dao.club.impl.HashMapClubDao;
+import fr.polytech.rlcalm.dao.club.impl.HibernateClubDao;
 import fr.polytech.rlcalm.dao.country.CountryDao;
 import fr.polytech.rlcalm.dao.country.impl.HashMapCountryDao;
+import fr.polytech.rlcalm.dao.country.impl.HibernateCountryDao;
 import fr.polytech.rlcalm.dao.match.MatchDao;
 import fr.polytech.rlcalm.dao.match.impl.HashMapMatchDao;
 import fr.polytech.rlcalm.dao.match.impl.HibernateMatchDao;
@@ -44,7 +46,7 @@ public class ControllerInitializer implements ServletContextListener {
         HASHMAP, MYSQL
     }
 
-    private static final DateBaseImpl INITIALIZER_TYPE = DateBaseImpl.HASHMAP;
+    private static final DateBaseImpl INITIALIZER_TYPE = DateBaseImpl.MYSQL;
 
     static {
         PlayerDao playerDao = null;
@@ -58,8 +60,10 @@ public class ControllerInitializer implements ServletContextListener {
                 configuration = new Configuration().configure();
                 Session hibernateSession = configuration.buildSessionFactory().openSession();
 
-                playerDao = new HibernatePlayerDao(hibernateSession);
                 matchDao = new HibernateMatchDao(hibernateSession);
+                playerDao = new HibernatePlayerDao(hibernateSession);
+                clubDao = new HibernateClubDao(hibernateSession);
+                countryDao = new HibernateCountryDao(hibernateSession);
                 userDao = new HibernateUserDao(hibernateSession);
                 participationDao = new HibernateParticipationDao(hibernateSession);
                 break;

@@ -55,7 +55,6 @@
             <span>
                 <input type="submit" formaction="playerEdit?action=createOrUpdate" value="Enregistrer les changement"/>
                 <c:if test="${edition}">
-                    <!-- TODO bonne facon de faire ? -->
                     <input type="submit" formaction="playerEdit?action=delete" value="Supprimer">
                 </c:if>
             </span>

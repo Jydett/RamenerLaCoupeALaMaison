@@ -9,6 +9,7 @@ import java.util.List;
 @Entity
 public class Tournament {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private Integer year;

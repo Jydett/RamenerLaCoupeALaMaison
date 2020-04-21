@@ -7,6 +7,7 @@ import fr.polytech.rlcalm.form.MatchUpdateForm;
 import fr.polytech.rlcalm.initializer.ControllerInitializer;
 import fr.polytech.rlcalm.service.ClubService;
 import fr.polytech.rlcalm.service.MatchService;
+import fr.polytech.rlcalm.utils.FormUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,15 +40,15 @@ public class MatchEditController extends HttpServlet {//TODO auth filter
             try {
                 long id = Long.parseLong(parameter);
                 Match match = matchService.getMatch(id);
-                if (match == null) {
-                    //TODO redirect
-                } else {
+                if (match != null) {
                     req.setAttribute("match", match);
                     forwardToMatchEdit(req, resp);
+                    return;
                 }
-            } catch (NumberFormatException e) {
-                //TODO
+            } catch (NumberFormatException ignored) {
+                //redirect
             }
+            resp.sendRedirect("matches");
         } else {
             //creation
             forwardToMatchEdit(req, resp);
@@ -66,33 +67,31 @@ public class MatchEditController extends HttpServlet {//TODO auth filter
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String idParameter = req.getParameter("id");
         String action = req.getParameter("action");
         if (action != null) {
-            try {
-                switch (action) {
-                    case "delete": {
-                        long id = Long.parseLong(idParameter);//TODO formUtils ?
+            switch (action) {
+                case "delete": {
+                    try {
+                        long id = FormUtils.getRequiredLong(req.getParameter("id"), null);
                         matchService.delete(matchService.getMatch(id));
                         resp.sendRedirect("matches");
-                        break;
+                    } catch (InvalidFormException e) {
+                        resp.sendRedirect("matches");
                     }
-                    case "createOrUpdate": {
-                        try {
-                            matchService.update(MatchUpdateForm.fromRequest(req));
-                            resp.sendRedirect("matches");
-                        } catch (InvalidFormException | ServiceException e) {
-                            req.setAttribute("error", e.getMessage());
-                            forwardToMatchEdit(req, resp);
-                        }
-                        break;
-                    }
+                    return;
                 }
-            } catch (NumberFormatException e) {
-                //TODO error
+                case "createOrUpdate": {
+                    try {
+                        matchService.update(MatchUpdateForm.fromRequest(req));
+                        resp.sendRedirect("matches");
+                    } catch (InvalidFormException | ServiceException e) {
+                        req.setAttribute("error", e.getMessage());
+                        forwardToMatchEdit(req, resp);
+                    }
+                    return;
+                }
             }
         }
-        //TODO redirect ?
+        resp.sendRedirect("matches");
     }
-
 }

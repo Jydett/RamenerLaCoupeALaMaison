@@ -8,6 +8,7 @@ import fr.polytech.rlcalm.dao.HibernateDao;
 import fr.polytech.rlcalm.dao.match.MatchDao;
 import fr.polytech.rlcalm.dao.participation.ParticipationDao;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.util.Collection;
 import java.util.List;
@@ -30,21 +31,32 @@ public class HibernateParticipationDao extends HibernateDao<Participation> imple
 
     @Override
     public List<Participation> getParticipationsOnMatch(Match match) {
-        throw new UnsupportedOperationException();//TODO toimplement
+        return hibernateSession.createQuery("select p from Participation p where p.match.id = :matchId", Participation.class)
+                .setParameter("matchId", match.getId())
+                .getResultList();
     }
 
     @Override
     public void removeParticipationsOnMatch(Match match) {
-        throw new UnsupportedOperationException();//TODO toimplement
+        Transaction transaction = hibernateSession.beginTransaction();
+        hibernateSession.createQuery("delete from Participation p where p.match.id = :matchId")
+                .setParameter("matchId", match.getId()).executeUpdate();
+        transaction.commit();
     }
 
     @Override
     public void removeParticipationsOfClubOnMatch(Club club, Match match) {
-        throw new UnsupportedOperationException();//TODO toimplement
+        Transaction transaction = hibernateSession.beginTransaction();
+        hibernateSession.createQuery("delete from Participation p where p.match.id = :matchId and p.player.club.id = :clubId")
+                .setParameter("matchId", match.getId())
+                .setParameter("clubId", club.getId())
+                .executeUpdate();
+        transaction.commit();
     }
 
     @Override
     public List<Participation> getParticipationOfPlayer(Player player) {
-        throw new UnsupportedOperationException();//TODO toimplement
+        return hibernateSession.createQuery("select p from Participation p where p.id = :playerId", Participation.class)
+                .setParameter("playerId", player.getId()).getResultList();
     }
 }

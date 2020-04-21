@@ -16,7 +16,10 @@
             <jsp:useBean id="matchs" scope="request" type="java.util.List"/>
             <c:forEach var="match" items="${matchs}">
                 <div>Match :</div>
-                <div>&nbsp;&nbsp;${match.formattedDate}: </div>
+                <div>&nbsp;&nbsp;<c:choose>
+                    <c:when test="${match.formattedDate == null}">Pas encore plannifié</c:when>
+                    <c:otherwise>${match.formattedDate}: </c:otherwise>
+                </c:choose></div>
                 <div>&nbsp;&nbsp;&nbsp;&nbsp;${match.stringView}<br></div>
                 <div>&nbsp;&nbsp;&nbsp;&nbsp;<i>${match.stadium}, ${match.city}</i></div>
                 <!-- TODO perm -->

@@ -8,7 +8,6 @@
         <h1>Ramener la coupe à la maison</h1>
         <div><a href="matches">Voir les matchs</a></div>
         <div><a href="clubs">Voir les clubs</a></div>
-        <!-- TODO -->
         <div><a href="players">Voir les joueurs</a></div>
         <div><a href="#">Voir les résultats des éditions de la compétition</a></div>
         <br><br>

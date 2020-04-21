@@ -13,6 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Player implements Identifiable<Long> {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;

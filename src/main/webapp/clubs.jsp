@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="flags.css">
 </head>
 <body>
-<jsp:include page="login.jsp"/>
+    <jsp:include page="login.jsp"/>
 
     <h2>Liste des clubs: <br><span style="font-size: small; text-decoration: none">(Cliquer pour en savoir plus)</span><br><a style="font-size: small;" href="index.jsp">Retour</a></h2>
     <c:forEach items="${requestScope.clubs}" var="club">

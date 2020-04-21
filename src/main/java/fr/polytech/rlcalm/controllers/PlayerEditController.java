@@ -7,6 +7,7 @@ import fr.polytech.rlcalm.form.PlayerUpdateForm;
 import fr.polytech.rlcalm.initializer.ControllerInitializer;
 import fr.polytech.rlcalm.service.ClubService;
 import fr.polytech.rlcalm.service.PlayerService;
+import fr.polytech.rlcalm.utils.FormUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,15 +40,15 @@ public class PlayerEditController extends HttpServlet {
             try {
                 long id = Long.parseLong(parameter);
                 Player player = playerService.getPlayer(id);
-                if (player == null) {
-                    //TODO redirect
-                } else {
+                if (player != null) {
                     req.setAttribute("player", player);
                     forwardToPlayerEdit(req, resp);
+                    return;
                 }
             } catch (NumberFormatException e) {
-                //TODO
+                //redirect
             }
+            resp.sendRedirect("/players");
         } else {
             //creation
             forwardToPlayerEdit(req, resp);
@@ -55,13 +56,8 @@ public class PlayerEditController extends HttpServlet {
     }
 
     private void forwardToPlayerEdit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        forwardToPlayerEdit(req, resp, null);
-    }
-
-    private void forwardToPlayerEdit(HttpServletRequest req, HttpServletResponse resp, String requestParams) throws ServletException, IOException {
-        //TODO besoin de l'arrayList ?
         req.setAttribute("clubs", new ArrayList<>(clubService.getAll()));
-        getServletContext().getRequestDispatcher("/player_edit.jsp" + (requestParams == null ? "" : requestParams)).forward(req, resp);
+        getServletContext().getRequestDispatcher("/player_edit.jsp").forward(req, resp);
     }
 
     @Override
@@ -69,29 +65,30 @@ public class PlayerEditController extends HttpServlet {
         String idParameter = req.getParameter("id");
         String action = req.getParameter("action");
         if (action != null) {
-            try {
-                switch (action) {
-                    case "delete": {
-                        long id = Long.parseLong(idParameter);//TODO formUtils ?
+            switch (action) {
+                case "delete": {
+                    try {
+                        long id = FormUtils.getRequiredLong(idParameter, null);
                         playerService.delete(playerService.getPlayer(id));
                         resp.sendRedirect("players");
-                        break;
-                    }
-                    case "createOrUpdate": {
-                        try {
-                            playerService.update(PlayerUpdateForm.fromRequest(req));
-                            resp.sendRedirect("players" + (idParameter == null ? "" : "?id=" + idParameter));
-                        } catch (InvalidFormException | ServiceException e) {
-                            req.setAttribute("error", e.getMessage());
-                            forwardToPlayerEdit(req, resp);
-                            return;
-                        }
-                        break;
+                        return;
+                    } catch (InvalidFormException e) {
+                        resp.sendRedirect("players");
                     }
                 }
-            } catch (NumberFormatException e) {
-                //TODO error
+                case "createOrUpdate": {
+                    try {
+                        playerService.update(PlayerUpdateForm.fromRequest(req));
+                        resp.sendRedirect("players" + (idParameter == null ? "" : "?id=" + idParameter));
+                    } catch (InvalidFormException | ServiceException e) {
+                        req.setAttribute("error", e.getMessage());
+                        forwardToPlayerEdit(req, resp);
+                        return;
+                    }
+                    break;
+                }
             }
         }
+        resp.sendRedirect("/players");
     }
 }

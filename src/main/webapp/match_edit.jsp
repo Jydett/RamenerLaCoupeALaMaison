@@ -100,7 +100,6 @@
                 <span>
                 <input type="submit" formaction="matchEdit?action=createOrUpdate" value="Enregistrer les changement"/>
                 <c:if test="${edition}">
-                    <!-- TODO bonne facon de faire ? -->
                     <input type="submit" formaction="matchEdit?action=delete" value="Supprimer">
                 </c:if>
             </span>
