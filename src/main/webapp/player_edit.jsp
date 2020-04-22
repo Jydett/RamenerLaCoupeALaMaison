@@ -48,7 +48,7 @@
         <div><label for="role">Role : </label><select id="role" name="role">
             <c:set var="allRoles" value="<%= Role.values() %>"/>
             <c:forEach items="${allRoles}" var="value">
-                <option name="${value}">${value}</option>
+                <option name="${value}">${value.role}</option>
             </c:forEach>
         </select></div>
         <c:if test="${userConnect}">

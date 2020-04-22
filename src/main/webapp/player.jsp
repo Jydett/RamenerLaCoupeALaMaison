@@ -18,7 +18,7 @@
              (${player.mediaRating}/20)
         </div>
         <div>Club : <a href="clubs?id=${player.club.id}">${player.club.name}</a></div>
-        <div>Role : ${player.role}</div>
+        <div>Role : ${player.role.role}</div>
 
         <c:if test="${userConnect}">
             <button onclick="window.location='playerEdit?id=${player.id}';">Modifier ce joueur</button>
