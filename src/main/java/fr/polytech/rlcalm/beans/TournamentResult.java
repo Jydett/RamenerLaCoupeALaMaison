@@ -1,15 +1,46 @@
 package fr.polytech.rlcalm.beans;
 
+import fr.polytech.rlcalm.dao.Identifiable;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Data
-@Embeddable
-public class TournamentResult {
+@NoArgsConstructor
+@Entity
+@Table(
+    uniqueConstraints = @UniqueConstraint(columnNames = {"year", "club_id"}),
+    indexes = {@Index(columnList = "year")}
+)
+@Getter
+public class TournamentResult implements Identifiable<Long> {
 
-    private Integer score; //TODO score pour le tournois ?
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter
+    private Long id;
 
-    @ManyToOne
-    private Club winner;//TODO pas terrible comme resultat ?
+    //TODO si optionel double contrainte ?
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    private Club club;
+
+    private Integer year;
+
+    private String persistentName;
+
+    private Integer placement;
+
+    public TournamentResult(Club club, Integer year, Integer placement) {
+        this.id = null;
+        this.club = club;
+        this.year = year;
+        this.placement = placement;
+        this.persistentName = getPersistentName(club);
+    }
+
+    private String getPersistentName(Club club) {
+        return club.getName() + club.getCountry().getIcon();
+    }
 }

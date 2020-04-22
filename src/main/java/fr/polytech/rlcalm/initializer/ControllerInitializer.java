@@ -16,17 +16,17 @@ import fr.polytech.rlcalm.dao.participation.impl.HibernateParticipationDao;
 import fr.polytech.rlcalm.dao.player.PlayerDao;
 import fr.polytech.rlcalm.dao.player.impl.HashMapPlayerDao;
 import fr.polytech.rlcalm.dao.player.impl.HibernatePlayerDao;
+import fr.polytech.rlcalm.dao.tournamentresult.TournamentResultDao;
+import fr.polytech.rlcalm.dao.tournamentresult.impl.HibernateTournamentResultDao;
 import fr.polytech.rlcalm.dao.user.UserDao;
 import fr.polytech.rlcalm.dao.user.impl.HashMapUserDao;
 import fr.polytech.rlcalm.dao.user.impl.HibernateUserDao;
-import fr.polytech.rlcalm.service.ClubService;
-import fr.polytech.rlcalm.service.MatchService;
-import fr.polytech.rlcalm.service.PlayerService;
-import fr.polytech.rlcalm.service.UserService;
+import fr.polytech.rlcalm.service.*;
 import lombok.Getter;
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
 
+import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import java.time.Instant;
@@ -41,14 +41,18 @@ public class ControllerInitializer implements ServletContextListener {
     @Getter private static MatchService matchService;
     @Getter private static ClubService clubService;
     @Getter private static UserService userService;
+    @Getter private static TournamentResultService tournamentResultService;
 
     @Getter private static Configuration configuration;
+
 
     public enum DateBaseImpl {
         HASHMAP, MYSQL
     }
 
     private static final DateBaseImpl INITIALIZER_TYPE = DateBaseImpl.MYSQL;
+
+    private static Session hibernateSession = null;
 
     static {
         PlayerDao playerDao = null;
@@ -57,7 +61,7 @@ public class ControllerInitializer implements ServletContextListener {
         CountryDao countryDao = null;
         UserDao userDao = null;
         ParticipationDao participationDao = null;
-        Session hibernateSession = null;
+        TournamentResultDao tournamentResultDao = null;
         switch (INITIALIZER_TYPE) {
             case MYSQL: {
                 configuration = new Configuration().configure();
@@ -68,6 +72,7 @@ public class ControllerInitializer implements ServletContextListener {
                 countryDao = new HibernateCountryDao(hibernateSession);
                 userDao = new HibernateUserDao(hibernateSession);
                 participationDao = new HibernateParticipationDao(hibernateSession);
+                tournamentResultDao = new HibernateTournamentResultDao(hibernateSession);
                 break;
             }
             case HASHMAP: {
@@ -82,15 +87,23 @@ public class ControllerInitializer implements ServletContextListener {
             default:
                 throw new IllegalStateException("Unexpected value: " + INITIALIZER_TYPE);
         }
+        tournamentResultService = new TournamentResultService(tournamentResultDao);
         playerService = new PlayerService(playerDao, clubDao, participationDao);
         matchService = new MatchService(matchDao, clubDao, participationDao, playerDao);
         clubService = new ClubService(clubDao);
         userService = new UserService(userDao);
-        fillTables(playerDao, matchDao, clubDao, countryDao, userDao, participationDao);
+        fillTables(playerDao, matchDao, clubDao, countryDao, userDao, participationDao, tournamentResultDao);
     }
 
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
+        if (hibernateSession != null && hibernateSession.isOpen()) {
+            hibernateSession.close();
+        }
+    }
 
-    private static void fillTables(PlayerDao playerDao, MatchDao matchDao, ClubDao clubDao, CountryDao countryDao, UserDao userDao, ParticipationDao participationDao) {
+    private static void fillTables(PlayerDao playerDao, MatchDao matchDao, ClubDao clubDao, CountryDao countryDao,
+                                   UserDao userDao, ParticipationDao participationDao, TournamentResultDao tournamentResultDao) {
         Country fr = null, all = null, it = null, es = null, ru = null;
         if (countryDao.isEmpty()) {
             countryDao.save(fr = new Country(null, "France", "fr"));
@@ -140,6 +153,12 @@ public class ControllerInitializer implements ServletContextListener {
         }
         if (userDao.isEmpty()) {
             userDao.save(new User(null, "admin", "password"));
+        }
+        if (tournamentResultDao.isEmpty()) {
+            tournamentResultDao.save(new TournamentResult(lldb, 2020, 1));
+            tournamentResultDao.save(new TournamentResult(lfds, 2020, 2));
+            tournamentResultDao.save(new TournamentResult(lldb, 2016, 2));
+            tournamentResultDao.save(new TournamentResult(lfds, 2016, 1));
         }
     }
 }

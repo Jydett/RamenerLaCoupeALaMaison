@@ -19,7 +19,7 @@ public class PrivateFilter implements Filter {
 
         Object user = req.getSession().getAttribute("connected");
         if (Objects.isNull(user)) {
-            res.sendRedirect("/RamenerLaCoupeALaMaison_war_exploded/index.jsp");
+            res.sendRedirect("/index.jsp");
         } else {
             filterChain.doFilter(request, response);
         }

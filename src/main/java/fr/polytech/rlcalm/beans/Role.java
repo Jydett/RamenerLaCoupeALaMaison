@@ -24,17 +24,3 @@ public enum Role {
     }
 
 }
-
-/*
-    Gardien,
-    ArriereDroit,
-    ArriereGauche,
-    Libero,
-    Stoppeur,
-    MilieuDefensifDroit,
-    MilleuDefensifGauche,
-    MilieuOffensifDroit,
-    MilieuOffensifGauche,
-    AttaquantSoutien,
-    AttaquantPointe
-*/

@@ -9,7 +9,7 @@
         <div><a href="matches">Voir les matchs</a></div>
         <div><a href="clubs">Voir les clubs</a></div>
         <div><a href="players">Voir les joueurs</a></div>
-        <div><a href="#">Voir les résultats des éditions de la compétition</a></div>
+        <div><a href="results">Voir les résultats des éditions de la compétition</a></div>
         <br><br>
 
         <div>Par Arthur Pelloux-Prayer & Victor Lefillastre</div>

@@ -13,9 +13,9 @@ import java.util.ArrayList;
 
 @WebServlet(
         urlPatterns = "/matches",
-        name = "TournamentController"
+        name = "MatchController"
 )
-public class TournamentController extends HttpServlet {
+public class MatchController extends HttpServlet {
 
     private MatchService matchService;
 

@@ -22,7 +22,7 @@
 
         <c:if test="${userConnect}">
             <button onclick="window.location='playerEdit?id=${player.id}';">Modifier ce joueur</button>
-            <button onclick="window.location='playerEdit';">Creer un Joueur</button>
+            <button onclick="window.location='playerEdit';">Creer un nouveau joueur</button>
             <form method="post" style="display: inline-block;">
                 <input type="submit" formaction="playerEdit?action=delete&id=${player.id}" value="Supprimer ce joueur">
             </form>

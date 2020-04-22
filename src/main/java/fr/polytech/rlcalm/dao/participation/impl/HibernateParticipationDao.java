@@ -20,7 +20,6 @@ public class HibernateParticipationDao extends HibernateDao<Participation> imple
         super(hibernateSession, Participation.class);
     }
 
-    //TODO left join pour avoir des valeurs à 0 sur les joueru qui n'ont pas marqué
     @Override
     public List<Participation> getParticipationsOfClubOnMatch(Club club, Match match) {
         return hibernateSession.createQuery("select p from Participation p where p.match.id = :matchId and p.player.club.id = :clubId", Participation.class)
@@ -56,7 +55,7 @@ public class HibernateParticipationDao extends HibernateDao<Participation> imple
 
     @Override
     public List<Participation> getParticipationOfPlayer(Player player) {
-        return hibernateSession.createQuery("select p from Participation p where p.id = :playerId", Participation.class)
+        return hibernateSession.createQuery("select p from Participation p where p.player.id = :playerId", Participation.class)
                 .setParameter("playerId", player.getId()).getResultList();
     }
 }
