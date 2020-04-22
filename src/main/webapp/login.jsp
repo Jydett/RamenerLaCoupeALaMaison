@@ -10,8 +10,8 @@
                 <div class="error">${requestScope.loginError}</div>
             </c:if>
             <form method="post" action="${pageContext.request.contextPath}/libraryLogin">
-                <label for="username">Nom d'utilisateur: </label><input type="text" name="username" id="username"/>
-                <label for="password">Mot de passe: </label><input type="password" name="password" id="password"/>
+                <label for="username">Nom d'utilisateur: </label><input type="text" name="username" id="username" value="admin"/>
+                <label for="password">Mot de passe: </label><input type="password" name="password" id="password" value="password"/>
                 <input type="submit" value="Se connecter !"/>
             </form>
         </c:when>
