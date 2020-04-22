@@ -44,6 +44,6 @@ public abstract class HibernateDao<T> {
     }
 
     public Collection<T> getAll() {
-        return hibernateSession.createQuery("SELECT t FROM " + className + " t", clazz).getResultList();
+        return hibernateSession.createQuery("FROM " + className, clazz).list();
     }
 }

@@ -26,16 +26,24 @@ public class PlayerService {
 
     public void update(PlayerUpdateForm form) {
         Player player;
-        if (form.getId() == null) {
+        boolean isCreateOperation = form.getId() == null;
+        if (isCreateOperation) {
             player = new Player();
         } else {
             player = dao.findById(form.getId()).orElseThrow(() -> new ServiceException("Impossible de trouver ce joueur !"));
         }
         Club c = clubDao.findById(form.getClubId()).orElseThrow(() -> new ServiceException("Impossible de trouver ce club"));
-        player.setClub(c);
+
         Integer mediaRating = form.getMediaRating();
         if (mediaRating < 0 || mediaRating > 20) {
             throw new ServiceException("La note des média ne respecte pas les bornes (elle doit être en 0 et 20)");
+        }
+
+        if (! form.getClubId().equals(player.getClub().getId())) {
+            if (! isCreateOperation) {
+                player.getClub().removePlayer(player);
+            }
+            c.addPlayer(player);
         }
         player.setMediaRating(mediaRating);
         player.setRole(form.getRole());
@@ -43,6 +51,7 @@ public class PlayerService {
     }
 
     public void delete(Player player) {
+        player.getClub().removePlayer(player);
         dao.remove(player);
     }
 

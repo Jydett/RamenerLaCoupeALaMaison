@@ -34,6 +34,7 @@ public class PlayerController extends HttpServlet {
                 req.setAttribute("participations", playerService.getParticipationOfPlayer(player));
                 req.setAttribute("player", player);
                 getServletContext().getRequestDispatcher("/player.jsp").forward(req, resp);
+                return;
             } catch (NumberFormatException ignored) { }
         }
         req.setAttribute("players", playerService.getAll());

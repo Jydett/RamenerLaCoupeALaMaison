@@ -71,10 +71,10 @@ public class PlayerEditController extends HttpServlet {
                         long id = FormUtils.getRequiredLong(idParameter, null);
                         playerService.delete(playerService.getPlayer(id));
                         resp.sendRedirect("players");
-                        return;
                     } catch (InvalidFormException e) {
                         resp.sendRedirect("players");
                     }
+                    return;
                 }
                 case "createOrUpdate": {
                     try {
@@ -83,9 +83,8 @@ public class PlayerEditController extends HttpServlet {
                     } catch (InvalidFormException | ServiceException e) {
                         req.setAttribute("error", e.getMessage());
                         forwardToPlayerEdit(req, resp);
-                        return;
                     }
-                    break;
+                    return;
                 }
             }
         }

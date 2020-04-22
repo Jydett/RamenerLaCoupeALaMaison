@@ -33,9 +33,9 @@ public class ClubController extends HttpServlet {
                 Long id = Long.parseLong(parameter);
                 Club club = clubService.getClub(id);
                 //prevent lazy loading
-                club.getPlayers();
                 req.setAttribute("club", club);
                 getServletContext().getRequestDispatcher("/club.jsp").forward(req, resp);
+                return;
             } catch (NumberFormatException ignored) { }
         }
         req.setAttribute("clubs", clubService.getAll());

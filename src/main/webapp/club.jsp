@@ -16,9 +16,14 @@
         <div>Pays: ${club.country.name} ${club.country.icon}</div>
         <div>Joueurs: </div>
         <ul>
-            <c:forEach items="${club.players}" var="player">
-                <li><a title="Détail de ce joueur" href="players?id=${player.id}">${player.name}</a> ${player.role}</li>
-            </c:forEach>
+            <c:choose>
+                <c:when test="${empty club.players}"><li>Aucun joueur !</li></c:when>
+                <c:otherwise>
+                    <c:forEach items="${club.players}" var="player">
+                        <li><a title="Détail de ce joueur" href="players?id=${player.id}">${player.name}</a> ${player.role}</li>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
         </ul>
     </c:when>
     <c:otherwise>

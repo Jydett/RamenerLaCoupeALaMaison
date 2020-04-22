@@ -19,7 +19,7 @@ import java.util.Locale;
 @Table(name = "matchfoot")
 public class Match implements Identifiable<Long> {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String city;

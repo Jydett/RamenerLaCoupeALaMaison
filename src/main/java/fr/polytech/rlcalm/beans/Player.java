@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Data
 @Entity
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Player implements Identifiable<Long> {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -25,4 +26,12 @@ public class Player implements Identifiable<Long> {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return Objects.equals(id, player.id);
+    }
 }

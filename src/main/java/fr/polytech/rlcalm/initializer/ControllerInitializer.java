@@ -30,6 +30,8 @@ import org.hibernate.cfg.Configuration;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 @WebListener
@@ -55,11 +57,11 @@ public class ControllerInitializer implements ServletContextListener {
         CountryDao countryDao = null;
         UserDao userDao = null;
         ParticipationDao participationDao = null;
+        Session hibernateSession = null;
         switch (INITIALIZER_TYPE) {
             case MYSQL: {
                 configuration = new Configuration().configure();
-                Session hibernateSession = configuration.buildSessionFactory().openSession();
-
+                hibernateSession = configuration.buildSessionFactory().openSession();
                 matchDao = new HibernateMatchDao(hibernateSession);
                 playerDao = new HibernatePlayerDao(hibernateSession);
                 clubDao = new HibernateClubDao(hibernateSession);
@@ -99,21 +101,30 @@ public class ControllerInitializer implements ServletContextListener {
         }
         Club lldb = null, lfds = null, lodr = null;
         if (clubDao.isEmpty()) {
-            clubDao.save(lldb = new Club(null, "Les lions de Berlin", all, null));
-            clubDao.save(lfds = new Club(null, "Les fou du stade", fr, null));
-            clubDao.save(lodr = new Club(null, "Les ours de Russie",  ru, null));
-            clubDao.save(new Club(null, "Espagne", es, null));
-            clubDao.save(new Club(null, "Italie", it, null));
+            clubDao.save(lldb = new Club("Les lions de Berlin", all));
+            clubDao.save(lfds = new Club("Les fou du stade", fr));
+            clubDao.save(lodr = new Club("Les ours de Russie",  ru));
+            clubDao.save(new Club("Espagne", es));
+            clubDao.save(new Club("Italie", it));
         }
-        Player zizou = null, messi = null, bonk = null;
+        Player zizou = null, messi = null, bonk = null, ronaldo = null;
         if (playerDao.isEmpty()) {
-            playerDao.save(new Player(null, "Ronaldo", 0, lldb, Role.Central));
+            playerDao.save(ronaldo = new Player(null, "Ronaldo", 0, lldb, Role.Central));
             playerDao.save(zizou = new Player(null, "Zizou", 3, lldb, Role.AttackingMidfielder));
             playerDao.save(messi = new Player(null, "Messi", 2, lldb, Role.CenterBack));
-            playerDao.save(new Player(null, "Mbappé", 9, lfds, Role.Goalkeeper));
-            playerDao.save(new Player(null, "Zlatan", 6, lfds, Role.Striker));
-            playerDao.save(new Player(null, "Naymar", 5, lfds, Role.LeftMidfielder));
+            lldb.setPlayers(new ArrayList<>(Arrays.asList(ronaldo, zizou, messi)));
+            clubDao.save(lldb);
+
+            Player p1, p2, p3;
+            playerDao.save(p1 = new Player(null, "Mbappé", 9, lfds, Role.Goalkeeper));
+            playerDao.save(p2 = new Player(null, "Zlatan", 6, lfds, Role.Striker));
+            playerDao.save(p3 = new Player(null, "Naymar", 5, lfds, Role.LeftMidfielder));
+            lfds.setPlayers(new ArrayList<>(Arrays.asList(p1, p2, p3)));
+            clubDao.save(lfds);
+
             playerDao.save(bonk = new Player(null, "Bолк", 5, lodr, Role.LeftMidfielder));
+            lodr.setPlayers(new ArrayList<>(Collections.singletonList(bonk)));
+            clubDao.save(lodr);
         }
         clubDao.save(lldb);
         clubDao.save(lfds);

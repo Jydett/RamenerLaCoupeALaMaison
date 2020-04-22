@@ -36,7 +36,8 @@ public class MatchService {
 
     public void update(MatchUpdateForm form) {
         Match match;
-        if (form.getId() == null) {
+        boolean isCreateOperation = form.getId() == null;
+        if (isCreateOperation) {
             match = new Match();
         } else {
             match = dao.findById(form.getId()).orElseThrow(() -> new ServiceException("Impossible de trouver ce match !"));
@@ -50,7 +51,7 @@ public class MatchService {
         }
         Club player1 = clubDao.findById(form.getPlayerId1()).orElseThrow(() -> new ServiceException("Impossible de trouver la première équipe"));
         Club player2 = clubDao.findById(form.getPlayerId2()).orElseThrow(() -> new ServiceException("Impossible de trouver la première équipe"));
-        if (form.getId() == null) {
+        if (isCreateOperation) {
             match.setPlayer2(player2);
             match.setPlayer1(player1);
         } else {
@@ -104,33 +105,9 @@ public class MatchService {
     }
 
     public void updateParticipation(Match m, ParticipationUpdateForm form) {
-        Integer score1 = 0;
-        Integer score2 = 0;
-        //TODO remove
         Map<Long, Integer> scoreByPlayers = form.getScoreByPlayers();
-        List<Participation> participations = getParticipationsOfPlayer1OnMatch(m);
-        for (Participation participation : participations) {
-            Integer newScore = scoreByPlayers.get(participation.getPlayer().getId());
-            participation.setGoals(newScore);
-            if (newScore != 0) {
-                score1 = score1 + newScore;
-                participationDao.save(participation);
-            } else {
-                participationDao.remove(participation);
-            }
-        }
-
-        participations = getParticipationsOfPlayer2OnMatch(m);
-        for (Participation participation : participations) {
-            Integer newScore = scoreByPlayers.get(participation.getPlayer().getId());
-            participation.setGoals(newScore);
-            if (newScore != 0) {
-                score2 = score2 + newScore;
-                participationDao.save(participation);
-            } else {
-                participationDao.remove(participation);
-            }
-        }
+        Integer score1 = getInteger(scoreByPlayers, getParticipationsOfPlayer1OnMatch(m));
+        Integer score2 = getInteger(scoreByPlayers, getParticipationsOfPlayer2OnMatch(m));
 
         MatchResult result = m.getResult();
         if (result == null) {
@@ -141,5 +118,20 @@ public class MatchService {
             result.setScore2(score2);
         }
         dao.save(m);
+    }
+
+    private Integer getInteger(Map<Long, Integer> scoreByPlayers, List<Participation> participations) {
+        int score = 0;
+        for (Participation participation : participations) {
+            Integer newScore = scoreByPlayers.get(participation.getPlayer().getId());
+            participation.setGoals(newScore);
+            if (newScore != 0) {
+                score = score + newScore;
+                participationDao.save(participation);
+            } else {
+                participationDao.remove(participation);
+            }
+        }
+        return score;
     }
 }
