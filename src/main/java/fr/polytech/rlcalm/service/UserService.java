@@ -14,7 +14,7 @@ import java.util.Optional;
 public class UserService {
     public UserDao userDao;
 
-    public User authenticate(String login, String password) throws ServiceException {
+    public User authenticate(String login, String password) throws ServiceException, InvalidFormException {
         if (FormUtils.isNullOrEmpty(login) || FormUtils.isNullOrEmpty(password)) {
             throw new InvalidFormException("Un login et un mot de passe sont requis");
         }
