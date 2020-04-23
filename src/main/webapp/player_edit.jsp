@@ -29,7 +29,7 @@
     </c:if>
     <form action="matchEdit" method="post">
         <input type="hidden" name="id" value="${player.id}"/>
-        <div><label for="name">Nom : </label><input id="name" name="name" value="${player.name}"/></div>
+        <div><label for="name">Nom : </label><input id="name" name="name" value="${player.name}" required/></div>
         <div><label for="media-rating">Score des média :</label><input type="number" min="0" max="20" id="media-rating" name="mediaRating" value="${player.mediaRating}"/></div>
         <jsp:useBean id="clubs" scope="request" type="java.util.List"/>
         <div>Club : <span class="custom-select-wrapper">
@@ -51,6 +51,7 @@
                 <option value="${value}">${value.role}</option>
             </c:forEach>
         </select></div>
+        <br>
         <c:if test="${userConnect}">
             <span>
                 <input type="submit" formaction="playerEdit?action=createOrUpdate" value="Enregistrer les changements"/>

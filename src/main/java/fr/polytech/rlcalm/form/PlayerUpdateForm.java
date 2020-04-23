@@ -25,7 +25,10 @@ public class PlayerUpdateForm {
 
     public static PlayerUpdateForm fromRequest(HttpServletRequest req) {
         Long idParam = FormUtils.getLongForId(req.getParameter("id"), "Ce joueur n'est pas valide");
-        String name = FormUtils.notNull(req.getParameter("name"), "Il faut saisir le nom du joueur");
+        String name = req.getParameter("name");
+        if (FormUtils.isNullOrEmpty(name)) {
+            throw new InvalidFormException("Il faut saisir le nom du joueur");
+        }
         Integer mediaRating = FormUtils.getInt(req.getParameter("mediaRating"), "La note des médias n'est pas valide");
         Long clubId = FormUtils.getLong(req.getParameter("clubId"), "Ce club n'est pas valide");
         String roleParam = req.getParameter("role");

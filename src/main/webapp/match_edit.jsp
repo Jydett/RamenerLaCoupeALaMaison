@@ -68,7 +68,7 @@
                 <div class="custom-select-wrapper">
                     <div class="custom-select">
                         <input type="hidden" name="player2" class="form-input" value="">
-                        <div class="custom-select__trigger"><span>Select a team</span>
+                        <div class="custom-select__trigger"><span>Choisir une équipe</span>
                             <div class="arrow"></div>
                         </div>
                         <div class="custom-options">
@@ -84,6 +84,7 @@
                     </a>
                 </c:if>
             </div>
+            <br>
             <c:if test="${userConnect}">
                 <span>
                 <input type="submit" formaction="matchEdit?action=createOrUpdate" value="Enregistrer les changement"/>
