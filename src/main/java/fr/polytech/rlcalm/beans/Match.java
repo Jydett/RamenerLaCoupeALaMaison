@@ -50,16 +50,18 @@ public class Match implements Identifiable<Long> {
     }
 
     public String getStringView() {
+        String player1Link = "<a href=\"clubs?id=" + player1.getId() + "\" title=\"Voir cette équipe\">" + player1.getName() + "</a>";
+        String player2Link = "<a href=\"clubs?id=" + player2.getId() + "\" title=\"Voir cette équipe\">" + player2.getName() + "</a>";
         if (result == null) {
-            return player1.getName() + player1.getCountry().getIcon() + " - " + player2.getCountry().getIcon() + player2.getName();
+            return player1Link + player1.getCountry().getIcon() + " - " + player2.getCountry().getIcon() + player2Link;
         } else {
             if (result.getScore1().equals(result.getScore2())) {
-                return "<span class='tie'>" + player1.getName() + " " + player1.getCountry().getIcon() + result.getScore1() + "</span> - <span class='tie'>" + result.getScore2() + player2.getCountry().getIcon() + " " + player2.getName() + "</span>";
+                return "<span class='tie'>" + player1Link + " " + player1.getCountry().getIcon() + result.getScore1() + "</span> - <span class='tie'>" + result.getScore2() + player2.getCountry().getIcon() + " " + player2Link + "</span>";
             } else
             if (result.getScore1() > result.getScore2()) {
-                return "<span class='winner'>" + player1.getName() + " " + player1.getCountry().getIcon() + result.getScore1() + "</span> - <span class='looser'>" + result.getScore2() + player2.getCountry().getIcon() + " " + player2.getName() + "</span>";
+                return "<span class='winner'>" + player1Link + " " + player1.getCountry().getIcon() + result.getScore1() + "</span> - <span class='looser'>" + result.getScore2() + player2.getCountry().getIcon() + " " + player2Link + "</span>";
             } else {
-                return "<span class='looser'>" + player1.getName() + " " + player1.getCountry().getIcon() + result.getScore1() + "</span> - <span class='winner'>" + result.getScore2() + player2.getCountry().getIcon() + " " + player2.getName() + "</span>";
+                return "<span class='looser'>" + player1Link + " " + player1.getCountry().getIcon() + result.getScore1() + "</span> - <span class='winner'>" + result.getScore2() + player2.getCountry().getIcon() + " " + player2Link + "</span>";
             }
         }
     }

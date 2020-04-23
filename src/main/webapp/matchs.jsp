@@ -22,7 +22,6 @@
                 </c:choose></div>
                 <div>&nbsp;&nbsp;&nbsp;&nbsp;${match.stringView}<br></div>
                 <div>&nbsp;&nbsp;&nbsp;&nbsp;<i>${match.stadium}, ${match.city}</i></div>
-                <!-- TODO perm -->
                 <c:if test="${userConnect}">
                     <button onclick="window.location='matchEdit?id=${match.id}'">Editer</button>
                     <button onclick="window.location='matchScoreEdit?id=${match.id}'">Modifier le score</button>

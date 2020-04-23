@@ -28,7 +28,7 @@
             <div>Pas de résultats !</div>
         </c:if>
         <c:forEach items="${requestScope.results}" var="tour">
-            <div><span>${tour.year} -- ${tour.club.name} : ${tour.placement}</span>
+            <div><span>${tour.year} -- <a href="clubs?id=${tour.club.id}" title="Voir cette équipe">${tour.club.name}</a> : ${tour.placement}</span>
                 <c:if test="${tour.placement <= 3}">
                     <img src="medal-solid.svg" class="cup_filter_${tour.placement} cup"/>
                 </c:if></div>

@@ -35,7 +35,7 @@
                     <div>Pas d'historique dans les tournois précédents</div>
                 </c:if>
                 <c:forEach items="${requestScope.palmares}" var="tour">
-                    <div><span>${tour.year} -- Classement : ${tour.placement}</span>
+                    <div><span><a href="results?year=${tour.year}" title="Voir le classement">${tour.year} -- Classement : ${tour.placement}</a></span>
                         <c:if test="${tour.placement <= 3}">
                             <img src="medal-solid.svg" class="cup_filter_${tour.placement} cup"/>
                         </c:if></div>
@@ -47,8 +47,8 @@
                 Ce club n'existe pas !
             </c:otherwise>
         </c:choose>
-
         <c:if test="${userConnect}">
+            <br>
             <button onclick="window.location='clubEdit?id=${club.id}';">Modifier ce club</button>
             <form method="post" style="display: inline-block;">
                 <input type="submit" formaction="clubEdit?action=delete&id=${club.id}" value="Supprimer ce club">

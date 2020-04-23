@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @NoArgsConstructor
 @Entity
@@ -44,5 +45,17 @@ public class TournamentResult implements Identifiable<Long> {
     //TODO
     private String getPersistentName(Club club) {
         return club.getName() + club.getCountry().getIcon();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        return Objects.equals(id, ((Identifiable<Long>) o).getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

@@ -39,10 +39,14 @@ public class PlayerService {
             throw new ServiceException("La note des média ne respecte pas les bornes (elle doit être en 0 et 20)");
         }
 
-        if (! isCreateOperation && ! form.getClubId().equals(player.getClub().getId())) {
-            player.getClub().removePlayer(player);
+        if (isCreateOperation) {
+            c.addPlayer(player);
+        } else {
+            if (! form.getClubId().equals(player.getClub().getId())) {
+                player.getClub().removePlayer(player);
+                c.addPlayer(player);
+            }
         }
-        c.addPlayer(player);
         player.setMediaRating(mediaRating);
         player.setRole(form.getRole());
         player.setName(form.getName());
