@@ -6,6 +6,7 @@ import fr.polytech.rlcalm.exception.ServiceException;
 import fr.polytech.rlcalm.form.ParticipationUpdateForm;
 import fr.polytech.rlcalm.initializer.ControllerInitializer;
 import fr.polytech.rlcalm.service.MatchService;
+import fr.polytech.rlcalm.utils.Constants;
 import fr.polytech.rlcalm.utils.FormUtils;
 
 import javax.servlet.ServletException;
@@ -16,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(
-        name = "MatchScoreEditController",
-        urlPatterns = "/matchScoreEdit"
+    name = "MatchScoreEditController",
+    urlPatterns = "/matchScoreEdit"
 )
 public class MatchScoreEditController extends HttpServlet {//TODO auth filter
 
@@ -59,24 +60,24 @@ public class MatchScoreEditController extends HttpServlet {//TODO auth filter
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getParameter("action");
+        String action = req.getParameter(Constants.ACTION_KEY);
         if (action != null) {
             try {
                 long id = FormUtils.getRequiredLong(req.getParameter("matchId"), null);
                 Match match = matchService.getMatch(id);
                 if (match != null) {
                     switch (action) {
-                        case "delete": {
+                        case Constants.DELETE: {
                             matchService.removeScoring(match);
                             resp.sendRedirect("matches");
                             return;
                         }
-                        case "update": {
+                        case Constants.UPDATE: {
                             try {
                                 matchService.updateParticipation(match, ParticipationUpdateForm.formRequest(req));
                                 resp.sendRedirect("matches");
                             } catch (InvalidFormException | ServiceException e) {
-                                req.setAttribute("error", e.getMessage());
+                                req.setAttribute(Constants.ERROR_KEY, e.getMessage());
                                 forwardToMatchEdit(req, resp);
                             }
                             return;

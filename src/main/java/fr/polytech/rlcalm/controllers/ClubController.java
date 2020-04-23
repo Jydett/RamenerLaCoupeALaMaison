@@ -33,7 +33,6 @@ public class ClubController extends HttpServlet {
             try {
                 Long id = Long.parseLong(parameter);
                 Club club = clubService.getClub(id);
-                //prevent lazy loading
                 req.setAttribute("club", club);
                 req.setAttribute("participations", clubService.getParticipationClub(id));
                 req.setAttribute("plannified", clubService.getNumberOfPlannifiedMatch(id));

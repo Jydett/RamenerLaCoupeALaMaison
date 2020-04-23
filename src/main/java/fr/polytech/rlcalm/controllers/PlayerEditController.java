@@ -7,6 +7,7 @@ import fr.polytech.rlcalm.form.PlayerUpdateForm;
 import fr.polytech.rlcalm.initializer.ControllerInitializer;
 import fr.polytech.rlcalm.service.ClubService;
 import fr.polytech.rlcalm.service.PlayerService;
+import fr.polytech.rlcalm.utils.Constants;
 import fr.polytech.rlcalm.utils.FormUtils;
 
 import javax.servlet.ServletException;
@@ -18,8 +19,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @WebServlet(
-        urlPatterns = "/playerEdit",
-        name = "PlayerEditController"
+    urlPatterns = "/playerEdit",
+    name = "PlayerEditController"
 )
 public class PlayerEditController extends HttpServlet {
 
@@ -63,10 +64,10 @@ public class PlayerEditController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String idParameter = req.getParameter("id");
-        String action = req.getParameter("action");
+        String action = req.getParameter(Constants.ACTION_KEY);
         if (action != null) {
             switch (action) {
-                case "delete": {
+                case Constants.DELETE: {
                     try {
                         long id = FormUtils.getRequiredLong(idParameter, null);
                         playerService.delete(playerService.getPlayer(id));
@@ -76,12 +77,12 @@ public class PlayerEditController extends HttpServlet {
                     }
                     return;
                 }
-                case "createOrUpdate": {
+                case Constants.CREATE_OR_UPDATE: {
                     try {
                         playerService.update(PlayerUpdateForm.fromRequest(req));
                         resp.sendRedirect("players" + (idParameter == null ? "" : "?id=" + idParameter));
                     } catch (InvalidFormException | ServiceException e) {
-                        req.setAttribute("error", e.getMessage());
+                        req.setAttribute(Constants.ERROR_KEY, e.getMessage());
                         forwardToPlayerEdit(req, resp);
                     }
                     return;

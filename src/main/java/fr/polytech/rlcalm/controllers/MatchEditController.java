@@ -7,6 +7,7 @@ import fr.polytech.rlcalm.form.MatchUpdateForm;
 import fr.polytech.rlcalm.initializer.ControllerInitializer;
 import fr.polytech.rlcalm.service.ClubService;
 import fr.polytech.rlcalm.service.MatchService;
+import fr.polytech.rlcalm.utils.Constants;
 import fr.polytech.rlcalm.utils.FormUtils;
 
 import javax.servlet.ServletException;
@@ -18,8 +19,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @WebServlet(
-        name = "MatchEditController",
-        urlPatterns = "/matchEdit"
+    name = "MatchEditController",
+    urlPatterns = "/matchEdit"
 )
 public class MatchEditController extends HttpServlet {//TODO auth filter
 
@@ -67,10 +68,10 @@ public class MatchEditController extends HttpServlet {//TODO auth filter
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getParameter("action");
+        String action = req.getParameter(Constants.ACTION_KEY);
         if (action != null) {
             switch (action) {
-                case "delete": {
+                case Constants.DELETE: {
                     try {
                         long id = FormUtils.getRequiredLong(req.getParameter("id"), null);
                         matchService.delete(matchService.getMatch(id));
@@ -80,12 +81,12 @@ public class MatchEditController extends HttpServlet {//TODO auth filter
                     }
                     return;
                 }
-                case "createOrUpdate": {
+                case Constants.CREATE_OR_UPDATE: {
                     try {
                         matchService.update(MatchUpdateForm.fromRequest(req));
                         resp.sendRedirect("matches");
                     } catch (InvalidFormException | ServiceException e) {
-                        req.setAttribute("error", e.getMessage());
+                        req.setAttribute(Constants.ERROR_KEY, e.getMessage());
                         forwardToMatchEdit(req, resp);
                     }
                     return;

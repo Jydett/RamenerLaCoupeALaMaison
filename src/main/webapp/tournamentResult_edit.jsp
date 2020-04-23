@@ -20,8 +20,6 @@
         <c:set var="hasError" value="${not empty requestScope.error}"/>
 
         <c:if test="${hasError}">
-            <!--TODO mauvaise variable-->
-            <c:set scope="request" var="edition" value="${requestScope.match ne null}"/>
             <div class="error">${requestScope.error}</div>
         </c:if>
 

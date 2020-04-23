@@ -2,6 +2,7 @@ package fr.polytech.rlcalm.controllers;
 
 import fr.polytech.rlcalm.initializer.ControllerInitializer;
 import fr.polytech.rlcalm.service.TournamentResultService;
+import fr.polytech.rlcalm.utils.Constants;
 import fr.polytech.rlcalm.utils.FormUtils;
 
 import javax.servlet.ServletException;
@@ -13,8 +14,8 @@ import java.io.IOException;
 import java.util.Objects;
 
 @WebServlet(
-        urlPatterns = "/results",
-        name = "TournamentResultController"
+    urlPatterns = "/results",
+    name = "TournamentResultController"
 )
 public class TournamentResultController extends HttpServlet {
 
@@ -32,36 +33,36 @@ public class TournamentResultController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getParameter("action");
+        String action = req.getParameter(Constants.ACTION_KEY);
         Integer year = null;
         try {
             if (! FormUtils.isNullOrEmpty(req.getParameter("year"))) {
                 year = FormUtils.getInt(req.getParameter("year"), null);
             }
         } catch (Exception e) {
-            req.setAttribute("error", "Veuillez saisir une année valide!");
+            req.setAttribute(Constants.ERROR_KEY, "Veuillez saisir une année valide!");
         }
 
         if ("delete".equals(action) || "update".equals(action)) {
             if (year == null) {
-                req.setAttribute("error", "Veuillez saisir une année !");
+                req.setAttribute(Constants.ERROR_KEY, "Veuillez saisir une année !");
             } else {
                 Object user = req.getSession().getAttribute("connected");
                 if (Objects.isNull(user)) {
-                    resp.sendRedirect("/index.jsp");
-                    return;
-                }
-                switch (action) {
-                    case "delete" : {
-                        tournamentResultService.deleteByYear(year);
-                        //after delete, we display all the results
-                        year = null;
-                        break;
-                    }
-                    case "update" : {
-                        req.setAttribute("tournamentResult", tournamentResultService.getByYear(year));
-                        req.getRequestDispatcher("/tournamentResult_edit.jsp").forward(req, resp);
-                        return;
+                    req.setAttribute(Constants.LOGIN_ERROR_KEY, "Vous devez être connecté pour faire cette action");
+                } else {
+                    switch (action) {
+                        case Constants.DELETE : {
+                            tournamentResultService.deleteByYear(year);
+                            //after delete, we display all the results
+                            year = null;
+                            break;
+                        }
+                        case Constants.UPDATE : {
+                            req.setAttribute("tournamentResult", tournamentResultService.getByYear(year));
+                            req.getRequestDispatcher("/tournamentResult_edit.jsp").forward(req, resp);
+                            return;
+                        }
                     }
                 }
             }

@@ -4,11 +4,11 @@
 
 <div>
     <style><%@include file="error.css"%></style>
+    <c:if test="${requestScope.loginError != null}">
+        <div class="error">${requestScope.loginError}</div>
+    </c:if>
     <c:choose>
         <c:when test="${empty sessionScope.connected}">
-            <c:if test="${requestScope.loginError != null}">
-                <div class="error">${requestScope.loginError}</div>
-            </c:if>
             <a href="index.jsp" style="display: inline">Menu</a>&nbsp&nbsp
             <form method="post" action="${pageContext.request.contextPath}/libraryLogin" style="display: inline">
                 <label for="username">Nom d'utilisateur: </label><input type="text" name="username" id="username" value="admin"/>

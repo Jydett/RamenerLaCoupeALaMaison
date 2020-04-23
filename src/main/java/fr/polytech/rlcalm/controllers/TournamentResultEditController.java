@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(
-        urlPatterns = "/resultsEdit",
-        name = "TournamentResultEditController"
+    urlPatterns = "/resultsEdit",
+    name = "TournamentResultEditController"
 )
 public class TournamentResultEditController extends HttpServlet {
 
@@ -25,7 +25,7 @@ public class TournamentResultEditController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String[] orders = req.getParameterValues("order");
         tournamentResultService.updateOrder(orders);
         resp.sendRedirect("results");

@@ -1,5 +1,7 @@
 package fr.polytech.rlcalm.controllers;
 
+import fr.polytech.rlcalm.utils.Constants;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -8,8 +10,8 @@ import java.io.IOException;
 import java.util.Objects;
 
 @WebFilter(
-        filterName = "PrivateFilter",
-        servletNames = {"MatchEditController", "PlayerEditController", "MatchScoreEditController"}
+    filterName = "PrivateFilter",
+    servletNames = {"MatchEditController", "PlayerEditController", "MatchScoreEditController"}
 )
 public class PrivateFilter implements Filter {
     @Override
@@ -19,7 +21,8 @@ public class PrivateFilter implements Filter {
 
         Object user = req.getSession().getAttribute("connected");
         if (Objects.isNull(user)) {
-            res.sendRedirect("/index.jsp");
+            req.setAttribute(Constants.LOGIN_ERROR_KEY, "Vous devez être connecté pour acceder à cette page");
+            req.getRequestDispatcher("index.jsp").forward(req, res);
         } else {
             filterChain.doFilter(request, response);
         }

@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(
-        urlPatterns = "/players",
-        name = "PlayerServlet"
+    urlPatterns = "/players",
+    name = "PlayerServlet"
 )
 public class PlayerController extends HttpServlet {
 
