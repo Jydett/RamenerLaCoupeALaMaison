@@ -25,7 +25,10 @@
                             </c:forEach>
                         </c:otherwise>
                     </c:choose>
-                </ul>
+                </ul><!-- TODO -->
+                <h3 style="color: red">Nombre de victoire</h3>
+                <h3 style="color: red">Nombre de nombre de participations</h3>
+                <h3 style="color: red">Classement dans les éditions précédente</h3>
             </c:when>
             <c:otherwise>
                 <h2>Détail du club</h2>
