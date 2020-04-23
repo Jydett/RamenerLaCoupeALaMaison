@@ -4,6 +4,7 @@
     <head>
         <title>Club</title>
         <link rel="stylesheet" href="flags.css">
+        <link rel="stylesheet" href="medals.css">
     </head>
     <body>
         <jsp:include page="login.jsp"/>
@@ -21,14 +22,21 @@
                         <c:when test="${empty club.players}"><li>Aucun joueur !</li></c:when>
                         <c:otherwise>
                             <c:forEach items="${club.players}" var="player">
-                                <li><a title="Détail de ce joueur" href="players?id=${player.id}">${player.name}</a> ${player.role}</li>
+                                <li><a title="Détail de ce joueur" href="players?id=${player.id}">${player.name}</a> ${player.role.role}</li>
                             </c:forEach>
                         </c:otherwise>
                     </c:choose>
-                </ul><!-- TODO -->
-                <h3 style="color: red">Nombre de victoire</h3>
-                <h3 style="color: red">Nombre de nombre de participations</h3>
-                <h3 style="color: red">Classement dans les éditions précédente</h3>
+                </ul>
+                <div>Nombre de victoire : ${requestScope.victories}</div>
+                <div>Nombre de participations : ${requestScope.participations}</div>
+                <h3>Classement dans les éditions précédente :</h3>
+                <c:forEach items="${requestScope.palmares}" var="tour">
+                    <div><span>${tour.year} -- Classement : ${tour.placement}</span>
+                        <c:if test="${tour.placement <= 3}">
+                            <img src="medal-solid.svg" class="cup_filter_${tour.placement} cup"/>
+                        </c:if></div>
+                </c:forEach>
+
             </c:when>
             <c:otherwise>
                 <h2>Détail du club</h2>

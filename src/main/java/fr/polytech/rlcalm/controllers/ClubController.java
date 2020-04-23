@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet(
         urlPatterns = "/clubs",
@@ -34,6 +35,9 @@ public class ClubController extends HttpServlet {
                 Club club = clubService.getClub(id);
                 //prevent lazy loading
                 req.setAttribute("club", club);
+                req.setAttribute("participations", clubService.getParticipationClub(id));
+                req.setAttribute("victories", clubService.getNumberOfVictoryClub(id));
+                req.setAttribute("palmares", new ArrayList<>(clubService.getPalmaresClub(club)));
                 getServletContext().getRequestDispatcher("/club.jsp").forward(req, resp);
                 return;
             } catch (NumberFormatException ignored) { }

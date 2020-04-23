@@ -2,18 +2,22 @@ package fr.polytech.rlcalm.service;
 
 import fr.polytech.rlcalm.beans.Club;
 import fr.polytech.rlcalm.beans.Country;
+import fr.polytech.rlcalm.beans.TournamentResult;
 import fr.polytech.rlcalm.dao.club.ClubDao;
 import fr.polytech.rlcalm.dao.country.CountryDao;
+import fr.polytech.rlcalm.dao.tournamentresult.TournamentResultDao;
 import fr.polytech.rlcalm.exception.ServiceException;
 import fr.polytech.rlcalm.form.ClubUpdateForm;
 import lombok.AllArgsConstructor;
 
 import java.util.Collection;
+import java.util.List;
 
 @AllArgsConstructor
 public class ClubService {
     private ClubDao clubDao;
     private CountryDao countryDao;
+    private TournamentResultDao tournamentResultDao;
 
     public Club getClub(Long id) {
         return clubDao.findById(id).orElse(null);
@@ -41,5 +45,17 @@ public class ClubService {
         club.setCountry(country);
         club.setName(form.getName());
         clubDao.save(club);
+    }
+
+    public int getParticipationClub(Long id) {
+        return clubDao.getNumberOfMatch(id);
+    }
+
+    public int getNumberOfVictoryClub(Long id){
+        return clubDao.getNumberOfVictory(id);
+    }
+
+    public List<TournamentResult> getPalmaresClub(Club club){
+        return tournamentResultDao.getPalmaresFromClub(club);
     }
 }
