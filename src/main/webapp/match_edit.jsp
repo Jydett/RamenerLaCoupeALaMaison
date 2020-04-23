@@ -84,18 +84,6 @@
                     </a>
                 </c:if>
             </div>
-            <div>
-                <label for="tournament">Tournois: </label>
-                <!-- TODO comment on fait pour le tournois ?-->
-                <c:choose>
-                    <c:when test="${match.tournament == null}">
-                        <input id="tournament" name="tournamentId" type="text" value="" disabled>
-                    </c:when>
-                    <c:otherwise>
-                        <input id="tournament" name="tournamentId" type="text" value="${match.tournament.id}" disabled>
-                    </c:otherwise>
-                </c:choose>
-            </div>
             <c:if test="${userConnect}">
                 <span>
                 <input type="submit" formaction="matchEdit?action=createOrUpdate" value="Enregistrer les changement"/>
