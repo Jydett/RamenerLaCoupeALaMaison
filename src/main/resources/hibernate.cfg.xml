@@ -20,7 +20,6 @@
         <mapping class="fr.polytech.rlcalm.beans.Match"/>
         <mapping class="fr.polytech.rlcalm.beans.Role"/>
         <mapping class="fr.polytech.rlcalm.beans.TournamentResult"/>
-        <mapping class="fr.polytech.rlcalm.beans.Tournament"/>
         <mapping class="fr.polytech.rlcalm.beans.Club"/>
         <mapping class="fr.polytech.rlcalm.beans.Country"/>
         <mapping class="fr.polytech.rlcalm.beans.MatchResult"/>

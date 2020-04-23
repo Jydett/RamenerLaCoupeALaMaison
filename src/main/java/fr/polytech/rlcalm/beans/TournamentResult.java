@@ -30,6 +30,7 @@ public class TournamentResult implements Identifiable<Long> {
 
     private String persistentName;
 
+    @Setter
     private Integer placement;
 
     public TournamentResult(Club club, Integer year, Integer placement) {
@@ -40,6 +41,7 @@ public class TournamentResult implements Identifiable<Long> {
         this.persistentName = getPersistentName(club);
     }
 
+    //TODO
     private String getPersistentName(Club club) {
         return club.getName() + club.getCountry().getIcon();
     }

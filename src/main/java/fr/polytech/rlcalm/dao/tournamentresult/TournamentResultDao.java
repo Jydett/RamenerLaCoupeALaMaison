@@ -14,4 +14,6 @@ public interface TournamentResultDao {
     boolean isEmpty();
 
     Collection<TournamentResult> getAll();
+
+    List<TournamentResult> getByIdBatch(List<Long> ids);
 }

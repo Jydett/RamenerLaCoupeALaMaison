@@ -144,8 +144,8 @@ public class ControllerInitializer implements ServletContextListener {
         clubDao.save(lfds);
         Match france_allemagne = null, france_russie = null;
         if (matchDao.isEmpty()) {
-            matchDao.save(france_allemagne = new Match(null, "Paris", "Stade de France", Instant.now(), null, lldb, lfds, null));
-            matchDao.save(france_russie = new Match(null, "Berlin", "Wurst Stadion", Instant.now(), null, lfds, lodr, null));
+            matchDao.save(france_allemagne = new Match(null, "Paris", "Stade de France", Instant.now(), lldb, lfds, null));
+            matchDao.save(france_russie = new Match(null, "Berlin", "Wurst Stadion", Instant.now(), lfds, lodr, null));
         }
         if (participationDao.isEmpty()) {
             participationDao.save(new Participation(null, zizou, 3, france_allemagne));

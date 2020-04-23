@@ -9,10 +9,10 @@ import java.util.Collection;
 
 public abstract class HibernateDao<T> {
 
-    private final String className;
+    protected final String className;
     protected Session hibernateSession;
-    private Class<T> clazz;
-    private String tableName;
+    protected Class<T> clazz;
+    protected String tableName;
 
     public HibernateDao(Session hibernateSession, Class<T> clazz) {
         this.hibernateSession = hibernateSession;

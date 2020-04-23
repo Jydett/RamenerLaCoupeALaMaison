@@ -51,7 +51,7 @@
             </div>
             <c:if test="${userConnect}">
                 <span>
-                    <input type="submit" formaction="matchScoreEdit?action=update" value="Enregistrer les changements"/>
+                    <input type="submit" formaction="matchScoreEdit?action=update" value="Enregistrer les changements">
                     <input type="submit" formaction="matchScoreEdit?action=delete" value="Supprimer le score du match">
                 </span>
             </c:if>

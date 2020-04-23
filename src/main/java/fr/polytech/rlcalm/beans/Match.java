@@ -29,9 +29,6 @@ public class Match implements Identifiable<Long> {
     private Instant instant;
 
     @ManyToOne
-    private Tournament tournament;
-
-    @ManyToOne
     private Club player1;
 
     @ManyToOne
