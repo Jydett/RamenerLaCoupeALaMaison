@@ -32,6 +32,7 @@ public class HibernateTournamentResultDao extends HibernateDao<TournamentResult>
         return hibernateSession.byMultipleIds(TournamentResult.class).multiLoad(ids);
     }
 
+    @Override
     public List<TournamentResult> getPalmaresFromClub(Club clubId) {
         return hibernateSession.createQuery("select r From TournamentResult r where r.club.id = :clubId order by r.year desc", TournamentResult.class)
                 .setParameter("clubId", clubId)

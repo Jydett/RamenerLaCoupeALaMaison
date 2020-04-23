@@ -1,5 +1,6 @@
 package fr.polytech.rlcalm.dao.tournamentresult;
 
+import fr.polytech.rlcalm.beans.Club;
 import fr.polytech.rlcalm.beans.TournamentResult;
 
 import java.util.Collection;
@@ -16,4 +17,6 @@ public interface TournamentResultDao {
     Collection<TournamentResult> getAll();
 
     List<TournamentResult> getByIdBatch(List<Long> ids);
+
+    List<TournamentResult> getPalmaresFromClub(Club clubId);
 }
