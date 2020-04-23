@@ -19,7 +19,7 @@ public class ClubUpdateForm {
     private Integer countryId;
 
     public static ClubUpdateForm fromRequest(HttpServletRequest req) {
-        Long idParam = FormUtils.getLong(req.getParameter("id"), "Ce club n'est pas valide");
+        Long idParam = FormUtils.getLongForId(req.getParameter("id"), "Ce club n'est pas valide");
         String name = req.getParameter("name");
         if (FormUtils.isNullOrEmpty(name)) {
             throw new InvalidFormException("Il faut saisir le nom du club");

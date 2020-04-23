@@ -39,6 +39,17 @@ public class FormUtils {
         return null;
     }
 
+    public static Long getLongForId(String parameter, String error) {
+        if (! isNullOrEmpty(parameter)) {
+            try {
+                return Long.parseLong(parameter);
+            } catch (Exception ignored) {
+                throw new InvalidFormException(error);
+            }
+        }
+        return null;
+    }
+
     public static Long getRequiredLong(String parameter, String error) throws InvalidFormException {
         if (parameter != null) {
             try {
