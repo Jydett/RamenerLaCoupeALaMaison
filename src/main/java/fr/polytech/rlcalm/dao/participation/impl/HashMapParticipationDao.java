@@ -5,7 +5,6 @@ import fr.polytech.rlcalm.beans.Match;
 import fr.polytech.rlcalm.beans.Participation;
 import fr.polytech.rlcalm.beans.Player;
 import fr.polytech.rlcalm.dao.HashMapDao;
-import fr.polytech.rlcalm.dao.match.MatchDao;
 import fr.polytech.rlcalm.dao.participation.ParticipationDao;
 
 import java.util.List;

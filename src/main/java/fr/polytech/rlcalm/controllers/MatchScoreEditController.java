@@ -20,7 +20,7 @@ import java.io.IOException;
     name = "MatchScoreEditController",
     urlPatterns = "/matchScoreEdit"
 )
-public class MatchScoreEditController extends HttpServlet {//TODO auth filter
+public class MatchScoreEditController extends HttpServlet {
 
     private MatchService matchService;
 

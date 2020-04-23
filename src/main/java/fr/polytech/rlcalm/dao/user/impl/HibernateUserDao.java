@@ -4,9 +4,7 @@ import fr.polytech.rlcalm.beans.User;
 import fr.polytech.rlcalm.dao.HibernateDao;
 import fr.polytech.rlcalm.dao.user.UserDao;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
-import java.util.Collection;
 import java.util.Optional;
 
 public class HibernateUserDao extends HibernateDao<User> implements UserDao {

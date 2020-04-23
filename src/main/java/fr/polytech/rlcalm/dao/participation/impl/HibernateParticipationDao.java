@@ -5,14 +5,11 @@ import fr.polytech.rlcalm.beans.Match;
 import fr.polytech.rlcalm.beans.Participation;
 import fr.polytech.rlcalm.beans.Player;
 import fr.polytech.rlcalm.dao.HibernateDao;
-import fr.polytech.rlcalm.dao.match.MatchDao;
 import fr.polytech.rlcalm.dao.participation.ParticipationDao;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 public class HibernateParticipationDao extends HibernateDao<Participation> implements ParticipationDao {
 

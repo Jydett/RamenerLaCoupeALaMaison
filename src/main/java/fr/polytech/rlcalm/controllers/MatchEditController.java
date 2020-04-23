@@ -22,7 +22,7 @@ import java.util.ArrayList;
     name = "MatchEditController",
     urlPatterns = "/matchEdit"
 )
-public class MatchEditController extends HttpServlet {//TODO auth filter
+public class MatchEditController extends HttpServlet {
 
     private MatchService matchService;
     private ClubService clubService;
@@ -61,7 +61,6 @@ public class MatchEditController extends HttpServlet {//TODO auth filter
     }
 
     private void forwardToMatchEdit(HttpServletRequest req, HttpServletResponse resp, String requestParams) throws ServletException, IOException {
-        //TODO besoin de l'arrayList ?
         req.setAttribute("clubs", new ArrayList<>(clubService.getAll()));
         getServletContext().getRequestDispatcher("/match_edit.jsp" + (requestParams == null ? "" : requestParams)).forward(req, resp);
     }

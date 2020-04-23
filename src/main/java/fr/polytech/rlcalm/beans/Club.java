@@ -3,7 +3,6 @@ package fr.polytech.rlcalm.beans;
 import fr.polytech.rlcalm.dao.Identifiable;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.Generated;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode
 public class Club implements Identifiable<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

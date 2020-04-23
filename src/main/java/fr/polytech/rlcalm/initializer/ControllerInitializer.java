@@ -90,7 +90,7 @@ public class ControllerInitializer implements ServletContextListener {
         tournamentResultService = new TournamentResultService(tournamentResultDao);
         playerService = new PlayerService(playerDao, clubDao, participationDao);
         matchService = new MatchService(matchDao, clubDao, participationDao, playerDao);
-        clubService = new ClubService(clubDao, countryDao, tournamentResultDao);
+        clubService = new ClubService(clubDao, matchDao, countryDao, tournamentResultDao);
         userService = new UserService(userDao);
         countryService = new CountryService(countryDao);
         fillTables(playerDao, matchDao, clubDao, countryDao, userDao, participationDao, tournamentResultDao);

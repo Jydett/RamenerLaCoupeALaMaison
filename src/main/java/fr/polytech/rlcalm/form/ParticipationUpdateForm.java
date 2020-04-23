@@ -1,6 +1,5 @@
 package fr.polytech.rlcalm.form;
 
-import fr.polytech.rlcalm.exception.InvalidFormException;
 import fr.polytech.rlcalm.utils.FormUtils;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

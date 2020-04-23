@@ -14,18 +14,4 @@ public class HashMapClubDao extends HashMapDao<Long, Club> implements ClubDao {
         super(id::incrementAndGet);
     }
 
-    @Override
-    public int getNumberOfPlanifiedMatch(Long clubId) {
-        return 0;//TODO implémenter
-    }
-
-    @Override
-    public int getNumberOfDisputedMatch(Long clubId) {
-        return 0;//TODO implémenter
-    }
-
-    @Override
-    public int getNumberOfVictory(Long clubId) {
-        return 0;//TODO implémenter
-    }
 }

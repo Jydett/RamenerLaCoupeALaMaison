@@ -2,9 +2,7 @@ package fr.polytech.rlcalm.controllers;
 
 import fr.polytech.rlcalm.initializer.ControllerInitializer;
 import fr.polytech.rlcalm.service.TournamentResultService;
-import fr.polytech.rlcalm.utils.FormUtils;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
