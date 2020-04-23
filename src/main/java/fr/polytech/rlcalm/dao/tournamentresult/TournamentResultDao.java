@@ -19,4 +19,6 @@ public interface TournamentResultDao {
     List<TournamentResult> getByIdBatch(List<Long> ids);
 
     List<TournamentResult> getPalmaresFromClub(Club clubId);
+
+    void deleteByYear(Integer year);
 }

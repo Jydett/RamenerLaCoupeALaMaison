@@ -51,4 +51,8 @@ public class TournamentResultService {
             tournamentResultDao.save(value);
         }
     }
+
+    public void deleteByYear(Integer year) {
+        tournamentResultDao.deleteByYear(year);
+    }
 }

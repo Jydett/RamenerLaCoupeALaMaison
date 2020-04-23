@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 @WebServlet(
         urlPatterns = "/results",
@@ -25,30 +26,45 @@ public class TournamentResultController extends HttpServlet {
     }
 
     @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req, resp);//TODO pas tres propre
+    }
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         Integer year = null;
         try {
-            year = FormUtils.getInt(req.getParameter("year"), null);
-            if (action != null) {
-                if (year != null) {
-                    switch (action) {
-                        case "delete" : {
-                            return;
-                        }
-                        case "update" : {
-                            req.setAttribute("tournamentResult", tournamentResultService.getByYear(year));
-                            req.getRequestDispatcher("/tournamentResult_edit.jsp").forward(req, resp);
-                            return;
-                        }
-                        default:
-                    }
-                } else {
-                    req.setAttribute("error", "Veuillez saisir une année !");
-                }
+            if (! FormUtils.isNullOrEmpty(req.getParameter("year"))) {
+                year = FormUtils.getInt(req.getParameter("year"), null);
             }
         } catch (Exception e) {
             req.setAttribute("error", "Veuillez saisir une année valide!");
+        }
+
+        if ("delete".equals(action) || "update".equals(action)) {
+            if (year == null) {
+                req.setAttribute("error", "Veuillez saisir une année !");
+            } else {
+                Object user = req.getSession().getAttribute("connected");
+                if (Objects.isNull(user)) {
+                    resp.sendRedirect("/index.jsp");
+                    return;
+                }
+                switch (action) {
+                    case "delete" : {
+                        tournamentResultService.deleteByYear(year);
+                        //after delete, we display all the results
+                        year = null;
+                        break;
+                    }
+                    case "update" : {
+                        req.setAttribute("tournamentResult", tournamentResultService.getByYear(year));
+                        req.getRequestDispatcher("/tournamentResult_edit.jsp").forward(req, resp);
+                        return;
+                    }
+                }
+            }
         }
 
         forwartToTournamentResultSearch(year, req, resp);

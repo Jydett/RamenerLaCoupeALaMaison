@@ -5,6 +5,7 @@ import fr.polytech.rlcalm.beans.TournamentResult;
 import fr.polytech.rlcalm.dao.HibernateDao;
 import fr.polytech.rlcalm.dao.tournamentresult.TournamentResultDao;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.util.Collection;
 import java.util.List;
@@ -37,5 +38,14 @@ public class HibernateTournamentResultDao extends HibernateDao<TournamentResult>
         return hibernateSession.createQuery("select r From TournamentResult r where r.club.id = :clubId order by r.year desc", TournamentResult.class)
                 .setParameter("clubId", clubId)
                 .getResultList();
+    }
+
+    @Override
+    public void deleteByYear(Integer year) {
+        Transaction transaction = hibernateSession.beginTransaction();
+        hibernateSession.createQuery("delete From TournamentResult r where r.year = :year")
+                .setParameter("year", year)
+                .executeUpdate();
+        transaction.commit();
     }
 }

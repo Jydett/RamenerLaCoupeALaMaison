@@ -23,7 +23,7 @@ public class TournamentResult implements Identifiable<Long> {
     private Long id;
 
     //TODO si optionel double contrainte ?
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false)
     private Club club;
 
     private Integer year;

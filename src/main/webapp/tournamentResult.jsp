@@ -16,12 +16,17 @@
         </c:if>
 
         <form method="get" action="results">
-            <label for="year">Année : </label><input type="number" name="year" id="year" value="${param.year}">
+            <label for="year">Année : </label><input type="number" name="year" id="year" value="${param.year}" min="0" max="9999">
             <input type="submit" value="Rechercher">
-            <input type="submit" formmethod="post" formaction="results?action=update" value="Modifier le resultat">
-            <input type="submit" formmethod="post" formaction="results?action=delete" value="Supprimer le resultat">
+            <c:if test="${sessionScope.connected != null}">
+                <input type="submit" formmethod="post" formaction="results?action=update" value="Modifier le resultat">
+                <input type="submit" formmethod="post" formaction="results?action=delete" value="Supprimer le resultat">
+            </c:if>
         </form>
 
+        <c:if test="${empty requestScope.results}">
+            <div>Pas de résultats !</div>
+        </c:if>
         <c:forEach items="${requestScope.results}" var="tour">
             <div><span>${tour.year} -- ${tour.club.name} : ${tour.placement}</span>
                 <c:if test="${tour.placement <= 3}">
