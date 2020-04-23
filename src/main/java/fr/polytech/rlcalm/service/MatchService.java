@@ -11,7 +11,6 @@ import fr.polytech.rlcalm.form.ParticipationUpdateForm;
 import lombok.AllArgsConstructor;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public class MatchService {
@@ -79,23 +78,11 @@ public class MatchService {
     }
 
     private List<Participation> getParticipationsOfPlayersOfClubOnMatch(Match match, Club club) {
-        List<Participation> res = participationDao.getParticipationsOfClubOnMatch(club, match);
-        res.addAll(
-                Optional.ofNullable(club.getPlayers()).orElse(new ArrayList<>()).stream()
-                .filter(p -> res.stream().noneMatch(pp -> pp.getPlayer().getId().equals(p.getId())))
-                .map(p -> new Participation(null, p, 0, match))
-                .collect(Collectors.toList())
-        );
-        return res;
+        return participationDao.getParticipationsOfClubOnMatch(club, match);
     }
 
     public List<Participation> getParticipationsOfPlayer2OnMatch(Match match) {
         return getParticipationsOfPlayersOfClubOnMatch(match, match.getPlayer2());
-    }
-
-    public void addScoring(Match match) {
-        match.setResult(new MatchResult(0, 0));
-        dao.save(match);
     }
 
     public void removeScoring(Match match) {
@@ -106,8 +93,8 @@ public class MatchService {
 
     public void updateParticipation(Match m, ParticipationUpdateForm form) {
         Map<Long, Integer> scoreByPlayers = form.getScoreByPlayers();
-        Integer score1 = getInteger(scoreByPlayers, getParticipationsOfPlayer1OnMatch(m));
-        Integer score2 = getInteger(scoreByPlayers, getParticipationsOfPlayer2OnMatch(m));
+        Integer score1 = saveParticipationAndReturnScore(scoreByPlayers, getParticipationsOfPlayer1OnMatch(m));
+        Integer score2 = saveParticipationAndReturnScore(scoreByPlayers, getParticipationsOfPlayer2OnMatch(m));
 
         MatchResult result = m.getResult();
         if (result == null) {
@@ -120,17 +107,13 @@ public class MatchService {
         dao.save(m);
     }
 
-    private Integer getInteger(Map<Long, Integer> scoreByPlayers, List<Participation> participations) {
+    private Integer saveParticipationAndReturnScore(Map<Long, Integer> scoreByPlayers, List<Participation> participations) {
         int score = 0;
         for (Participation participation : participations) {
             Integer newScore = scoreByPlayers.get(participation.getPlayer().getId());
             participation.setGoals(newScore);
-            if (newScore != 0) {
-                score = score + newScore;
-                participationDao.save(participation);
-            } else {
-                participationDao.remove(participation);
-            }
+            score = score + newScore;
+            participationDao.save(participation);
         }
         return score;
     }

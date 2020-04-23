@@ -15,7 +15,12 @@ public class HashMapClubDao extends HashMapDao<Long, Club> implements ClubDao {
     }
 
     @Override
-    public int getNumberOfMatch(Long clubId) {
+    public int getNumberOfPlanifiedMatch(Long clubId) {
+        return 0;//TODO implémenter
+    }
+
+    @Override
+    public int getNumberOfDisputedMatch(Long clubId) {
         return 0;//TODO implémenter
     }
 

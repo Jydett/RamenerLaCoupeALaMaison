@@ -36,6 +36,7 @@ public class ClubController extends HttpServlet {
                 //prevent lazy loading
                 req.setAttribute("club", club);
                 req.setAttribute("participations", clubService.getParticipationClub(id));
+                req.setAttribute("plannified", clubService.getNumberOfPlannifiedMatch(id));
                 req.setAttribute("victories", clubService.getNumberOfVictoryClub(id));
                 req.setAttribute("palmares", new ArrayList<>(clubService.getPalmaresClub(club)));
                 getServletContext().getRequestDispatcher("/club.jsp").forward(req, resp);

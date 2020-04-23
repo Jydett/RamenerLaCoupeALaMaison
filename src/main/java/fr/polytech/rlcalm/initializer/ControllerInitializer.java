@@ -121,19 +121,23 @@ public class ControllerInitializer implements ServletContextListener {
             clubDao.save(new Club("Espagne", es));
             clubDao.save(new Club("Italie", it));
         }
-        Player zizou = null, messi = null, bonk = null, ronaldo = null;
+                //lodr
+        Player bonk = null,
+                //lfds
+                mbappe = null, zlatan = null, naymar = null,
+                //lldb
+                ronaldo = null, zizou = null, messi = null;
         if (playerDao.isEmpty()) {
             playerDao.save(ronaldo = new Player(null, "Ronaldo", 0, lldb, Role.Central));
             playerDao.save(zizou = new Player(null, "Zizou", 3, lldb, Role.AttackingMidfielder));
             playerDao.save(messi = new Player(null, "Messi", 2, lldb, Role.CenterBack));
             lldb.setPlayers(new ArrayList<>(Arrays.asList(ronaldo, zizou, messi)));
             clubDao.save(lldb);
-
-            Player p1, p2, p3;
-            playerDao.save(p1 = new Player(null, "Mbappé", 9, lfds, Role.Goalkeeper));
-            playerDao.save(p2 = new Player(null, "Zlatan", 6, lfds, Role.Striker));
-            playerDao.save(p3 = new Player(null, "Naymar", 5, lfds, Role.LeftMidfielder));
-            lfds.setPlayers(new ArrayList<>(Arrays.asList(p1, p2, p3)));
+            
+            playerDao.save(mbappe = new Player(null, "Mbappé", 9, lfds, Role.Goalkeeper));
+            playerDao.save(zlatan = new Player(null, "Zlatan", 6, lfds, Role.Striker));
+            playerDao.save(naymar = new Player(null, "Naymar", 5, lfds, Role.LeftMidfielder));
+            lfds.setPlayers(new ArrayList<>(Arrays.asList(mbappe, zlatan, naymar)));
             clubDao.save(lfds);
 
             playerDao.save(bonk = new Player(null, "Bолк", 5, lodr, Role.LeftMidfielder));
@@ -144,12 +148,19 @@ public class ControllerInitializer implements ServletContextListener {
         clubDao.save(lfds);
         Match france_allemagne = null, france_russie = null;
         if (matchDao.isEmpty()) {
-            matchDao.save(france_allemagne = new Match(null, "Paris", "Stade de France", Instant.now(), lldb, lfds, null));
+            matchDao.save(france_allemagne = new Match(null, "Paris", "Stade de France", Instant.now(), lfds, lldb, null));
             matchDao.save(france_russie = new Match(null, "Berlin", "Wurst Stadion", Instant.now(), lfds, lodr, null));
         }
         if (participationDao.isEmpty()) {
-            participationDao.save(new Participation(null, zizou, 3, france_allemagne));
-            france_allemagne.setResult(new MatchResult(3, 0));
+            //lfds
+            participationDao.save(new Participation(null, mbappe, 0, france_allemagne));
+            participationDao.save(new Participation(null, zlatan, 1, france_allemagne));
+            participationDao.save(new Participation(null, naymar, 2, france_allemagne));
+            //lldb
+            participationDao.save(new Participation(null, ronaldo, 0, france_allemagne));
+            participationDao.save(new Participation(null, zizou, 1, france_allemagne));
+            participationDao.save(new Participation(null, messi, 0, france_allemagne));
+            france_allemagne.setResult(new MatchResult(3, 1));
             matchDao.save(france_allemagne);
         }
         if (userDao.isEmpty()) {

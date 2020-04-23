@@ -48,7 +48,11 @@ public class ClubService {
     }
 
     public int getParticipationClub(Long id) {
-        return clubDao.getNumberOfMatch(id);
+        return clubDao.getNumberOfDisputedMatch(id);
+    }
+
+    public int getNumberOfPlannifiedMatch(Long id) {
+        return clubDao.getNumberOfPlanifiedMatch(id);
     }
 
     public int getNumberOfVictoryClub(Long id){

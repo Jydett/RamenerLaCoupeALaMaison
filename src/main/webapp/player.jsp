@@ -33,8 +33,6 @@
         <c:if test="${empty participations}">
             <div>Aucun but marqué !</div>
         </c:if>
-        <!-- TODO -->
-        <h3 style="color: red">Matchs joués -> matche de l'équipe</h3>
         <c:forEach items="${participations}" var="par">
             <div>${par.match.date}) ${par.goals} buts dans le match: &nbsp;${par.match.stringView}
             <c:if test="${userConnect}">&nbsp&nbsp<button onclick="window.location='matchScoreEdit?id=${par.match.id}'">Editer ce match</button></c:if>
@@ -42,7 +40,6 @@
         </c:forEach>
     </c:when>
     <c:otherwise>
-        <!-- TODO retour -->
         <h2>Détail du joueur:<br></h2>
         Ce joueur n'existe pas !
     </c:otherwise>

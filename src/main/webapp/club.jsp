@@ -27,9 +27,13 @@
                         </c:otherwise>
                     </c:choose>
                 </ul>
+                <div>Nombre de match joué : ${requestScope.participations}</div>
                 <div>Nombre de victoire : ${requestScope.victories}</div>
-                <div>Nombre de participations : ${requestScope.participations}</div>
+                <div>Nombre de match plannifié : ${requestScope.plannified}</div>
                 <h3>Classement dans les éditions précédente :</h3>
+                <c:if test="${empty requestScope.palmares}">
+                    <div>Pas d'historique dans les tournois précédents</div>
+                </c:if>
                 <c:forEach items="${requestScope.palmares}" var="tour">
                     <div><span>${tour.year} -- Classement : ${tour.placement}</span>
                         <c:if test="${tour.placement <= 3}">
