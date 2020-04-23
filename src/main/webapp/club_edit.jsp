@@ -31,7 +31,9 @@
         </c:if>
 
         <form action="clubEdit" method="post">
-            <input type="hidden" name="id" value="${club.id}"/>
+            <c:if test="${edition}">
+                <input type="hidden" name="id" value="${club.id}"/>
+            </c:if>
             <div><label for="name">Nom : </label><input id="name" name="name" value="${club.name}" required/></div> <!--TODO reprise de données si erreur-->
 
             <div>Pays : <span class="custom-select-wrapper">
@@ -48,7 +50,7 @@
                     </div>
                 </span>
             </div>
-
+            <br>
             <c:if test="${userConnect}">
                     <span>
                         <input type="submit" formaction="clubEdit?action=createOrUpdate" value="Enregistrer les changements"/>
