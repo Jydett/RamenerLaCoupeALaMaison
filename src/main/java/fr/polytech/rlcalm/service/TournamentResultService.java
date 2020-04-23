@@ -28,7 +28,7 @@ public class TournamentResultService {
 
     public void updateOrder(String[] orders) {
         List<Long> ids = Arrays.stream(orders)
-                .map(p -> FormUtils.getRequiredLong(p, "")).collect(Collectors.toList());
+                .map(p -> FormUtils.getRequiredLong(p, "L'id d'une des participations n'est pas valide !")).collect(Collectors.toList());
         Map<Long, TournamentResult> resultById = tournamentResultDao.getByIdBatch(ids).stream().collect(Collectors.toMap(TournamentResult::getId, Function.identity()));
         if (resultById.size() != ids.size()) {
             throw new ServiceException("Mauvaise taille !");
