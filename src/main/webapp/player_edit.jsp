@@ -48,12 +48,12 @@
         <div><label for="role">Role : </label><select id="role" name="role">
             <c:set var="allRoles" value="<%= Role.values() %>"/>
             <c:forEach items="${allRoles}" var="value">
-                <option name="${value}">${value.role}</option>
+                <option value="${value}">${value.role}</option>
             </c:forEach>
         </select></div>
         <c:if test="${userConnect}">
             <span>
-                <input type="submit" formaction="playerEdit?action=createOrUpdate" value="Enregistrer les changement"/>
+                <input type="submit" formaction="playerEdit?action=createOrUpdate" value="Enregistrer les changements"/>
                 <c:if test="${edition}">
                     <input type="submit" formaction="playerEdit?action=delete" value="Supprimer">
                 </c:if>

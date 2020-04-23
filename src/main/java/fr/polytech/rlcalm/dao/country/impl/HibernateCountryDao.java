@@ -5,9 +5,15 @@ import fr.polytech.rlcalm.dao.HibernateDao;
 import fr.polytech.rlcalm.dao.country.CountryDao;
 import org.hibernate.Session;
 
-public class HibernateCountryDao extends HibernateDao<Country> implements CountryDao {
+import java.util.Optional;
 
+public class HibernateCountryDao extends HibernateDao<Country> implements CountryDao {
     public HibernateCountryDao(Session hibernateSession) {
         super(hibernateSession, Country.class);
+    }
+
+    @Override
+    public Optional<Country> findById(Integer countryId) {
+        return Optional.ofNullable(hibernateSession.get(Country.class, countryId));
     }
 }

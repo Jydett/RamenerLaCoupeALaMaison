@@ -41,10 +41,10 @@ public class ControllerInitializer implements ServletContextListener {
     @Getter private static MatchService matchService;
     @Getter private static ClubService clubService;
     @Getter private static UserService userService;
+    @Getter private static CountryService countryService;
     @Getter private static TournamentResultService tournamentResultService;
 
     @Getter private static Configuration configuration;
-
 
     public enum DateBaseImpl {
         HASHMAP, MYSQL
@@ -90,8 +90,9 @@ public class ControllerInitializer implements ServletContextListener {
         tournamentResultService = new TournamentResultService(tournamentResultDao);
         playerService = new PlayerService(playerDao, clubDao, participationDao);
         matchService = new MatchService(matchDao, clubDao, participationDao, playerDao);
-        clubService = new ClubService(clubDao);
+        clubService = new ClubService(clubDao, countryDao);
         userService = new UserService(userDao);
+        countryService = new CountryService(countryDao);
         fillTables(playerDao, matchDao, clubDao, countryDao, userDao, participationDao, tournamentResultDao);
     }
 
