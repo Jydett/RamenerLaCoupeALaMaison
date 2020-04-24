@@ -15,7 +15,7 @@ import java.io.IOException;
 
 @WebServlet(
     name = "Login",
-    urlPatterns = "/libraryLogin"
+    urlPatterns = "/appLogin"
 )
 public class LoginController extends HttpServlet {
     private UserService userService;
