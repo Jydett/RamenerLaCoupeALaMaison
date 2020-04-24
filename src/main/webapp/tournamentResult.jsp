@@ -4,7 +4,7 @@
 <head>
     <title>Tournois</title>
 
-    <link rel="stylesheet" href="medals.css">
+    <link rel="stylesheet" href="css/medals.css">
 </head>
     <body>
         <jsp:include page="login.jsp"/>
@@ -31,11 +31,8 @@
         <c:forEach items="${requestScope.results}" var="tour">
             <div><span>${tour.year} -- <a href="clubs?id=${tour.club.id}" title="Voir cette équipe">${tour.club.name}</a> : ${tour.placement}</span>
                 <c:if test="${tour.placement <= 3}">
-                    <img src="medal-solid.svg" class="cup_filter_${tour.placement} cup"/>
+                    <img src="img/medal-solid.svg" class="cup_filter_${tour.placement} cup"/>
                 </c:if></div>
         </c:forEach>
-<%--        <c:if test="${sessionScope.connected != null}">--%>
-<%--            <br><br><button onclick="window.location='playerEdit';">Creer un Joueur</button>--%>
-<%--        </c:if>--%>
     </body>
 </html>

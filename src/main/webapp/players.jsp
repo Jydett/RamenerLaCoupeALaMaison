@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Clubs</title>
-    <link rel="stylesheet" href="flags.css">
+    <link rel="stylesheet" href="css/flags.css">
 </head>
 <body>
 <jsp:include page="login.jsp"/>
@@ -13,7 +13,7 @@
         <div>${player.club.country.icon}<a href="players?id=${player.id}" title="${player.name}">${player.name}</a></div>
     </c:forEach>
     <c:if test="${sessionScope.connected != null}">
-        <br><br><button onclick="window.location='playerEdit';">Creer un Joueur</button>
+        <br><br><button onclick="window.location='playerEdit';">Créer un Joueur</button>
     </c:if>
 </body>
 </html>

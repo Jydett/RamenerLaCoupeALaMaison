@@ -3,8 +3,8 @@
 <html>
     <head>
         <title>Club</title>
-        <link rel="stylesheet" href="flags.css">
-        <link rel="stylesheet" href="medals.css">
+        <link rel="stylesheet" href="css/flags.css">
+        <link rel="stylesheet" href="css/medals.css">
     </head>
     <body>
         <jsp:include page="login.jsp"/>
@@ -34,17 +34,16 @@
                 <div>Nombre de match joué : ${requestScope.participations}</div>
                 <div>Nombre de victoire : ${requestScope.victories}</div>
                 <div>Nombre de match plannifié : ${requestScope.plannified}</div>
-                <h3>Classement dans les éditions précédente :</h3>
+                <h3>Classement dans les éditions précédentes :</h3>
                 <c:if test="${empty requestScope.palmares}">
                     <div>Pas d'historique dans les tournois précédents</div>
                 </c:if>
                 <c:forEach items="${requestScope.palmares}" var="tour">
                     <div><span><a href="results?year=${tour.year}" title="Voir le classement">${tour.year} -- Classement : ${tour.placement}</a></span>
                         <c:if test="${tour.placement <= 3}">
-                            <img src="medal-solid.svg" class="cup_filter_${tour.placement} cup"/>
+                            <img src="img/medal-solid.svg" class="cup_filter_${tour.placement} cup"/>
                         </c:if></div>
                 </c:forEach>
-
             </c:when>
             <c:otherwise>
                 <h2>Détail du club</h2>

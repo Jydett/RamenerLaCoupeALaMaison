@@ -3,8 +3,8 @@
 <html>
     <head>
         <title>Club</title>
-        <link rel="stylesheet" href="flags.css">
-        <link rel="stylesheet" href="customCombo.css">
+        <link rel="stylesheet" href="css/flags.css">
+        <link rel="stylesheet" href="css/customCombo.css">
     </head>
     <body>
         <jsp:include page="login.jsp"/>
@@ -60,6 +60,6 @@
                     </span>
             </c:if>
         </form>
-        <script type="text/javascript" src="customCombo.js"></script>
+        <script type="text/javascript" src="js/customCombo.js"></script>
     </body>
 </html>

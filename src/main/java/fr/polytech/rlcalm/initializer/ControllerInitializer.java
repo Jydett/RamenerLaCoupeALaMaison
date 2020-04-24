@@ -118,7 +118,7 @@ public class ControllerInitializer implements ServletContextListener {
         Club lldb = null, lfds = null, lodr = null;
         if (clubDao.isEmpty()) {
             clubDao.save(lldb = new Club("Les lions de Berlin", all));
-            clubDao.save(lfds = new Club("Les fou du stade", fr));
+            clubDao.save(lfds = new Club("Les fous du stade", fr));
             clubDao.save(lodr = new Club("Les ours de Russie",  ru));
             clubDao.save(new Club("Espagne", es));
             clubDao.save(new Club("Italie", it));
