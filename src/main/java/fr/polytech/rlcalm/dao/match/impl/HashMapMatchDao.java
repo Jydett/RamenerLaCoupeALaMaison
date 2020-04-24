@@ -20,9 +20,9 @@ public class HashMapMatchDao extends HashMapDao<Long, Match> implements MatchDao
             .stream()
             .filter(p -> p.getResult() == null &&
                 (
-                    (p.getPlayer1().getId().equals(clubId))
+                    (p.getTeam1().getId().equals(clubId))
                         ||
-                    (p.getPlayer2().getId().equals(clubId))
+                    (p.getTeam2().getId().equals(clubId))
                 ))
             .count())
             .intValue();
@@ -34,9 +34,9 @@ public class HashMapMatchDao extends HashMapDao<Long, Match> implements MatchDao
             .stream()
             .filter(p -> p.getResult() != null &&
                 (
-                    (p.getPlayer1().getId().equals(clubId))
+                    (p.getTeam1().getId().equals(clubId))
                         ||
-                    (p.getPlayer2().getId().equals(clubId))
+                    (p.getTeam2().getId().equals(clubId))
                 ))
             .count())
             .intValue();
@@ -48,9 +48,9 @@ public class HashMapMatchDao extends HashMapDao<Long, Match> implements MatchDao
             .stream()
             .filter(p -> p.getResult() != null &&
                 (
-                    (p.getPlayer1().getId().equals(clubId) && p.getResult().getScore1() > p.getResult().getScore2())
+                    (p.getTeam1().getId().equals(clubId) && p.getResult().getScore1() > p.getResult().getScore2())
                         ||
-                    (p.getPlayer2().getId().equals(clubId) && p.getResult().getScore2() > p.getResult().getScore1())
+                    (p.getTeam2().getId().equals(clubId) && p.getResult().getScore2() > p.getResult().getScore1())
                 ))
             .count())
             .intValue();

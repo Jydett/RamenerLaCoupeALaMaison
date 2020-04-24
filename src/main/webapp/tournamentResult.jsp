@@ -21,6 +21,7 @@
             <c:if test="${sessionScope.connected != null}">
                 <input type="submit" formmethod="post" formaction="results?action=update" value="Modifier le resultat">
                 <input type="submit" formmethod="post" formaction="results?action=delete" value="Supprimer le resultat">
+                <input type="submit" formmethod="post" formaction="results?action=create" value="Ajouter le resultat">
             </c:if>
         </form>
 

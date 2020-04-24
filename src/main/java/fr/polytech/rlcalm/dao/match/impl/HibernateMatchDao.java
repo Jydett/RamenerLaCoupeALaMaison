@@ -26,7 +26,7 @@ public class HibernateMatchDao extends HibernateDao<Match> implements MatchDao {
 
     @Override
     public int getNumberOfPlanifiedMatch(Long clubId) {
-        return ((Long) hibernateSession.createQuery("select count(*) from Match m where m.result is null and (m.player1.id = :clubId or m.player2.id = :clubId)")
+        return ((Long) hibernateSession.createQuery("select count(*) from Match m where m.result is null and (m.team1.id = :clubId or m.team2.id = :clubId)")
                 .setParameter("clubId", clubId)
                 .uniqueResult())
                 .intValue();
@@ -34,7 +34,7 @@ public class HibernateMatchDao extends HibernateDao<Match> implements MatchDao {
 
     @Override
     public int getNumberOfDisputedMatch(Long clubId) {
-        return ((Long) hibernateSession.createQuery("select count(*) from Match m where m.result is not null and (m.player1.id = :clubId or m.player2.id = :clubId)")
+        return ((Long) hibernateSession.createQuery("select count(*) from Match m where m.result is not null and (m.team1.id = :clubId or m.team2.id = :clubId)")
                 .setParameter("clubId", clubId)
                 .uniqueResult())
                 .intValue();
@@ -42,7 +42,7 @@ public class HibernateMatchDao extends HibernateDao<Match> implements MatchDao {
 
     @Override
     public int getNumberOfVictory(Long clubId) {
-        return ((Long) hibernateSession.createQuery("select count(*) from Match m WHERE m.result is not null AND ((m.player1.id = :clubId AND m.result.score1 > m.result.score2) OR (m.player2.id = :clubId AND m.result.score2 > m.result.score1))")
+        return ((Long) hibernateSession.createQuery("select count(*) from Match m WHERE m.result is not null AND ((m.team1.id = :clubId AND m.result.score1 > m.result.score2) OR (m.team2.id = :clubId AND m.result.score2 > m.result.score1))")
                 .setParameter("clubId", clubId)
                 .uniqueResult())
                 .intValue();

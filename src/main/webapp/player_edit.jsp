@@ -35,7 +35,7 @@
         <div>Club : <span class="custom-select-wrapper">
             <div class="custom-select">
                 <input type="hidden" name="clubId" class="form-input" value="">
-                <div class="custom-select__trigger"><span>Select a team</span>
+                <div class="custom-select__trigger"><span>Choisir une équipe</span>
                     <div class="arrow"></div>
                 </div>
                 <div class="custom-options">

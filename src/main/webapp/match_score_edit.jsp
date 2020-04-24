@@ -14,11 +14,7 @@
         <jsp:useBean id="participations1" scope="request" type="java.util.List"/>
         <jsp:useBean id="participations2" scope="request" type="java.util.List"/>
         <c:set var="hasError" value="${not empty requestScope.error}"/>
-        <c:set var="userConnect" value="${sessionScope.connected != null}"/><!-- TODO si pas connecté redirection -->
-
-<%--        <c:if test="${not hasError}">--%>
-<%--            <jsp:useBean id="match" scope="request" type="fr.polytech.rlcalm.beans.Match"/>--%>
-<%--        </c:if>--%>
+        <c:set var="userConnect" value="${sessionScope.connected != null}"/>
         <h2>Edition des score d'un match :<br><a style="font-size: small;" href="matches">Retour</a></h2>
         <c:if test="${hasError}">
             <div class="error">${requestScope.error}</div>
@@ -31,7 +27,7 @@
             <!-- Tous les participations des joueurs 1 || Toutes les participations des joueurs 2 -->
             <div class="scores">
                 <div class="score-column">
-                    <h4>Participation de l'équipe '${match.player1.name}' : </h4>
+                    <h4>Participation de l'équipe '${match.team1.name}' : </h4>
                     <c:if test="${empty participations1}">
                         <div>Il n'y a pas de joueur dans cette équipe !</div>
                     </c:if>
@@ -40,7 +36,7 @@
                     </c:forEach>
                 </div>
                 <div class="score-column">
-                    <h4>Participation de l'équipe '${match.player2.name}' : </h4>
+                    <h4>Participation de l'équipe '${match.team2.name}' : </h4>
                     <c:if test="${empty participations1}">
                         <div>Il n'y a pas de joueur dans cette équipe !</div>
                     </c:if>

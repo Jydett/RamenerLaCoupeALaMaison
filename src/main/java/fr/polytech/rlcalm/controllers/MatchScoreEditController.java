@@ -38,10 +38,15 @@ public class MatchScoreEditController extends HttpServlet {
                 long id = Long.parseLong(parameter);
                 Match match = matchService.getMatch(id);
                 if (match != null) {
-                    req.setAttribute("match", match);
-                    req.setAttribute("participations1", matchService.getParticipationsOfPlayer1OnMatch(match));
-                    req.setAttribute("participations2", matchService.getParticipationsOfPlayer2OnMatch(match));
-                    forwardToMatchEdit(req, resp);
+                    if (match.getInstant() == null) {
+                        req.setAttribute(Constants.ERROR_KEY, "Un score ne peux pas être affecté à un match qui n'est pas planifié");
+                        req.getRequestDispatcher("/matches").forward(req, resp);
+                    } else {
+                        req.setAttribute("match", match);
+                        req.setAttribute("participations1", matchService.getParticipationsOfteam1OnMatch(match));
+                        req.setAttribute("participations2", matchService.getParticipationsOfteam2OnMatch(match));
+                        forwardToMatchEdit(req, resp);
+                    }
                     return;
                 }
             } catch (NumberFormatException e) {

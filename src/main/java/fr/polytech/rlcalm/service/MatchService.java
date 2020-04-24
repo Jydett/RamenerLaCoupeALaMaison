@@ -11,6 +11,7 @@ import fr.polytech.rlcalm.form.ParticipationUpdateForm;
 import lombok.AllArgsConstructor;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public class MatchService {
@@ -41,47 +42,62 @@ public class MatchService {
             match = dao.findById(form.getId()).orElseThrow(() -> new ServiceException("Impossible de trouver ce match !"));
         }
 
-        match.setCity(form.getCity());
-        match.setStadium(form.getStadium());
-
         if (form.getPlayerId1().equals(form.getPlayerId2())) {
             throw new ServiceException("Une equipe ne peux pas jouer contre elle même !");
         }
-        Club player1 = clubDao.findById(form.getPlayerId1()).orElseThrow(() -> new ServiceException("Impossible de trouver la première équipe"));
-        Club player2 = clubDao.findById(form.getPlayerId2()).orElseThrow(() -> new ServiceException("Impossible de trouver la première équipe"));
+
+        Club team1 = clubDao.findById(form.getPlayerId1()).orElseThrow(() -> new ServiceException("Impossible de trouver la première équipe"));
+        Club team2 = clubDao.findById(form.getPlayerId2()).orElseThrow(() -> new ServiceException("Impossible de trouver la première équipe"));
+
         if (isCreateOperation) {
-            match.setPlayer2(player2);
-            match.setPlayer1(player1);
+            match.setTeam2(team2);
+            match.setTeam1(team1);
         } else {
-            if (! match.getPlayer1().getId().equals(form.getPlayerId1())) {
+            if (! Objects.equals(match.getInstant(), form.getInstant()) && match.getResult() != null) {
+                throw new ServiceException("La date d'un marche ne peut pas être modifié une fois son score affecté");
+            }
+            if (! match.getTeam1().getId().equals(form.getPlayerId1())) {
                 if (match.getResult() != null && ! match.getResult().getScore1().equals(0)) {
-                    participationDao.removeParticipationsOfClubOnMatch(player1, match);
+                    participationDao.removeParticipationsOfClubOnMatch(team1, match);
                     match.getResult().setScore1(0);
                 }
-                match.setPlayer1(player1);
+                match.setTeam1(team1);
             }
-            if (! match.getPlayer2().getId().equals(form.getPlayerId2())) {
+            if (! match.getTeam2().getId().equals(form.getPlayerId2())) {
                 if (match.getResult() != null && ! match.getResult().getScore2().equals(0)) {
-                    participationDao.removeParticipationsOfClubOnMatch(player2, match);
+                    participationDao.removeParticipationsOfClubOnMatch(team2, match);
                     match.getResult().setScore2(0);
                 }
-                match.setPlayer2(player2);
+                match.setTeam2(team2);
             }
         }
+
+        match.setCity(form.getCity());
+        match.setStadium(form.getStadium());
+
         match.setInstant(form.getInstant());
         dao.save(match);
     }
 
-    public List<Participation> getParticipationsOfPlayer1OnMatch(Match match) {
-        return getParticipationsOfPlayersOfClubOnMatch(match, match.getPlayer1());
+    public List<Participation> getParticipationsOfteam1OnMatch(Match match) {
+        return getParticipationsOfPlayersOfClubOnMatch(match, match.getTeam1());
     }
 
     private List<Participation> getParticipationsOfPlayersOfClubOnMatch(Match match, Club club) {
-        return participationDao.getParticipationsOfClubOnMatch(club, match);
+        List<Participation> participations = participationDao.getParticipationsOfClubOnMatch(club, match);
+        return club.getPlayers()
+            .stream()
+            .map(p ->
+                participations
+                    .stream()
+                    .filter(par -> par.getPlayer().getId().equals(p.getId()))
+                    .findFirst()
+                    .orElse(new Participation(null, p, 0, match))
+            ).collect(Collectors.toList());
     }
 
-    public List<Participation> getParticipationsOfPlayer2OnMatch(Match match) {
-        return getParticipationsOfPlayersOfClubOnMatch(match, match.getPlayer2());
+    public List<Participation> getParticipationsOfteam2OnMatch(Match match) {
+        return getParticipationsOfPlayersOfClubOnMatch(match, match.getTeam2());
     }
 
     public void removeScoring(Match match) {
@@ -91,9 +107,12 @@ public class MatchService {
     }
 
     public void updateParticipation(Match m, ParticipationUpdateForm form) {
+        if (m.getInstant() == null) {
+            throw new ServiceException("Un score ne peux pas être affecté à un match qui n'est pas planifié");
+        }
         Map<Long, Integer> scoreByPlayers = form.getScoreByPlayers();
-        Integer score1 = saveParticipationAndReturnScore(scoreByPlayers, getParticipationsOfPlayer1OnMatch(m));
-        Integer score2 = saveParticipationAndReturnScore(scoreByPlayers, getParticipationsOfPlayer2OnMatch(m));
+        Integer score1 = saveParticipationAndReturnScore(scoreByPlayers, getParticipationsOfteam1OnMatch(m));
+        Integer score2 = saveParticipationAndReturnScore(scoreByPlayers, getParticipationsOfteam2OnMatch(m));
 
         MatchResult result = m.getResult();
         if (result == null) {

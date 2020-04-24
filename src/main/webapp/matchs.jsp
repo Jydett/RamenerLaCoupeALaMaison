@@ -11,6 +11,10 @@
     <c:set var="userConnect" value="${sessionScope.connected != null}"/>
 
     <h2>Liste des matchs :<br><a style="font-size: small;" href="index.jsp">Retour</a></h2>
+    <c:if test="${not empty requestScope.error}">
+        <c:set scope="request" var="edition" value="${requestScope.match ne null}"/>
+        <div class="error">${requestScope.error}</div>
+    </c:if>
     <c:choose>
         <c:when test="${requestScope.matchs != null && not empty requestScope.matchs}">
             <jsp:useBean id="matchs" scope="request" type="java.util.List"/>
@@ -24,7 +28,9 @@
                 <div>&nbsp;&nbsp;&nbsp;&nbsp;<i>${match.stadium}, ${match.city}</i></div>
                 <c:if test="${userConnect}">
                     <button onclick="window.location='matchEdit?id=${match.id}'">Editer</button>
-                    <button onclick="window.location='matchScoreEdit?id=${match.id}'">Modifier le score</button>
+                    <c:if test="${match.instant != null}">
+                        <button onclick="window.location='matchScoreEdit?id=${match.id}'">Modifier le score</button>
+                    </c:if>
                 </c:if>
             </c:forEach>
         </c:when>
@@ -33,7 +39,6 @@
         </c:otherwise>
     </c:choose>
     <br><br>
-    <!-- TODO perm -->
     <c:if test="${userConnect}">
         <button onclick="window.location='matchEdit';">Creer un nouveau match</button>
     </c:if>

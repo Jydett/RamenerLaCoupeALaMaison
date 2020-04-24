@@ -87,7 +87,7 @@ public class ControllerInitializer implements ServletContextListener {
             default:
                 throw new IllegalStateException("Unexpected value: " + INITIALIZER_TYPE);
         }
-        tournamentResultService = new TournamentResultService(tournamentResultDao);
+        tournamentResultService = new TournamentResultService(tournamentResultDao, clubDao);
         playerService = new PlayerService(playerDao, clubDao, participationDao);
         matchService = new MatchService(matchDao, clubDao, participationDao, playerDao);
         clubService = new ClubService(clubDao, matchDao, countryDao, tournamentResultDao);

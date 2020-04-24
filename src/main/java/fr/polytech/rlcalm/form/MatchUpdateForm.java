@@ -51,8 +51,8 @@ public class MatchUpdateForm {
         }
 
         Long tournamentId = FormUtils.getLong(req.getParameter("tournamentId"), "Le tournois séléctionné n'est pas valide");
-        Long playerId1 = FormUtils.getRequiredLong(req.getParameter("player1"), "Il faut séléctionner une première équipe");
-        Long playerId2 = FormUtils.getRequiredLong(req.getParameter("player2"), "Il faut séléctionner une seconde équipe");
+        Long playerId1 = FormUtils.getRequiredLong(req.getParameter("team1"), "Il faut séléctionner une première équipe");
+        Long playerId2 = FormUtils.getRequiredLong(req.getParameter("team2"), "Il faut séléctionner une seconde équipe");
 
         return new MatchUpdateForm(
             idParam,

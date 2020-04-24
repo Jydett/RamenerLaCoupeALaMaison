@@ -29,10 +29,10 @@ public class Match implements Identifiable<Long> {
     private Instant instant;
 
     @ManyToOne
-    private Club player1;
+    private Club team1;
 
     @ManyToOne
-    private Club player2;
+    private Club team2;
 
     @Embedded
     private MatchResult result;
@@ -43,25 +43,25 @@ public class Match implements Identifiable<Long> {
 
     public Club getWinner(int winnerNumber) {
         switch (winnerNumber) {
-            case 1 : return player1;
-            case 2 : return player2;
+            case 1 : return team1;
+            case 2 : return team2;
             default: return null;
         }
     }
 
     public String getStringView() {
-        String player1Link = "<a href=\"clubs?id=" + player1.getId() + "\" title=\"Voir cette équipe\">" + player1.getName() + "</a>";
-        String player2Link = "<a href=\"clubs?id=" + player2.getId() + "\" title=\"Voir cette équipe\">" + player2.getName() + "</a>";
+        String team1Link = "<a href=\"clubs?id=" + team1.getId() + "\" title=\"Voir cette équipe\">" + team1.getName() + "</a>";
+        String team2Link = "<a href=\"clubs?id=" + team2.getId() + "\" title=\"Voir cette équipe\">" + team2.getName() + "</a>";
         if (result == null) {
-            return player1Link + player1.getCountry().getIcon() + " - " + player2.getCountry().getIcon() + player2Link;
+            return team1Link + team1.getCountry().getIcon() + " - " + team2.getCountry().getIcon() + team2Link;
         } else {
             if (result.getScore1().equals(result.getScore2())) {
-                return "<span class='tie'>" + player1Link + " " + player1.getCountry().getIcon() + result.getScore1() + "</span> - <span class='tie'>" + result.getScore2() + player2.getCountry().getIcon() + " " + player2Link + "</span>";
+                return "<span class='tie'>" + team1Link + " " + team1.getCountry().getIcon() + result.getScore1() + "</span> - <span class='tie'>" + result.getScore2() + team2.getCountry().getIcon() + " " + team2Link + "</span>";
             } else
             if (result.getScore1() > result.getScore2()) {
-                return "<span class='winner'>" + player1Link + " " + player1.getCountry().getIcon() + result.getScore1() + "</span> - <span class='looser'>" + result.getScore2() + player2.getCountry().getIcon() + " " + player2Link + "</span>";
+                return "<span class='winner'>" + team1Link + " " + team1.getCountry().getIcon() + result.getScore1() + "</span> - <span class='looser'>" + result.getScore2() + team2.getCountry().getIcon() + " " + team2Link + "</span>";
             } else {
-                return "<span class='looser'>" + player1Link + " " + player1.getCountry().getIcon() + result.getScore1() + "</span> - <span class='winner'>" + result.getScore2() + player2.getCountry().getIcon() + " " + player2Link + "</span>";
+                return "<span class='looser'>" + team1Link + " " + team1.getCountry().getIcon() + result.getScore1() + "</span> - <span class='winner'>" + result.getScore2() + team2.getCountry().getIcon() + " " + team2Link + "</span>";
             }
         }
     }
