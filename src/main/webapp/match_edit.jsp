@@ -5,7 +5,7 @@
         <title>Matches</title>
         <link rel="stylesheet" href="flags.css">
         <link rel="stylesheet" href="customCombo.css">
-        <link rel="stylesheet" href="error.css">
+
     </head>
     <body>
         <jsp:include page="login.jsp"/>

@@ -2,6 +2,7 @@ package fr.polytech.rlcalm.service;
 
 import fr.polytech.rlcalm.beans.Club;
 import fr.polytech.rlcalm.beans.Country;
+import fr.polytech.rlcalm.beans.Player;
 import fr.polytech.rlcalm.beans.TournamentResult;
 import fr.polytech.rlcalm.dao.club.ClubDao;
 import fr.polytech.rlcalm.dao.country.CountryDao;
@@ -30,7 +31,18 @@ public class ClubService {
     }
 
     public void delete(Club club) {
-        //TODO implémenter delete
+        List<TournamentResult> results = tournamentResultDao.getPalmaresFromClub(club);
+        if (results.size() > 0) {
+            throw new ServiceException("Avant de supprimer ce club, vous devez le supprimer de tous ses classement de tournois");
+        }
+        List<Player> players = club.getPlayers();
+        if (players.size() > 0) {
+            throw new ServiceException("Avant de supprimer ce club, vous devez supprimer tous ses joueurs");
+        }
+        if (matchDao.getNumberOfPlanifiedMatch(club.getId()) + matchDao.getNumberOfDisputedMatch(club.getId()) > 0) {
+            throw new ServiceException("Avant de supprimer ce club, vous devez supprimer tous ses matchs");
+        }
+        clubDao.remove(club);
     }
 
     public void update(ClubUpdateForm form) {

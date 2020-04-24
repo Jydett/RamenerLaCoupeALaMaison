@@ -13,4 +13,5 @@ public interface ClubDao {
     Collection<Club> getAll();
     Optional<Club> findById(Long matchId);
     List<Club> getByIdBatch(List<Long> ids);
+    void remove(Club club);
 }

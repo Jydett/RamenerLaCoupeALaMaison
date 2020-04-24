@@ -68,13 +68,16 @@ public class ClubEditController extends HttpServlet {
         if (action != null) {
             switch (action) {
                 case Constants.DELETE: {
+                    String redirectUrl = "clubs";
                     try {
                         long id = FormUtils.getRequiredLong(idParameter, null);
                         clubService.delete(clubService.getClub(id));
-                        resp.sendRedirect("clubs");
                     } catch (InvalidFormException e) {
-                        resp.sendRedirect("clubs");
+                        redirectUrl = redirectUrl + "?" + Constants.ERROR_KEY + "=" + e.getMessage();
+                    } catch (ServiceException e) {
+                        redirectUrl = redirectUrl + "?id=" + idParameter + "&" + Constants.ERROR_KEY + "=" + e.getMessage();
                     }
+                    resp.sendRedirect(redirectUrl);
                     return;
                 }
                 case Constants.CREATE_OR_UPDATE: {

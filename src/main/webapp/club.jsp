@@ -10,6 +10,10 @@
         <jsp:include page="login.jsp"/>
         <c:set var="userConnect" value="${sessionScope.connected != null}"/>
 
+        <c:if test="${not empty param.error}">
+            <br><div class="error">${param.error}</div>
+        </c:if>
+
         <c:choose>
             <c:when test="${requestScope.club != null}">
                 <jsp:useBean id="club" type="fr.polytech.rlcalm.beans.Club" scope="request"/>

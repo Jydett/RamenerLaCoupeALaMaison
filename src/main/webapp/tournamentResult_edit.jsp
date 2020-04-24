@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Tournois</title>
-    <link rel="stylesheet" href="error.css">
+
 </head>
     <body>
         <jsp:include page="login.jsp"/>

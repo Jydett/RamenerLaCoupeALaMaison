@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Tournois</title>
-    <link rel="stylesheet" href="error.css">
+
     <link rel="stylesheet" href="medals.css">
 </head>
     <body>
