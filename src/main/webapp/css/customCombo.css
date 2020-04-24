@@ -1,4 +1,5 @@
 /* Code for custom select adapted from https://andrejgajdos.com/custom-select-dropdown/ */
+/* to display a little flag net to a text in a select */
 .custom-select-wrapper {
     position: relative;
     user-select: none;

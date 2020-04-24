@@ -1,3 +1,4 @@
+//Helper for the custom combo see css/customCombo.css
 for (const dropdown of document.querySelectorAll(".custom-select-wrapper")) {
     let selected = dropdown.querySelector(".selected");
     if (selected !== null) {

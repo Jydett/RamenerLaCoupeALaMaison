@@ -3,7 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 
 <div>
-    <style><%@include file="error.css"%></style>
+    <style><%@include file="css/error.css"%></style>
     <c:if test="${requestScope.loginError != null}">
         <div class="error">${requestScope.loginError}</div>
     </c:if>

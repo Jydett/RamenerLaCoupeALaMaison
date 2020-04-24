@@ -34,7 +34,7 @@
             <c:if test="${edition}">
                 <input type="hidden" name="id" value="${club.id}"/>
             </c:if>
-            <div><label for="name">Nom : </label><input id="name" name="name" value="${club.name}" required/></div> <!--TODO reprise de données si erreur-->
+            <div><label for="name">Nom : </label><input id="name" name="name" value="${club.name}" required/></div>
 
             <div>Pays : <span class="custom-select-wrapper">
                     <div class="custom-select">
