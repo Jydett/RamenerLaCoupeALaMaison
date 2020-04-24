@@ -13,7 +13,7 @@ public enum Role {
     AttackingMidfielder("Attaquant soutien"),
     LeftMidfielder("Attaquant pointe");
 
-    private String role;
+    private final String role;
 
     Role(String role) {
         this.role = role;

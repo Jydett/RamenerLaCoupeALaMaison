@@ -8,10 +8,6 @@ import java.util.Optional;
 public interface UserDao {
     void save(User user);
 
-    Optional<User> findById(Long userId);
-
-    Collection<User> getAll();
-
     Optional<User> getUserByName(String username);
 
     boolean isEmpty();

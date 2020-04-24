@@ -29,7 +29,7 @@ public class Participation implements Identifiable<Long> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        return Objects.equals(id, ((Identifiable<Long>) o).getId());
+        return Objects.equals(id, ((Participation) o).getId());
     }
 
     @Override

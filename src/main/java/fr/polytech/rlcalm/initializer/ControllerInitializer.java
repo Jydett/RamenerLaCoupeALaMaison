@@ -17,6 +17,7 @@ import fr.polytech.rlcalm.dao.player.PlayerDao;
 import fr.polytech.rlcalm.dao.player.impl.HashMapPlayerDao;
 import fr.polytech.rlcalm.dao.player.impl.HibernatePlayerDao;
 import fr.polytech.rlcalm.dao.tournamentresult.TournamentResultDao;
+import fr.polytech.rlcalm.dao.tournamentresult.impl.HashMapTournamentResultDao;
 import fr.polytech.rlcalm.dao.tournamentresult.impl.HibernateTournamentResultDao;
 import fr.polytech.rlcalm.dao.user.UserDao;
 import fr.polytech.rlcalm.dao.user.impl.HashMapUserDao;
@@ -37,12 +38,12 @@ import java.util.Collections;
 @WebListener
 public class ControllerInitializer implements ServletContextListener {
 
-    @Getter private static PlayerService playerService;
-    @Getter private static MatchService matchService;
-    @Getter private static ClubService clubService;
-    @Getter private static UserService userService;
-    @Getter private static CountryService countryService;
-    @Getter private static TournamentResultService tournamentResultService;
+    @Getter private static final PlayerService playerService;
+    @Getter private static final MatchService matchService;
+    @Getter private static final ClubService clubService;
+    @Getter private static final UserService userService;
+    @Getter private static final CountryService countryService;
+    @Getter private static final TournamentResultService tournamentResultService;
 
     @Getter private static Configuration configuration;
 
@@ -55,13 +56,13 @@ public class ControllerInitializer implements ServletContextListener {
     private static Session hibernateSession = null;
 
     static {
-        PlayerDao playerDao = null;
-        MatchDao matchDao = null;
-        ClubDao clubDao = null;
-        CountryDao countryDao = null;
-        UserDao userDao = null;
-        ParticipationDao participationDao = null;
-        TournamentResultDao tournamentResultDao = null;
+        PlayerDao playerDao;
+        MatchDao matchDao;
+        ClubDao clubDao;
+        CountryDao countryDao;
+        UserDao userDao;
+        ParticipationDao participationDao;
+        TournamentResultDao tournamentResultDao;
         switch (INITIALIZER_TYPE) {
             case MYSQL: {
                 configuration = new Configuration().configure();
@@ -82,6 +83,7 @@ public class ControllerInitializer implements ServletContextListener {
                 countryDao = new HashMapCountryDao();
                 userDao = new HashMapUserDao();
                 participationDao = new HashMapParticipationDao();
+                tournamentResultDao = new HashMapTournamentResultDao();
                 break;
             }
             default:
@@ -122,7 +124,7 @@ public class ControllerInitializer implements ServletContextListener {
             clubDao.save(new Club("Italie", it));
         }
                 //lodr
-        Player bonk = null,
+        Player bonk,
                 //lfds
                 mbappe = null, zlatan = null, naymar = null,
                 //lldb
@@ -146,10 +148,10 @@ public class ControllerInitializer implements ServletContextListener {
         }
         clubDao.save(lldb);
         clubDao.save(lfds);
-        Match france_allemagne = null, france_russie = null;
+        Match france_allemagne = null;
         if (matchDao.isEmpty()) {
             matchDao.save(france_allemagne = new Match(null, "Paris", "Stade de France", Instant.now(), lfds, lldb, null));
-            matchDao.save(france_russie = new Match(null, "Berlin", "Wurst Stadion", Instant.now(), lfds, lodr, null));
+            matchDao.save(new Match(null, "Berlin", "Wurst Stadion", Instant.now(), lfds, lodr, null));
         }
         if (participationDao.isEmpty()) {
             //lfds

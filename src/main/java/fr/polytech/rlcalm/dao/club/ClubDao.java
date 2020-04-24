@@ -1,7 +1,6 @@
 package fr.polytech.rlcalm.dao.club;
 
 import fr.polytech.rlcalm.beans.Club;
-import fr.polytech.rlcalm.beans.TournamentResult;
 
 import java.util.Collection;
 import java.util.List;

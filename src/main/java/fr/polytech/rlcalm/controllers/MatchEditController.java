@@ -57,12 +57,8 @@ public class MatchEditController extends HttpServlet {
     }
 
     private void forwardToMatchEdit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        forwardToMatchEdit(req, resp, null);
-    }
-
-    private void forwardToMatchEdit(HttpServletRequest req, HttpServletResponse resp, String requestParams) throws ServletException, IOException {
         req.setAttribute("clubs", new ArrayList<>(clubService.getAll()));
-        getServletContext().getRequestDispatcher("/match_edit.jsp" + (requestParams == null ? "" : requestParams)).forward(req, resp);
+        getServletContext().getRequestDispatcher("/match_edit.jsp").forward(req, resp);
     }
 
     @Override

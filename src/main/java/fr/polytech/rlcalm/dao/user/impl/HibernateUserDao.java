@@ -14,11 +14,6 @@ public class HibernateUserDao extends HibernateDao<User> implements UserDao {
     }
 
     @Override
-    public Optional<User> findById(Long userId) {
-        return Optional.ofNullable(hibernateSession.get(User.class, userId));
-    }
-
-    @Override
     public Optional<User> getUserByName(String username) {
         return hibernateSession.createQuery("select u from User u where u.username = :username", User.class)
                 .setParameter("username", username)
