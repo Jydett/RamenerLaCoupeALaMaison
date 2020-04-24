@@ -1,7 +1,6 @@
 package fr.polytech.rlcalm.dao.club.impl;
 
 import fr.polytech.rlcalm.beans.Club;
-import fr.polytech.rlcalm.beans.TournamentResult;
 import fr.polytech.rlcalm.dao.HibernateDao;
 import fr.polytech.rlcalm.dao.club.ClubDao;
 import org.hibernate.Session;

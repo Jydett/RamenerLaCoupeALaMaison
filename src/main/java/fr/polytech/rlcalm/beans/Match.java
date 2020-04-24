@@ -41,14 +41,6 @@ public class Match implements Identifiable<Long> {
     private static final DateTimeFormatter DATE_UNIQUE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter DATE_HOUR_FORMAT = DateTimeFormatter.ofPattern("hh:mm");
 
-    public Club getWinner(int winnerNumber) {
-        switch (winnerNumber) {
-            case 1 : return team1;
-            case 2 : return team2;
-            default: return null;
-        }
-    }
-
     public String getStringView() {
         String team1Link = "<a href=\"clubs?id=" + team1.getId() + "\" title=\"Voir cette équipe\">" + team1.getName() + "</a>";
         String team2Link = "<a href=\"clubs?id=" + team2.getId() + "\" title=\"Voir cette équipe\">" + team2.getName() + "</a>";

@@ -2,7 +2,6 @@ package fr.polytech.rlcalm.dao.user;
 
 import fr.polytech.rlcalm.beans.User;
 
-import java.util.Collection;
 import java.util.Optional;
 
 public interface UserDao {

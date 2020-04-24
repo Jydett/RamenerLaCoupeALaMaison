@@ -9,7 +9,7 @@
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3308/coupealamez?zeroDateTimeBehavior=CONVERT_TO_NULL&amp;serverTimezone=UTC</property>
         <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password"></property>
+        <property name="hibernate.connection.password"/>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.connection.release_mode">auto</property>
         <property name="current_session_context_class">thread</property>

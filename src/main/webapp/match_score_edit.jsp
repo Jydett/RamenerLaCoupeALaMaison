@@ -55,14 +55,14 @@
     <script>
         onScoreChange1(); onScoreChange2();
         function onScoreChange1() {
-            var total = 0;
+            let total = 0;
             for (let but of document.getElementsByClassName("but1")) {
                 total = total + parseInt(but.value);
             }
             document.getElementById("score-1").innerText = total;
         }
         function onScoreChange2() {
-            var total = 0;
+            let total = 0;
             for (let but of document.getElementsByClassName("but2")) {
                 total = total + parseInt(but.value);
             }
