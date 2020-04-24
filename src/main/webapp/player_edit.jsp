@@ -60,7 +60,6 @@
                 </c:if>
             </span>
         </c:if>
-    <!-- TODO BUTS -->
     </form>
     <script type="text/javascript" src="customCombo.js"></script>
     </body>

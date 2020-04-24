@@ -23,7 +23,6 @@ public class MatchService {
         return dao.findById(id).orElse(null);
     }
 
-    //TODO chercher par annee
     public Collection<Match> getAllMatches() {
         return dao.getAll();
     }

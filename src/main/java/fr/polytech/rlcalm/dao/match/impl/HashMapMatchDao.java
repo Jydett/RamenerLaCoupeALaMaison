@@ -16,16 +16,43 @@ public class HashMapMatchDao extends HashMapDao<Long, Match> implements MatchDao
 
     @Override
     public int getNumberOfPlanifiedMatch(Long clubId) {
-        return 0;//TODO implémenter
+        return ((Long) table.values()
+            .stream()
+            .filter(p -> p.getResult() == null &&
+                (
+                    (p.getPlayer1().getId().equals(clubId))
+                        ||
+                    (p.getPlayer2().getId().equals(clubId))
+                ))
+            .count())
+            .intValue();
     }
 
     @Override
     public int getNumberOfDisputedMatch(Long clubId) {
-        return 0;//TODO implémenter
+        return ((Long) table.values()
+            .stream()
+            .filter(p -> p.getResult() != null &&
+                (
+                    (p.getPlayer1().getId().equals(clubId))
+                        ||
+                    (p.getPlayer2().getId().equals(clubId))
+                ))
+            .count())
+            .intValue();
     }
 
     @Override
     public int getNumberOfVictory(Long clubId) {
-        return 0;//TODO implémenter
+        return ((Long) table.values()
+            .stream()
+            .filter(p -> p.getResult() != null &&
+                (
+                    (p.getPlayer1().getId().equals(clubId) && p.getResult().getScore1() > p.getResult().getScore2())
+                        ||
+                    (p.getPlayer2().getId().equals(clubId) && p.getResult().getScore2() > p.getResult().getScore1())
+                ))
+            .count())
+            .intValue();
     }
 }

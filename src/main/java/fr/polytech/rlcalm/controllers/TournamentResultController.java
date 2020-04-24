@@ -28,21 +28,8 @@ public class TournamentResultController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doGet(req, resp);//TODO pas tres propre
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter(Constants.ACTION_KEY);
-        Integer year = null;
-        try {
-            if (! FormUtils.isNullOrEmpty(req.getParameter("year"))) {
-                year = FormUtils.getInt(req.getParameter("year"), null);
-            }
-        } catch (Exception e) {
-            req.setAttribute(Constants.ERROR_KEY, "Veuillez saisir une année valide!");
-        }
-
+        Integer year = getYear(req);
         if ("delete".equals(action) || "update".equals(action)) {
             if (year == null) {
                 req.setAttribute(Constants.ERROR_KEY, "Veuillez saisir une année !");
@@ -55,7 +42,6 @@ public class TournamentResultController extends HttpServlet {
                         case Constants.DELETE : {
                             tournamentResultService.deleteByYear(year);
                             //after delete, we display all the results
-                            year = null;
                             break;
                         }
                         case Constants.UPDATE : {
@@ -67,8 +53,24 @@ public class TournamentResultController extends HttpServlet {
                 }
             }
         }
-
         forwartToTournamentResultSearch(year, req, resp);
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        forwartToTournamentResultSearch(getYear(req), req, resp);
+    }
+
+    private Integer getYear(HttpServletRequest req) {
+        Integer year = null;
+        try {
+            if (! FormUtils.isNullOrEmpty(req.getParameter("year"))) {
+                year = FormUtils.getInt(req.getParameter("year"), null);
+            }
+        } catch (Exception e) {
+            req.setAttribute(Constants.ERROR_KEY, "Veuillez saisir une année valide!");
+        }
+        return year;
     }
 
     private void forwartToTournamentResultSearch(Integer year, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

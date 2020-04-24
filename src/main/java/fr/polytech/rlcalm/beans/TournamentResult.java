@@ -22,13 +22,10 @@ public class TournamentResult implements Identifiable<Long> {
     @Setter
     private Long id;
 
-    //TODO si optionel double contrainte ?
     @ManyToOne(optional = false)
     private Club club;
 
     private Integer year;
-
-    private String persistentName;
 
     @Setter
     private Integer placement;
@@ -38,12 +35,6 @@ public class TournamentResult implements Identifiable<Long> {
         this.club = club;
         this.year = year;
         this.placement = placement;
-        this.persistentName = getPersistentName(club);
-    }
-
-    //TODO
-    private String getPersistentName(Club club) {
-        return club.getName() + club.getCountry().getIcon();
     }
 
     @Override
